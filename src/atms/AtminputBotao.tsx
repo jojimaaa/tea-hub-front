@@ -8,7 +8,7 @@ interface AtminputBotaoProps {
 
 function AtminputBotao({classNameBt,classNameInput,value}:AtminputBotaoProps) {
     return(
-        <button className={classNameBt}>
+        <button className={classNameBt} type="submit">
             <input type="submit" className={classNameInput} value={value}/>
         </button>
     );
