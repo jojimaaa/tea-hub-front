@@ -1,11 +1,11 @@
 "use client"
-import Loginzada from '../../organism/Loginzada';
+import Loginzada from '../../organisms/Loginzada';
 import '../globals.css'
-import OrgLogin from "../../organism/OrgLogin"
+import OrgLogin from "../../organisms/OrgLogin"
 import { useState } from "react";
-import OrgRegistro from '../../organism/OrgRegistro';
-import OrgEsqueci from '../../organism/OrgEsqueci';
-import OrgImg from '../../organism/OrgImg';
+import OrgRegistro from '../../organisms/OrgRegistro';
+import OrgEsqueci from '../../organisms/OrgEsqueci';
+import OrgImg from '../../organisms/OrgImg';
 
 function LoginPage() {
   const [index, setIndex] = useState<number>(1);
