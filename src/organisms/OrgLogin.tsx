@@ -1,10 +1,11 @@
 import Molinput from "../molecules/Molinput"
 import '../app/globals.css'
-import Botao from '../atms/Botao'
-import AtminputBotao from "../atms/AtminputBotao"
+import LineButton from '../atoms/LineButton'
+import AtminputBotao from "../atoms/AtminputBotao"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
+import styled from "styled-components"
 
 
 interface OrgLoginProps{
@@ -52,33 +53,57 @@ function OrgLogin({className, increment, decrement}:OrgLoginProps){
 
     return(
         <div className={className}>
-            <h1 className='font-[Virgil] text-[64px] flex items-center justify-center mt-[4%]'>Tea-Hub</h1>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col items-center justify-center mt-[5%] ">
-                <Molinput register={form.register} text='Email' className="flex flex-col w-[70%] h-[30%]" name="username"></Molinput>
-                <Molinput register={form.register} text='Senha' className="flex flex-col w-[70%] h-[30%] mt-[4%]" name="password"></Molinput>
+            <LogoHeader className=''>TEA-HUB</LogoHeader>
+            <Form onSubmit={form.handleSubmit(onSubmit)}>
+                <StyledInput register={form.register} text='Email' name="username"></StyledInput>
+                <StyledInput register={form.register} text='Senha' name="password"></StyledInput>
                 
-                <AtminputBotao value='Entrar' 
-                    classNameBt="w-[70%] h-[32px] bg-black rounded-[4px] mt-[6%]"
-                    classNameInput="text-white font-[Virgil] text-[22px] w-[100%] h-[100%] cursor-pointer"
-                ></AtminputBotao>
-            </form>
-            <div className="mt-[10%] flex items-center justify-center">
-                <Botao classNameBt="w-[140px] h-[50%] mr-[10%] cursor-pointer" 
+                <AtminputBotao value='Entrar'/>
+            </Form>
+            <FooterBar>
+                <LineButton 
                     Nome="Esqueceu a senha?"
-                    classNameTxt="font-[Virgil] text-[15px] h-[100%] hover:underline"
                     onClick={increment}
-                ></Botao>
-                <Botao classNameBt="w-[130px] h-[50%] cursor-pointer" 
+                ></LineButton>
+                <LineButton 
                     Nome="Não tenho conta"
-                    classNameTxt="font-[Virgil] text-[15px] hover:underline"
                     onClick={decrement}
-                ></Botao>
-            </div>
-
+                ></LineButton>
+            </FooterBar>
         </div>
     );
 }
 
+const LogoHeader = styled.h1`
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  font-size: 64px;
+  margin-top: 4%;
+  color: var(--primary-foreground);
+  font-family: var(--font-tea-hub);
+`;
 
+const Form = styled.form`
+  margin-top: 5%;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const StyledInput = styled(Molinput)`
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  height: 30%;
+`;
+
+const FooterBar = styled.div`
+  margin-top: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 export default OrgLogin

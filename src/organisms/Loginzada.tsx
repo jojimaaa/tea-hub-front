@@ -16,7 +16,7 @@ function Loginzada({itemsE, itemsD, index}:LoginzadaProps){
           transformStyle: "preserve-3d",
           perspective: "3000px",
         }}
-        className="relative z-0 h-[60%] w-[60%] rounded-xl text-black">
+        className={"relative z-0 h-[60%] w-[60%] rounded-xl text-black"}>
             <AnimatePresence mode="sync">
                 <motion.div
                   style={{
@@ -33,7 +33,7 @@ function Loginzada({itemsE, itemsD, index}:LoginzadaProps){
                   transition={{ duration: 2.5, ease: "easeInOut" }}
                   key={index}
                   onAnimationComplete={() => setDirection(direction==1?prev =>prev-1: prev=>prev+1)}
-                  className="bg-white absolute left-1/2 top-1/2 border border-black rounded-2xl h-[100%] w-[100%]"
+                  className="bg-primary absolute left-1/2 top-1/2 border border-black rounded-2xl h-[100%] w-[100%]"
                 >
                     {itemsE[index]}
                 </motion.div>
@@ -51,7 +51,7 @@ function Loginzada({itemsE, itemsD, index}:LoginzadaProps){
                   exit={{ rotateY: "0deg"}}
                   transition={{ duration: 2.5, ease: "easeInOut" }}
                   key={(index+1)*2}
-                  className="bg-white absolute left-1/2 top-1/2 border rounded-2xl border-black h-[100%] w-[100%]"
+                  className="bg-primary absolute left-1/2 top-1/2 border rounded-2xl border-black h-[100%] w-[100%]"
                 >
                     {itemsD[index]}
                 </motion.div>

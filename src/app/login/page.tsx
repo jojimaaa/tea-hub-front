@@ -20,14 +20,15 @@ function LoginPage() {
 
   return (
     <div className='flex items-center justify-center h-screen w-screen relative'>
-       <Loginzada index={index}
+       <Loginzada 
+       index={index}
        itemsE={[
-          <OrgRegistro className="w-[50%] h-[100%]" increment={increment} decrement={decrement}></OrgRegistro>,
-          <OrgLogin className="w-[50%] h-[100%]" increment={increment} decrement={decrement}></OrgLogin>,
-          <OrgEsqueci className="w-[50%] h-[100%]" increment={increment} decrement={decrement}></OrgEsqueci>
+          <OrgRegistro className="w-[50%] h-[100%] rounded-bl-2xl rounded-tl-2xl relative" increment={increment} decrement={decrement}></OrgRegistro>,
+          <OrgLogin className="w-[50%] h-[100%] rounded-bl-2xl rounded-tl-2xl relative" increment={increment} decrement={decrement}></OrgLogin>,
+          <OrgEsqueci className="w-[50%] h-[100%] rounded-bl-2xl rounded-tl-2xl relative" increment={increment} decrement={decrement}></OrgEsqueci>
        ]}
        itemsD={[
-          <OrgImg className="w-[50%] h-[100%] ml-[50%] rounded-br-2xl rounded-tr-2xl relative" 
+          <OrgImg className=" w-[50%] h-[100%] ml-[50%] rounded-br-2xl rounded-tr-2xl relative" 
             TextoGiga="Bem - Vindo"
             TextoMini="Estamos felizes em te ver por aqui"
             onClick={increment}

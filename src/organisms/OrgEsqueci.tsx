@@ -1,5 +1,5 @@
 import Molinput from "../molecules/Molinput"
-import AtminputBotao from "../atms/AtminputBotao"
+import AtminputBotao from "../atoms/AtminputBotao"
 import '../app/globals.css'
 
 import { zodResolver } from "@hookform/resolvers/zod"

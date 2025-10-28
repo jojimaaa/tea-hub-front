@@ -1,6 +1,7 @@
-import Atminput from "../atms/Atminput"
+import Atminput from "../atoms/Atminput"
 import { UseFormRegister } from "react-hook-form";
 import '../app/globals.css'
+import styled from "styled-components";
 
 interface MolinputProps{
     text: string;
@@ -12,10 +13,24 @@ interface MolinputProps{
 function Molinput({text, name, className, register}:MolinputProps){
     return(
         <div className={className}>
-            <h1 className="font-[Virgil] text-[20px]">{text}</h1>
-            <Atminput register ={register} name={name} placeholderText={text} className="border rounded-[4px] border-black outline-none"></Atminput>
+            <Label>{text}</Label>
+            <Input register ={register} name={name} placeholderText={text}></Input>
         </div>
     );
 }
 
 export default Molinput
+
+const Label = styled.h1`
+    font-family: var(--font-text);
+    font-size: 20px;
+`;
+
+const Input = styled(Atminput)`
+    margin-bottom: 3%;
+    border-style: var(--tw-border-style);
+    border-width: 1px;
+    border-radius: 4px;
+    border-color: var(--primary-foreground);
+    outline-style: none;
+`;

@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Button } from "@/components/ui/button";
 import { useRouter } from 'next/navigation'
+import styled from "styled-components";
+import LineButton from "@/atoms/LineButton";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,17 +28,46 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className={"pt-2 px-3 flex flex-row justify-evenly"}>
-          <Button
-            className={'hover: cursor-pointer'}
+        <HeaderRow>
+          <LogoButton
             onClick={() => router.push("/wiki")}
           >
               TEA-HUB
-          </Button>
-          teste
-        </div>
+          </LogoButton>
+          <StyledButton
+            Nome="Login"
+            onClick={() => router.push("/login")}
+          />
+        </HeaderRow>
         {children}
       </body>
     </html>
   );
 }
+
+const HeaderRow = styled.div`
+  padding-top: 2px;
+  padding-left: 3px;
+  padding-right: 3px;
+  
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+`;
+
+const LogoButton = styled(Button)`
+  font-size: 17px;
+  &:hover{ 
+    cursor: pointer;
+  }
+  font-family: var(--font-tea-hub);
+
+`;
+
+const StyledButton = styled(LineButton)`
+  &:hover{
+    cursor: pointer;
+  }
+
+`;

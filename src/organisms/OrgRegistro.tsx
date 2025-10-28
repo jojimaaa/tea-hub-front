@@ -1,6 +1,6 @@
 import Molinput from "../molecules/Molinput"
 import '../app/globals.css'
-import AtminputBotao from "../atms/AtminputBotao"
+import AtminputBotao from "../atoms/AtminputBotao"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
