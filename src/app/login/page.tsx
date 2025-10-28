@@ -1,11 +1,12 @@
 "use client"
-import Loginzada from '../../organisms/Loginzada';
+import LoginRegisterFlipbook from '../../organisms/LoginRegisterFlipbook';
 import '../globals.css'
 import OrgLogin from "../../organisms/OrgLogin"
 import { useState } from "react";
 import OrgRegistro from '../../organisms/OrgRegistro';
 import OrgEsqueci from '../../organisms/OrgEsqueci';
 import OrgImg from '../../organisms/OrgImg';
+import styled from 'styled-components';
 
 function LoginPage() {
   const [index, setIndex] = useState<number>(1);
@@ -20,32 +21,32 @@ function LoginPage() {
 
   return (
     <div className='flex items-center justify-center h-screen w-screen relative'>
-       <Loginzada 
+       <LoginRegisterFlipbook 
        index={index}
        itemsE={[
-          <OrgRegistro className="w-[50%] h-[100%] rounded-bl-2xl rounded-tl-2xl relative" increment={increment} decrement={decrement}></OrgRegistro>,
-          <OrgLogin className="w-[50%] h-[100%] rounded-bl-2xl rounded-tl-2xl relative" increment={increment} decrement={decrement}></OrgLogin>,
-          <OrgEsqueci className="w-[50%] h-[100%] rounded-bl-2xl rounded-tl-2xl relative" increment={increment} decrement={decrement}></OrgEsqueci>
+          <StyledRegistro increment={increment} decrement={decrement}></StyledRegistro>,
+          <StyledLogin increment={increment} decrement={decrement}></StyledLogin>,
+          <StyledEsqueci increment={increment} decrement={decrement}></StyledEsqueci>
        ]}
        itemsD={[
-          <OrgImg className=" w-[50%] h-[100%] ml-[50%] rounded-br-2xl rounded-tr-2xl relative" 
+          <StyledImg
             TextoGiga="Bem - Vindo"
             TextoMini="Estamos felizes em te ver por aqui"
             onClick={increment}
             index={index}>
-          </OrgImg>,
-          <OrgImg className="w-[50%] h-[100%] ml-[50%] rounded-br-2xl rounded-tr-2xl relative" 
+          </StyledImg>,
+          <StyledImg
             TextoGiga="Bem - Vindo"
             TextoMini="Estamos felizes em te ver por aqui"
             onClick={increment}
             index={index}>
-          </OrgImg>,
-          <OrgImg className="w-[50%] h-[100%] ml-[50%] rounded-br-2xl rounded-tr-2xl relative" 
+          </StyledImg>,
+          <StyledImg
             TextoGiga="Bem - Vindo"
             TextoMini="Estamos felizes em te ver por aqui"
             onClick={decrement}
             index={index}>
-          </OrgImg>,
+          </StyledImg>,
 
        ]}/>
     </div>
@@ -54,4 +55,38 @@ function LoginPage() {
 }
 
 
-export default LoginPage
+export default LoginPage;
+
+const StyledRegistro = styled(OrgRegistro)`
+  width: 50%;
+  height: 100%;
+  border-bottom-left-radius: var(--radius-2xl);
+  border-top-left-radius: var(--radius-2xl);
+  position: relative;
+`;
+
+const StyledLogin = styled(OrgLogin)`
+  width: 50%;
+  height: 100%;
+  border-bottom-left-radius: var(--radius-2xl);
+  border-top-left-radius: var(--radius-2xl);
+  position: relative;
+`;
+
+const StyledEsqueci = styled(OrgEsqueci)`
+  width: 50%;
+  height: 100%;
+  border-bottom-left-radius: var(--radius-2xl);
+  border-top-left-radius: var(--radius-2xl);
+  position: relative;
+`;
+
+const StyledImg = styled(OrgImg)`
+  width: 50%;
+  height: 100%;
+  border-bottom-left-radius: var(--radius-2xl);
+  border-top-left-radius: var(--radius-2xl);
+  position: relative;
+  margin-left: 50%;
+`;
+

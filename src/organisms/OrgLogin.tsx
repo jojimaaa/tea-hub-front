@@ -100,7 +100,7 @@ const StyledInput = styled(Molinput)`
 `;
 
 const FooterBar = styled.div`
-  margin-top: 10%;
+  margin-top: 5%;
   display: flex;
   align-items: center;
   justify-content: center;

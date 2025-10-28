@@ -5,6 +5,7 @@ import '../app/globals.css'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
+import styled from "styled-components"
 
 interface OrgEsqueciProps{
     className?: string;
@@ -27,17 +28,38 @@ function OrgEsqueci({className}:OrgEsqueciProps){
 
     return(
         <div className={className}>
-            <h1 className='font-[Virgil] text-[64px] flex items-center justify-center mt-[4%]'>Tea-Hub</h1>
-            <form action="" className="flex flex-col items-center justify-center mt-[8%] ">
-                <Molinput register={form.register} text='Email' className="flex flex-col w-[70%] h-[30%]" name="email"></Molinput>
-                
-                <AtminputBotao value='Enviar' 
-                    classNameBt="w-[70%] h-[32px] bg-black rounded-[4px] mt-[6%]"
-                    classNameInput="text-white font-[Virgil] text-[22px] w-[100%] h-[100%] cursor-pointer"
-                ></AtminputBotao>
-            </form>
+            <LogoHeader>TEA-HUB</LogoHeader>
+            <Form action="">
+                <StyledInput register={form.register} text='Email' name="email"/>
+                <AtminputBotao value='Enviar'/>
+            </Form>
         </div>
     );
 }
 
-export default OrgEsqueci
+export default OrgEsqueci;
+
+const LogoHeader = styled.h1`
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  font-size: 64px;
+  margin-top: 4%;
+  color: var(--primary-foreground);
+  font-family: var(--font-tea-hub);
+`;
+
+const Form = styled.form`
+  margin-top: 5%;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const StyledInput = styled(Molinput)`
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  height: 30%;
+`;

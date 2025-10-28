@@ -1,6 +1,7 @@
 import { motion,AnimatePresence } from "framer-motion";
 import '../app/globals.css'
 import { useState } from "react";
+import styled from "styled-components";
 
 interface LoginzadaProps{
   itemsE: React.ReactNode[];
@@ -8,7 +9,7 @@ interface LoginzadaProps{
   index: number
 };
 
-function Loginzada({itemsE, itemsD, index}:LoginzadaProps){
+function LoginRegisterFlipbook({itemsE, itemsD, index}:LoginzadaProps){
     const [direction, setDirection] = useState(0);
     return (
         <div style={{
@@ -18,7 +19,7 @@ function Loginzada({itemsE, itemsD, index}:LoginzadaProps){
         }}
         className={"relative z-0 h-[60%] w-[60%] rounded-xl text-black"}>
             <AnimatePresence mode="sync">
-                <motion.div
+                <StyledMotionDiv
                   style={{
                     y: "-50%",
                     x: "-50%",
@@ -33,12 +34,12 @@ function Loginzada({itemsE, itemsD, index}:LoginzadaProps){
                   transition={{ duration: 2.5, ease: "easeInOut" }}
                   key={index}
                   onAnimationComplete={() => setDirection(direction==1?prev =>prev-1: prev=>prev+1)}
-                  className="bg-primary absolute left-1/2 top-1/2 border border-black rounded-2xl h-[100%] w-[100%]"
+                  // className="bg-primary absolute left-1/2 top-1/2 border border-primary-foreground rounded-2xl h-[100%] w-[100%]"
                 >
                     {itemsE[index]}
-                </motion.div>
+                </StyledMotionDiv>
 
-                <motion.div
+                <StyledMotionDiv
                   style={{
                     y: "-50%",
                     x: "-50%",
@@ -51,20 +52,32 @@ function Loginzada({itemsE, itemsD, index}:LoginzadaProps){
                   exit={{ rotateY: "0deg"}}
                   transition={{ duration: 2.5, ease: "easeInOut" }}
                   key={(index+1)*2}
-                  className="bg-primary absolute left-1/2 top-1/2 border rounded-2xl border-black h-[100%] w-[100%]"
                 >
                     {itemsD[index]}
-                </motion.div>
+                </StyledMotionDiv>
 
                 <hr 
                   style={{
                   transform: "translateZ(1px)",
                 }}
-                className="absolute left-1/2 z-[2] border-2 border-neutral-800 h-[100%]"/>
+                className="absolute left-1/2 z-[2] border-2 border-primary-foreground h-[100%]"/>
             </AnimatePresence>
         </div>
     );
 }
 
-export default Loginzada
+export default LoginRegisterFlipbook;
+
+const StyledMotionDiv = styled(motion.div)`
+  background-color: var(--primary);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border-width: 1px;
+  border-radius: 16px;
+  border-color: var(--primary-foreground);
+  height: 100%;
+  width: 100%;
+
+`;
 

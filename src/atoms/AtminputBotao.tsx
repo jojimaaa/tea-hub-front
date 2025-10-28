@@ -20,7 +20,7 @@ export default AtminputBotao;
 const StyledButton = styled.button`
     width: 70%;
     height: 32px;
-    margin-top: 6%;
+    margin-top: 5%;
     border-radius: 4px;
     background-color: var(--primary-foreground);
 `;

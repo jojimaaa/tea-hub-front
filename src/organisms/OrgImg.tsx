@@ -2,6 +2,7 @@ import MolTxtImg from "../molecules/MolTxtImg"
 import '../app/globals.css'
 import quebra2 from "../assets/quebra2.jpg"
 import voltar from "../assets/voltar.png"
+import styled from "styled-components";
 
 interface OrgImgProps{
     className?: string;
@@ -14,26 +15,72 @@ interface OrgImgProps{
 function OrgImg({className,TextoGiga,TextoMini,onClick, index}:OrgImgProps){
     return(
         <div className={className}>
-            <div className="bg-cover bg-center w-[100%] h-[100%] rounded-br-2xl rounded-tr-2xl absolute" 
+            <Background 
                 style={{ backgroundImage: `url(${quebra2})` }} >
-            </div>
-            {index !=1  && (
-              <button
-                className="items-center justify-center flex flex-col absolute top-0 right-0 w-[14%] cursor-pointer h-[12%] hover:underline"
-                onClick={onClick}
-              >
-                <img className="w-[100%] h-[80%]" src={voltar.src} alt="" />
-                <h1 className="font-[Virgil] text-[15px] text-black">Voltar</h1>
-              </button>
-            )}
-            <MolTxtImg 
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100%] flex flex-col items-center justify-center"
-                TextoGiga={TextoGiga}
-                TextoMini={TextoMini}
-            ></MolTxtImg>
+
+              {index !=1  && (
+                <BackButton
+                  onClick={onClick}
+                >
+                  <BackImage src={voltar.src} alt="" />
+                  <BackLabel>Voltar</BackLabel>
+                </BackButton>
+              )}
+              <Card 
+                  TextoGiga={TextoGiga}
+                  TextoMini={TextoMini}
+              ></Card>
+            </Background>
             
         </div>
     );
 }
 
-export default OrgImg
+export default OrgImg;
+
+const Background = styled.div`
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 100%;
+  border-bottom-right-radius: var(--radius-2xl);
+  border-top-right-radius: var(--radius-2xl);
+  position: absolute;
+`;
+
+const Card = styled(MolTxtImg)`
+  display: flex; 
+  position: absolute; 
+  flex-direction: column; 
+  justify-content: center; 
+  align-items: center; 
+  width: 100%;
+  color: var(--primary-foreground);
+`;
+
+const BackButton = styled.button`
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 14%;
+  cursor: pointer;
+  height: 12%;
+  &:hover {
+    text-decoration: underline;
+  };
+`;
+
+const BackImage = styled.img`
+  width: 100%;
+  height: 80%;
+`;
+
+const BackLabel = styled.h1`
+  font-family: var(--font-text);
+  font-size: 15px;
+  color: var(--primary-foreground);
+`;
