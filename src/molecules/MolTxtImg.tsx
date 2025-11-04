@@ -23,13 +23,14 @@ function MolTxtImg({className, TextoGiga, TextoMini}:MolTxtImgProps) {
 export default MolTxtImg;
 
 const GigaLabel = styled.h1`
-    font-family: var(--font-text);
-    font-weight: 600;
+    font-family: var(--font-login-text);
+    font-weight: 200;
     font-size: 50px;
 `;
 
 const MiniLabel = styled.h1`
-    font-family: var(--font-text);
+    font-family: var(--font-login-text);
+    font-weight: 300;
     font-size: 22px;
     margin-top: 2%;
 `;

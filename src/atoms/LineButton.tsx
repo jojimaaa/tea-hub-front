@@ -25,7 +25,7 @@ const Button = styled.button`
 `;
 
 const Label = styled.h1`
-    font-family: var(--font-text);
+    font-family: var(--font-login-text);
     font-size: 15px;
     height: 100%;
     &:hover {

@@ -1,4 +1,4 @@
-import Molinput from "../molecules/Molinput"
+import FormInput from "../molecules/FormInput"
 import AtminputBotao from "../atoms/AtminputBotao"
 import '../app/globals.css'
 
@@ -30,7 +30,7 @@ function OrgEsqueci({className}:OrgEsqueciProps){
         <div className={className}>
             <LogoHeader>TEA-HUB</LogoHeader>
             <Form action="">
-                <StyledInput register={form.register} text='Email' name="email"/>
+                <StyledInput setValue={form.register} label='Email' value="email"/>
                 <AtminputBotao value='Enviar'/>
             </Form>
         </div>
@@ -57,7 +57,7 @@ const Form = styled.form`
   align-items: center;
 `;
 
-const StyledInput = styled(Molinput)`
+const StyledInput = styled(FormInput)`
   display: flex;
   flex-direction: column;
   width: 70%;

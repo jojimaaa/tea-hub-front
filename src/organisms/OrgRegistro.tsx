@@ -4,7 +4,9 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import styled from "styled-components"
-import Molinput from '@/molecules/Molinput'
+import FormInput from '@/molecules/FormInput'
+import { useEffect } from 'react'
+import { Label } from '@/components/ui/label'
 
 interface OrgRegistroProps{
     className?: string;
@@ -14,10 +16,10 @@ interface OrgRegistroProps{
 
 function OrgRegistro({className}:OrgRegistroProps){
     const formReg = z.object({
-      email: z.string().min(1),
-      password: z.string(),
+      email: z.email(),
+      password: z.string().min(6),
       name: z.string(),
-      username: z.string()
+      username: z.string().min(4)
     });
     
     const form = useForm<z.infer<typeof formReg>>({
@@ -25,7 +27,15 @@ function OrgRegistro({className}:OrgRegistroProps){
       defaultValues: { email: "", password: "", username:"", name:""}
     });
         
-    async function onSubmit(values: z.infer<typeof formReg>) {
+    useEffect(() => {
+        form.register("email");
+        form.register("password");
+        form.register("username");
+        form.register("name");
+    }, []);
+
+    const onSubmit = async (values: z.infer<typeof formReg>) => {
+        console.log(values);
         try {
           const response = await fetch("http://127.0.0.1:8000/register", {
             method: "POST", 
@@ -51,17 +61,17 @@ function OrgRegistro({className}:OrgRegistroProps){
         <div className={className}>
             <LogoHeader>TEA-HUB</LogoHeader>
             <Form onSubmit={form.handleSubmit(onSubmit)}>
-              <FormRow>
                 <FormCol>
-                  <FormField register={form.register} text='Email' name="email"/>
-                  <FormField register={form.register} text='Nome'  name="nome"/>
+                    <StyledInput register={form.register} setValue={form.setValue} label='Email' value="email"/>
+                    {form.formState.errors && <StyledErrorLabel>{form.formState.errors.email?.message}</StyledErrorLabel>}
+
+                    <StyledInput register={form.register} setValue={form.setValue} label='Nome'  value="nome"/>
+                    <StyledInput  register={form.register} setValue={form.setValue} label='Username'  value="username"/>
+                    {form.formState.errors && <StyledErrorLabel>{form.formState.errors.username?.message}</StyledErrorLabel>}
+                    <StyledInput  register={form.register} setValue={form.setValue} label='Senha' value="password"/>
+                    {form.formState.errors && <StyledErrorLabel>{form.formState.errors.password?.message}</StyledErrorLabel>}
                 </FormCol>
-                <FormCol>
-                  <FormField register={form.register} text='Username'  name="username"/>
-                  <FormField register={form.register} text='Senha' name="password"/>
-                </FormCol>
-              </FormRow>
-                <AtminputBotao value='Criar Conta'/> 
+                <AtminputBotao onClick={(e : any) => form.handleSubmit(onSubmit)(e)} value='Criar Conta'/> 
             </Form>
         </div>
     );
@@ -70,28 +80,22 @@ function OrgRegistro({className}:OrgRegistroProps){
 export default OrgRegistro
 
 const Form = styled.form`
-  margin-top: 5%;
   justify-content: center;
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
-const FormRow = styled.div`
+const StyledInput = styled(FormInput)`
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-`;
-
-const FormField = styled(Molinput)`
-  width: 90%;
-  margin-left: 10px;
-  margin-right: 10px;
+  flex-direction: column;
+  width: 70%;
+  height: 30%;
 `;
 
 const FormCol = styled.div`
   display: flex;
+  width: 100%;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -105,4 +109,9 @@ const LogoHeader = styled.h1`
   margin-top: 4%;
   color: var(--primary-foreground);
   font-family: var(--font-tea-hub);
+`;
+
+const StyledErrorLabel = styled(Label)`
+    color: var(--primary-foreground);
+    font-family: var(--font-login-text)
 `;

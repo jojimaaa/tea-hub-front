@@ -69,5 +69,4 @@ const StyledButton = styled(LineButton)`
   &:hover{
     cursor: pointer;
   }
-
 `;
