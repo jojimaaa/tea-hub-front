@@ -38,7 +38,7 @@ const StyledContainer = styled.div`
 
 const Label = styled.h1`
     font-family: var(--font-login-text);
-    font-size: 20px;
+    font-size: 18px;
 `;
 
 const StyledInput = styled.input`
@@ -46,6 +46,7 @@ const StyledInput = styled.input`
     border-style: var(--tw-border-style);
     border-width: 1px;
     height: 100%;
+    width: 100%;
     min-height: 37px;
     border-radius: 4px;
     border-color: var(--primary-foreground);
