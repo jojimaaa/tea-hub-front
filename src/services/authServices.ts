@@ -3,7 +3,7 @@ import axios, { AxiosRequestConfig } from "axios"
 
 const api = axios.create({
     baseURL: "http://127.0.0.1:8000", //dev
-    //baseURL: "<prod>", //prod
+    //baseURL: "<prod>",              //prod
 })
 
 export async function login(data : LoginRequest) : Promise<LoginResponse> {

@@ -7,3 +7,7 @@ export interface WikiPost {
     topic_id : string
 };
 
+export interface WikiTopic {
+    id : string,
+    name : string 
+}
