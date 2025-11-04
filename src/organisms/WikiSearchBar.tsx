@@ -1,10 +1,12 @@
+"use client"
+
 import { Button } from "@/components/ui/button";
 import FormInput from "@/molecules/FormInput";
-import { RegisterOptions, useForm, UseFormRegisterReturn } from "react-hook-form";
 import styled from "styled-components";
 import { zodResolver } from "@hookform/resolvers/zod"
 import z from "zod";
 import { WikiSearchTitle } from "@/interfaces/WikiSchemas";
+import { useForm } from "react-hook-form"
 
 
 

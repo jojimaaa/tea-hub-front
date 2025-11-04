@@ -1,16 +1,15 @@
 "use client"
-
 import { Label } from "@/components/ui/label";
+import WikiRecomList from "@/organisms/WikiRecomList";
 import WikiSearchBar from "@/organisms/WikiSearchBar";
 import styled from "styled-components";
 
 export default function HomeWiki() {
 
-
-
     return (<StyledContainer> 
         <TitleLabel>Wiki TEA-HUB</TitleLabel>
         <WikiSearchBar></WikiSearchBar>
+        <WikiRecomList/>
     </StyledContainer>);
 }
 

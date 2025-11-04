@@ -1,4 +1,4 @@
-export interface WikiPost {
+export interface WikiPostSchema {
     id : string,
     title : string,
     body : string | JSON,
@@ -7,7 +7,7 @@ export interface WikiPost {
     topic_id : string
 };
 
-export interface WikiTopic {
+export interface WikiTopicSchema {
     id : string,
     name : string 
 }
