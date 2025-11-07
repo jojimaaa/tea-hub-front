@@ -36,6 +36,10 @@ export default function RootLayout({
               TEA-HUB
           </LogoButton>
           <StyledButton
+            Nome="Wiki"
+            onClick={() => router.push("/wiki")}
+          />
+          <StyledButton
             Nome="Login"
             onClick={() => router.push("/login")}
           />
@@ -47,9 +51,9 @@ export default function RootLayout({
 }
 
 const HeaderRow = styled.div`
-    padding-top: 2px;
-    padding-left: 3px;
-    padding-right: 3px;
+    background-color: var(--primary);
+    padding-top: 10px;
+    padding-bottom: 5px;
 
     display: flex;
     flex-direction: row;
@@ -60,17 +64,16 @@ const HeaderRow = styled.div`
     border-color: var(--primary-foreground)
 `;
 
-const LogoButton = styled(Button)`
-  font-size: 17px;
-  &:hover{ 
-    cursor: pointer;
-  }
-  font-family: var(--font-tea-hub);
-
+const LogoButton = styled.text`
+    font-size: 19px;
+    &:hover{ 
+        cursor: pointer;
+    }
+    font-family: var(--font-tea-hub);
 `;
 
 const StyledButton = styled(LineButton)`
-  &:hover{
-    cursor: pointer;
-  }
+    &:hover{
+        cursor: pointer;
+    }
 `;

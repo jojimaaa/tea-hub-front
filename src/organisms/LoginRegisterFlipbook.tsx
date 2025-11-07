@@ -16,7 +16,7 @@ function LoginRegisterFlipbook({itemsE, itemsD, index}:LoginzadaProps){
           transform: "rotateX(30deg)",
           transformStyle: "preserve-3d",
           perspective: "3000px",
-          minHeight: "530px",
+          minHeight: "610px",
           minWidth: "670px"
         }}
         className={"relative z-0 h-[60%] w-[60%] rounded-xl text-black"}>

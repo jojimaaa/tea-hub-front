@@ -58,7 +58,7 @@ function OrgRegistro({className}:OrgRegistroProps){
     
 
     return(
-        <div className={className}>
+        <StyledContainer className={className}>
             <LogoHeader>TEA-HUB</LogoHeader>
             <Form onSubmit={form.handleSubmit(onSubmit)}>
                 <FormCol>
@@ -71,13 +71,20 @@ function OrgRegistro({className}:OrgRegistroProps){
                     <StyledInput  register={form.register} setValue={form.setValue} label='Senha' value="password"/>
                     {form.formState.errors && <StyledErrorLabel>{form.formState.errors.password?.message}</StyledErrorLabel>}
                 </FormCol>
-                <AtminputBotao onClick={(e : any) => form.handleSubmit(onSubmit)(e)} value='Criar Conta'/> 
+                <EntrarButton onClick={(e : any) => form.handleSubmit(onSubmit)(e)} value='Criar Conta'/> 
             </Form>
-        </div>
+        </StyledContainer>
     );
 }
 
 export default OrgRegistro
+
+const StyledContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    padding-inline: 5%;
+    justify-content: center;
+`;
 
 const Form = styled.form`
   justify-content: center;
@@ -89,8 +96,9 @@ const Form = styled.form`
 const StyledInput = styled(FormInput)`
   display: flex;
   flex-direction: column;
-  width: 70%;
+  width: 100%;
   height: 30%;
+  min-height: 40px;
 `;
 
 const FormCol = styled.div`
@@ -106,7 +114,6 @@ const LogoHeader = styled.h1`
   justify-content: center; 
   align-items: center; 
   font-size: 64px;
-  margin-top: 4%;
   color: var(--primary-foreground);
   font-family: var(--font-tea-hub);
 `;
@@ -114,4 +121,8 @@ const LogoHeader = styled.h1`
 const StyledErrorLabel = styled(Label)`
     color: var(--primary-foreground);
     font-family: var(--font-login-text)
+`;
+
+const EntrarButton = styled(AtminputBotao)`
+    min-height: 40px;
 `;

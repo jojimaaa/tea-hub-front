@@ -45,13 +45,13 @@ function OrgLogin({className, increment, decrement}:OrgLoginProps){
     }, []);
 
     return(
-        <div className={className}>
+        <StyledContainer className={className}>
             <LogoHeader className=''>TEA-HUB</LogoHeader>
             <Form onSubmit={formLogin.handleSubmit(onSubmit)}>
                 <StyledInput setValue={formLogin.setValue} register={formLogin.register} label='Email' value="username"></StyledInput>
                 {formLogin.formState.errors && <StyledErrorLabel>{formLogin.formState.errors.username?.message}</StyledErrorLabel>}
                 <StyledInput setValue={formLogin.setValue} register={formLogin.register} label='Senha' value="password"></StyledInput>
-                <AtminputBotao onClick={(e : any) => {
+                <EntrarButton onClick={(e : any) => {
                     formLogin.handleSubmit(onSubmit)(e)
                 }} value='Entrar'/>
             </Form>
@@ -65,9 +65,20 @@ function OrgLogin({className, increment, decrement}:OrgLoginProps){
                     onClick={decrement}
                 ></LineButton>
             </FooterBar>
-        </div>
+        </StyledContainer>
     );
 }
+
+const StyledContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    padding-inline: 5%;
+    justify-content: center;
+`;
+
+const EntrarButton = styled(AtminputBotao)`
+    min-height: 40px;
+`;
 
 const LogoHeader = styled.h1`
   display: flex; 
@@ -80,7 +91,6 @@ const LogoHeader = styled.h1`
 `;
 
 const Form = styled.form`
-  margin-top: 5%;
   justify-content: center;
   display: flex;
   flex-direction: column;
@@ -90,15 +100,17 @@ const Form = styled.form`
 const StyledInput = styled(FormInput)`
   display: flex;
   flex-direction: column;
-  width: 70%;
+  width: 100%;
   height: 30%;
+  min-height: 40px;
+  margin-bottom: 10px;
 `;
 
 const FooterBar = styled.div`
-  margin-top: 5%;
+  margin-top: 5px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 `;
 
 const StyledErrorLabel = styled(Label)`

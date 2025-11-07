@@ -26,18 +26,29 @@ function OrgEsqueci({className}:OrgEsqueciProps){
       defaultValues: { username: "", password: "", grant_type: "password"}
     });
 
+    const onSubmit = () => {
+        //do something
+    }
+
     return(
-        <div className={className}>
+        <StyledContainer className={className}>
             <LogoHeader>TEA-HUB</LogoHeader>
-            <Form action="">
-                <StyledInput setValue={form.register} label='Email' value="email"/>
-                <AtminputBotao value='Enviar'/>
+            <Form onSubmit={form.handleSubmit(onSubmit)}>
+                <StyledInput register={form.register} setValue={form.setValue} label='Email' value="email"/>
+                <EntrarButton onClick={(e : any) => form.handleSubmit(onSubmit)(e)} value='Enviar'/>
             </Form>
-        </div>
+        </StyledContainer>
     );
 }
 
 export default OrgEsqueci;
+
+const StyledContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    padding-inline: 5%;
+    justify-content: center;
+`;
 
 const LogoHeader = styled.h1`
   display: flex; 
@@ -50,7 +61,6 @@ const LogoHeader = styled.h1`
 `;
 
 const Form = styled.form`
-  margin-top: 5%;
   justify-content: center;
   display: flex;
   flex-direction: column;
@@ -60,6 +70,12 @@ const Form = styled.form`
 const StyledInput = styled(FormInput)`
   display: flex;
   flex-direction: column;
-  width: 70%;
+  width: 100%;
   height: 30%;
+  min-height: 40px;
+  margin-bottom: 30px;
+`;
+
+const EntrarButton = styled(AtminputBotao)`
+    min-height: 40px;
 `;

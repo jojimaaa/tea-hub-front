@@ -10,21 +10,18 @@ interface BotaoProps{
 
 function LineButton({Nome, classNameBt, classNameTxt, onClick}:BotaoProps) {
     return (
-        <Button className={classNameBt} onClick={onClick}>
-            <Label className={classNameTxt}>{Nome}</Label>
-        </Button>
+        <Button className={classNameBt} onClick={onClick}>{Nome}</Button>
+        // <Button className={classNameBt} onClick={onClick}>
+        //     <Label className={classNameTxt}>{Nome}</Label>
+        // </Button>
     );
 }
 
 export default LineButton;
 
-const Button = styled.button`
-    width: 140px;
+const Button = styled.text`
     height: 50%;
     cursor: pointer;
-`;
-
-const Label = styled.h1`
     font-family: var(--font-login-text);
     font-size: 15px;
     height: 100%;
@@ -32,3 +29,18 @@ const Label = styled.h1`
         text-decoration: underline;
     }
 `;
+
+// const Button = styled.button`
+//     width: 140px;
+//     height: 50%;
+//     cursor: pointer;
+// `;
+
+// const Label = styled.h1`
+//     font-family: var(--font-login-text);
+//     font-size: 15px;
+//     height: 100%;
+//     &:hover {
+//         text-decoration: underline;
+//     }
+// `;
