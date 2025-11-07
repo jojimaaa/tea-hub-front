@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from 'next/navigation'
 import styled from "styled-components";
 import LineButton from "@/atoms/LineButton";
+import OrgEsqueci from "@/organisms/OrgEsqueci";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,6 +36,10 @@ export default function RootLayout({
               TEA-HUB
           </LogoButton>
           <StyledButton
+            Nome="Wiki"
+            onClick={() => router.push("/wiki")}
+          />
+          <StyledButton
             Nome="Login"
             onClick={() => router.push("/login")}
           />
@@ -46,27 +51,29 @@ export default function RootLayout({
 }
 
 const HeaderRow = styled.div`
-  padding-top: 2px;
-  padding-left: 3px;
-  padding-right: 3px;
-  
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
+    background-color: var(--primary);
+    padding-top: 10px;
+    padding-bottom: 5px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+
+    border-width: 0px 0px 1px 0px;
+    border-color: var(--primary-foreground)
 `;
 
-const LogoButton = styled(Button)`
-  font-size: 17px;
-  &:hover{ 
-    cursor: pointer;
-  }
-  font-family: var(--font-tea-hub);
-
+const LogoButton = styled.text`
+    font-size: 19px;
+    &:hover{ 
+        cursor: pointer;
+    }
+    font-family: var(--font-tea-hub);
 `;
 
 const StyledButton = styled(LineButton)`
-  &:hover{
-    cursor: pointer;
-  }
+    &:hover{
+        cursor: pointer;
+    }
 `;

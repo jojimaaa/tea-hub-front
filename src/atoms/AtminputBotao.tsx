@@ -19,7 +19,7 @@ function AtminputBotao({className,value, onClick}:AtminputBotaoProps) {
 export default AtminputBotao;
 
 const StyledButton = styled(Button)`
-    width: 70%;
+    width: 100%;
     margin-top: 3%;
     border-radius: 4px;
     background-color: var(--primary-foreground);

@@ -1,8 +1,26 @@
 "use client"
+import { Label } from "@/components/ui/label";
+import WikiRecomList from "@/organisms/WikiRecomList";
+import WikiSearchBar from "@/organisms/WikiSearchBar";
+import styled from "styled-components";
 
 export default function HomeWiki() {
-    return (<>
-        HOME WIKI
-        TESTE|sTEALHAFSLHFLJKA
-    </>);
+
+    return (<StyledContainer> 
+        <TitleLabel>Wiki TEA-HUB</TitleLabel>
+        <WikiSearchBar></WikiSearchBar>
+        <WikiRecomList/>
+    </StyledContainer>);
 }
+
+const StyledContainer = styled.div`
+    background-color: var(--primary);
+`;
+
+const TitleLabel = styled(Label)`
+    margin-top: 10px;
+    font-family: var(--font-tea-hub);
+    justify-self: center;
+    font-size: 30px;
+
+`;

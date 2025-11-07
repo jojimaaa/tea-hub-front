@@ -3,6 +3,7 @@ import '../app/globals.css'
 import quebra2 from "../assets/quebra2.jpg"
 import voltar from "../assets/voltar.png"
 import styled from "styled-components";
+import { ArrowBackIcon } from "@/components/ui/icons/akar-icons-arrow-back";
 
 interface OrgImgProps{
     className?: string;
@@ -22,7 +23,7 @@ function OrgImg({className,TextoGiga,TextoMini,onClick, index}:OrgImgProps){
                 <BackButton
                   onClick={onClick}
                 >
-                  <BackImage src={voltar.src} alt="" />
+                  <ArrowBackIcon/>
                   <BackLabel>Voltar</BackLabel>
                 </BackButton>
               )}
