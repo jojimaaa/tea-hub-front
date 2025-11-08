@@ -2,46 +2,45 @@
 
 import { WikiPostSchema } from "@/interfaces/WikiSchemas";
 import WikiPostCard from "@/molecules/WikiRecomCard"
-import { getRecommended } from "@/services/wikiServices";
+import { getRecent, getRecommended } from "@/services/wikiServices";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
-const WikiRecomList = () => {
+const WikiRecentList = () => {
 
-    const [recom, setRecom] = useState<WikiPostSchema[]>([]);
+    const [recent, setRecent] = useState<WikiPostSchema[]>([]);
 
     useEffect(
         () => {
-            const fetchRecom = async () => {
-                const response = await getRecommended();
-                if (response) setRecom(response);
+            const fetchRecent = async () => {
+                const response = await getRecent();
+                if (response) setRecent(response);
                 console.log(response);
             }   
-            fetchRecom();
+            fetchRecent();
         },[]
     );
 
     return (
         <StyledContainer>
             <StyledLabelContainer>
-                <StyledLabel>Recomendados</StyledLabel>
+                <StyledLabel>Recentes</StyledLabel>
             </StyledLabelContainer>
 
             <StyledListContainer>
-                {(recom.length != 0) && 
-                    recom.map((post) => <WikiPostCard post={post}/>)
+                {(recent.length != 0) && 
+                    recent.map((post) => <WikiPostCard post={post}/>)
                 }
             </StyledListContainer>
         </StyledContainer>
     )
 }
 
-export default WikiRecomList;
+export default WikiRecentList;
 
 const StyledContainer = styled.div`
     height: 100%;
     margin-top: 20px;
-
 `;
 
 const StyledListContainer = styled.div`

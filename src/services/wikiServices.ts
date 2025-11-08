@@ -120,5 +120,43 @@ export async function getRecommended() : Promise<WikiPostSchema[]> {
     }]); 
 }
 
+export async function getRecent() : Promise<WikiPostSchema[]> {
+    await sleep(300);
+
+    return ([
+    {
+        id: "teste1",
+        title: "Título 1 LONGOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO",
+        body: "blablablablabalbsj asufdhalksjdfhkaljsdhflkjasdh asdhflasdhfladahfkda asdfhaskdjlfhasdf askdgflaksdh lkajshdfjakshdlfjkashd lkjafhsdlkjf ahsdlkjhf alkjsdhfalkjsdhflakjsdhlfkjahsdlkjfahsldkjfhalkjshdlfkjahsldkhflkasd",
+        author_name: "Autor 1",
+        created_date: "2025-11-04",
+        topic_id: "topico1"
+    },
+    {
+        id: "teste2",
+        title: "Título 2",
+        body: "blablablablabalbsj asufdhalksjdfhkaljsdhflkjasdh asdhflasdhfladahfkda asdfhaskdjlfhasdf",
+        author_name: "Autor 2",
+        created_date: "2025-11-05",
+        topic_id: "topico2"
+    },
+    {
+        id: "teste3",
+        title: "Título 3",
+        body: "blablablablabalbsj asufdhalksjdfhkaljsdhflkjasdh asdhflasdhfladahfkda asdfhaskdjlfhasdf",
+        author_name: "Autor 3",
+        created_date: "2025-11-06",
+        topic_id: "topico3"
+    },
+    {
+        id: "teste4",
+        title: "Título 4",
+        body: "blablablablabalbsj asufdhalksjdfhkaljsdhflkjasdh asdhflasdhfladahfkda asdfhaskdjlfhasdf",
+        author_name: "Autor 4",
+        created_date: "2025-11-07",
+        topic_id: "topico4"
+    }]); 
+}
+
 
 

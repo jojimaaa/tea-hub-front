@@ -1,12 +1,12 @@
 "use client"
 
 import { Button } from "@/components/ui/button";
-import FormInput from "@/molecules/FormInput";
 import styled from "styled-components";
 import { zodResolver } from "@hookform/resolvers/zod"
 import z from "zod";
 import { WikiSearchTitle } from "@/interfaces/WikiSchemas";
 import { useForm } from "react-hook-form"
+import TextInput from "@/atoms/TextInput";
 
 
 
@@ -26,34 +26,42 @@ const WikiSearchBar = () => {
     }
 
     return (
-        <Form onSubmit={searchForm.handleSubmit(onSubmit)}>
-            <StyledFormInput 
-                label={"Pesquisar por título"} 
-                register={searchForm.register} 
-                value={"title"} 
-                setValue={searchForm.setValue}
-            />
-            <StyledButton onClick={(e) => {
-                searchForm.handleSubmit(onSubmit)(e)
-            }}>Pesquisar</StyledButton>
-        </Form>
+        <StyledContainer>
+            <Label>Pesquise por título</Label>
+            <Form onSubmit={searchForm.handleSubmit(onSubmit)}>
+                <StyledFormInput
+                    placeHolder="Pesquise por título" 
+                    register={searchForm.register} 
+                    value={"title"} 
+                    setValue={searchForm.setValue}
+                />
+                <StyledButton onClick={(e) => {
+                    searchForm.handleSubmit(onSubmit)(e)
+                }}>Pesquisar</StyledButton>
+            </Form>
+        </StyledContainer>
     );
 }
 
 export default WikiSearchBar;
 
+const StyledContainer = styled.div``;
 
-const StyledFormInput = styled(FormInput)`
+const StyledFormInput = styled(TextInput)`
     width: 100%;
-    margin-right: 10%;
+    margin-right: 20px;
 `;
 
 const Form = styled.form`
-    margin-top: 25px;
     display: flex;
     flex-direction: row;
     align-items: center;
-    size: 90%;`;
+`;
+
+const Label = styled.h1`
+    font-family: var(--font-login-text);
+    font-size: 18px;
+`;
 
 const StyledButton = styled(Button)`
     background-color: var(--primary-foreground);
