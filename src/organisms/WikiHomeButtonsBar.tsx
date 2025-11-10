@@ -15,7 +15,7 @@ const WikiHomeButtonsBar = () => {
         </StyledLabelContainer>
         <StyledRow>
             <StyledButton
-                onClick={() => router.push("/wiki")}
+                onClick={() => router.push("wiki/postlist")}
             >Lista de Posts</StyledButton>
             <StyledButton
                 onClick={() => router.push("/wiki")}
@@ -52,9 +52,9 @@ const StyledLabelContainer = styled.div`
 const StyledRow = styled.div`
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
-    padding-inline: 20%;
+    /* padding-inline: 20%; */
 `;
 
 const StyledButton = styled(Button)`

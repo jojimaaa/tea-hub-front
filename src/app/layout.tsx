@@ -31,7 +31,7 @@ export default function RootLayout({
       >
         <HeaderRow>
           <LogoButton
-            onClick={() => router.push("/wiki")}
+            onClick={() => router.push("/")}
           >
               TEA-HUB
           </LogoButton>

@@ -1,7 +1,7 @@
 "use client"
 
 import { WikiPostSchema } from "@/interfaces/WikiSchemas";
-import WikiPostCard from "@/molecules/WikiRecomCard"
+import WikiPostCard from "@/molecules/WikiPostCard"
 import { getRecent, getRecommended } from "@/services/wikiServices";
 import { useEffect, useState } from "react";
 import styled from "styled-components";

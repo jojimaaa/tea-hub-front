@@ -33,7 +33,7 @@ const StyledCard = styled.div`
 
     padding: 2%;
     width: 23%;
-    height: 30%;
+    height: 210px;
 `;
 
 const TitleLabel = styled.text`
