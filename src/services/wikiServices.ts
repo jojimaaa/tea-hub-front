@@ -48,7 +48,8 @@ export async function getPost(id : string) : Promise<WikiPostSchema | undefined>
         body: "blablablablabalbsj asufdhalksjdfhkaljsdhflkjasdh asdhflasdhfladahfkda asdfhaskdjlfhasdf",
         author_name: "Autor 1",
         created_date: "2025-11-04",
-        topic_id: "topico1"
+        topic_id: "topico1",
+        imageUrl: "url1"
     });
     if (id == "teste2") return ({
         id: "teste2",
@@ -56,7 +57,8 @@ export async function getPost(id : string) : Promise<WikiPostSchema | undefined>
         body: "blablablablabalbsj asufdhalksjdfhkaljsdhflkjasdh asdhflasdhfladahfkda asdfhaskdjlfhasdf",
         author_name: "Autor 2",
         created_date: "2025-11-07",
-        topic_id: "topico2"
+        topic_id: "topico2",
+        imageUrl: "url2"
     });
     
 }
@@ -70,7 +72,8 @@ export async function getPostList() : Promise<WikiPostSchema[]> {
         body: "blablablablabalbsj asufdhalksjdfhkaljsdhflkjasdh asdhflasdhfladahfkda asdfhaskdjlfhasdf",
         author_name: "Autor 1",
         created_date: "2025-11-04",
-        topic_id: "topico1"
+        topic_id: "topico1",
+        imageUrl: "url1"
     },
     {
         id: "teste2",
@@ -78,7 +81,8 @@ export async function getPostList() : Promise<WikiPostSchema[]> {
         body: "blablablablabalbsj asufdhalksjdfhkaljsdhflkjasdh asdhflasdhfladahfkda asdfhaskdjlfhasdf",
         author_name: "Autor 2",
         created_date: "2025-11-07",
-        topic_id: "topico2"
+        topic_id: "topico2",
+        imageUrl: "url2"
     }]); 
 }
 
@@ -92,7 +96,8 @@ export async function getRecommended() : Promise<WikiPostSchema[]> {
         body: "blablablablabalbsj asufdhalksjdfhkaljsdhflkjasdh asdhflasdhfladahfkda asdfhaskdjlfhasdf",
         author_name: "Autor 1",
         created_date: "2025-11-04",
-        topic_id: "topico1"
+        topic_id: "topico1",
+        imageUrl: "url1"
     },
     {
         id: "teste2",
@@ -100,7 +105,8 @@ export async function getRecommended() : Promise<WikiPostSchema[]> {
         body: "blablablablabalbsj asufdhalksjdfhkaljsdhflkjasdh asdhflasdhfladahfkda asdfhaskdjlfhasdf",
         author_name: "Autor 2",
         created_date: "2025-11-05",
-        topic_id: "topico2"
+        topic_id: "topico2",
+        imageUrl: "url2"
     },
     {
         id: "teste3",
@@ -108,7 +114,8 @@ export async function getRecommended() : Promise<WikiPostSchema[]> {
         body: "blablablablabalbsj asufdhalksjdfhkaljsdhflkjasdh asdhflasdhfladahfkda asdfhaskdjlfhasdf",
         author_name: "Autor 3",
         created_date: "2025-11-06",
-        topic_id: "topico3"
+        topic_id: "topico3",
+        imageUrl: "url3"
     },
     {
         id: "teste4",
@@ -116,7 +123,8 @@ export async function getRecommended() : Promise<WikiPostSchema[]> {
         body: "blablablablabalbsj asufdhalksjdfhkaljsdhflkjasdh asdhflasdhfladahfkda asdfhaskdjlfhasdf",
         author_name: "Autor 4",
         created_date: "2025-11-07",
-        topic_id: "topico4"
+        topic_id: "topico4",
+        imageUrl: "url4"
     }]); 
 }
 
@@ -130,7 +138,8 @@ export async function getRecent() : Promise<WikiPostSchema[]> {
         body: "blablablablabalbsj asufdhalksjdfhkaljsdhflkjasdh asdhflasdhfladahfkda asdfhaskdjlfhasdf askdgflaksdh lkajshdfjakshdlfjkashd lkjafhsdlkjf ahsdlkjhf alkjsdhfalkjsdhflakjsdhlfkjahsdlkjfahsldkjfhalkjshdlfkjahsldkhflkasd",
         author_name: "Autor 1",
         created_date: "2025-11-04",
-        topic_id: "topico1"
+        topic_id: "topico1",
+        imageUrl: "url1"
     },
     {
         id: "teste2",
@@ -138,7 +147,8 @@ export async function getRecent() : Promise<WikiPostSchema[]> {
         body: "blablablablabalbsj asufdhalksjdfhkaljsdhflkjasdh asdhflasdhfladahfkda asdfhaskdjlfhasdf",
         author_name: "Autor 2",
         created_date: "2025-11-05",
-        topic_id: "topico2"
+        topic_id: "topico2",
+        imageUrl: "url2"
     },
     {
         id: "teste3",
@@ -146,7 +156,8 @@ export async function getRecent() : Promise<WikiPostSchema[]> {
         body: "blablablablabalbsj asufdhalksjdfhkaljsdhflkjasdh asdhflasdhfladahfkda asdfhaskdjlfhasdf",
         author_name: "Autor 3",
         created_date: "2025-11-06",
-        topic_id: "topico3"
+        topic_id: "topico3",
+        imageUrl: "url3"
     },
     {
         id: "teste4",
@@ -154,7 +165,8 @@ export async function getRecent() : Promise<WikiPostSchema[]> {
         body: "blablablablabalbsj asufdhalksjdfhkaljsdhflkjasdh asdhflasdhfladahfkda asdfhaskdjlfhasdf",
         author_name: "Autor 4",
         created_date: "2025-11-07",
-        topic_id: "topico4"
+        topic_id: "topico4",
+        imageUrl: "url4"
     }]); 
 }
 
