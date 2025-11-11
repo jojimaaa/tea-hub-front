@@ -1,5 +1,8 @@
 "use client"
+import MolNomesWiki from '@/molecules/MolNomesWiki';
 import * as Rct from 'react';
+import {getPost} from '@/services/wikiServices';
+import { WikiPost } from '@/interfaces/WikiSchemas';
 
 interface WikiParams {
     params : Promise<{
@@ -7,14 +10,26 @@ interface WikiParams {
     }>
 }
 
-export default function WikiPost({params} : WikiParams) {
-    const {slug} = Rct.use(params);
-    // const slug = params.slug;
 
-    if(!params) return <>NOT FOUND!</>
-    return (<>
+export default function WikiPostPage({params} : WikiParams) {
+    const {slug} = Rct.use(params);
+    const [data,setData] = Rct.useState<WikiPost | undefined>();
+    Rct.useEffect(() => {
+        const fetchData = async () => {
+            const response = await getPost(slug);
+            setData(response);
+        };
+        fetchData();
+    }, [slug]);
+
+    if(data == undefined) return(<div><h1>T-T</h1></div>)
+    return (
         <div>
-            {slug}
+            <MolNomesWiki 
+                title={data.title}
+                author={data.author_name}
+                topic_id={data.topic_id}
+            />
         </div>
-    </>);
+    );
 }

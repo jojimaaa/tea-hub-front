@@ -39,7 +39,19 @@ export async function getTopicList() : Promise<WikiTopicSchema[]> {
     ]);
 }
 
+<<<<<<< HEAD
 export async function getPost(id : string) : Promise<WikiPostSchema | undefined> {
+=======
+export async function getTopic(id:string) : Promise<WikiTopic|undefined> {
+    await sleep(300);
+    if(id == "topico1") return ({
+        id: "topico1",
+        name: "andreito Topico"
+    });
+}
+
+export async function getPost(id : string) : Promise<WikiPost | undefined> {
+>>>>>>> 3ac5d51 (feat: fazendo pag de post)
     await sleep(300);
 
     if (id == "teste1") return ({
