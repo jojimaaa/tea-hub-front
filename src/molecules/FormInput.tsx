@@ -37,7 +37,7 @@ const StyledContainer = styled.div`
 `;
 
 const Label = styled.h1`
-    font-family: var(--font-login-text);
+    font-family: var(--font-montserrat);
     font-size: 18px;
 `;
 

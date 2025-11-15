@@ -58,7 +58,7 @@
   --primary: oklch(98.89% 0.00593 240.388);
   --primary-foreground: oklch(0.1562 0.0786 262.99);
   --secondary: oklch(0.4024 0.113 249.71);
-  --secondary-foreground: oklch(0.205 0 0);
+  --secondary-foreground: oklch(55.436% 0.07097 242.077);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
   --accent: oklch(0.97 0 0);
@@ -81,9 +81,9 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
   --font-tea-hub: "BBH Sans Hegarty";
-  --font-login-text: "Montserrat";
-  --font-text: "Arial";
-  --font-wiki-title: "Lexend Exa";
+  --font-montserrat: "Montserrat";
+  --font-arial: "Arial";
+  --font-lexend-exa: "Lexend Exa";
 }
 
 .dark {

@@ -54,7 +54,7 @@ const StyledListContainer = styled.div`
 `;
 
 const StyledLabel = styled.text`
-    font-family: var(--font-login-text);
+    font-family: var(--font-montserrat);
     font-size: 30px;
     width: 100%;
 `;

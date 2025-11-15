@@ -59,13 +59,13 @@ const Form = styled.form`
 `;
 
 const Label = styled.h1`
-    font-family: var(--font-login-text);
+    font-family: var(--font-montserrat);
     font-size: 18px;
 `;
 
 const StyledButton = styled(Button)`
     background-color: var(--primary-foreground);
     color: var(--primary);
-    font-family: var(--font-login-text);
+    font-family: var(--font-montserrat);
     border-radius: 5px;
 `;

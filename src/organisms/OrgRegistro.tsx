@@ -120,7 +120,7 @@ const LogoHeader = styled.h1`
 
 const StyledErrorLabel = styled(Label)`
     color: var(--primary-foreground);
-    font-family: var(--font-login-text)
+    font-family: var(--font-montserrat)
 `;
 
 const EntrarButton = styled(AtminputBotao)`

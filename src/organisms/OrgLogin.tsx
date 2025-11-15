@@ -115,7 +115,7 @@ const FooterBar = styled.div`
 
 const StyledErrorLabel = styled(Label)`
     color: var(--primary-foreground);
-    font-family: var(--font-login-text)
+    font-family: var(--font-montserrat)
 `;
 
 export default OrgLogin

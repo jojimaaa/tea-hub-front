@@ -37,7 +37,7 @@ const StyledContainer = styled.div`
 `;
 
 const StyledLabel = styled.text`
-    font-family: var(--font-login-text);
+    font-family: var(--font-montserrat);
     font-size: 30px;
     width: 100%;
 `;
@@ -68,7 +68,7 @@ const StyledButton = styled(Button)`
     border-radius: 10px;
     
     font-weight: 250;
-    font-family: var(--font-login-text);
+    font-family: var(--font-montserrat);
     &:hover{ 
         cursor: pointer;
     }
