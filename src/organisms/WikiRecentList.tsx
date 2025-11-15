@@ -29,7 +29,7 @@ const WikiRecentList = () => {
 
             <StyledListContainer>
                 {(recent.length != 0) && 
-                    recent.map((post) => <WikiPostCard post={post}/>)
+                    recent.map((post) => <WikiPostCard key={post.id} post={post}/>)
                 }
             </StyledListContainer>
         </StyledContainer>

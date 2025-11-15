@@ -29,7 +29,7 @@ const WikiRecomList = () => {
 
             <StyledListContainer>
                 {(recom.length != 0) && 
-                    recom.map((post) => <WikiPostCard post={post}/>)
+                    recom.map((post) => <WikiPostCard key={post.id} post={post}/>)
                 }
             </StyledListContainer>
         </StyledContainer>
