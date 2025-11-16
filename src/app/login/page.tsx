@@ -7,6 +7,7 @@ import OrgRegistro from '../../organisms/OrgRegistro';
 import OrgEsqueci from '../../organisms/OrgEsqueci';
 import OrgImg from '../../organisms/OrgImg';
 import styled from 'styled-components';
+import { Toaster } from '@/components/ui/sonner';
 
 function LoginPage() {
   const [index, setIndex] = useState<number>(1);
@@ -21,6 +22,7 @@ function LoginPage() {
 
   return (
     <div className='flex items-center justify-center h-screen w-screen relative'>
+    <StyledToaster/>
        <LoginRegisterFlipbook 
        index={index}
        itemsE={[
@@ -71,6 +73,11 @@ const StyledLogin = styled(OrgLogin)`
   border-bottom-left-radius: var(--radius-2xl);
   border-top-left-radius: var(--radius-2xl);
   position: relative;
+`;
+
+const StyledToaster = styled(Toaster)`
+    background-color: var(--primary-foreground);
+    color: var(--primary);
 `;
 
 const StyledEsqueci = styled(OrgEsqueci)`

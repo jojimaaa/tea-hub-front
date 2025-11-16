@@ -1,15 +1,19 @@
+"use client"
+
 import FormInput from "../molecules/FormInput"
 import '../app/globals.css'
 import LineButton from '../atoms/LineButton'
 import AtminputBotao from "../atoms/AtminputBotao"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { z, ZodType } from "zod"
+import { z } from "zod"
 import styled from "styled-components"
-import { LoginRequest } from "@/interfaces/AuthSchemas"
 import { login } from "@/services/authServices"
-import { useEffect } from "react"
-import { Label } from "@/components/ui/label"
+import { useEffect, useState } from "react"
+import useAuth from "@/hooks/useAuth"
+import { StyledErrorLabel } from "@/atoms/StyledAtoms"
+import { useRouter, useSearchParams } from "next/navigation"
+import { AxiosError } from "axios"
 
 interface OrgLoginProps{
     className?: string;
@@ -18,29 +22,58 @@ interface OrgLoginProps{
 }
 
 function OrgLogin({className, increment, decrement}:OrgLoginProps){
+    const [error, setError] = useState("");
+    const router = useRouter();
+    const {setAuth} = useAuth();
+    const searchParams = useSearchParams();
+    const from = searchParams.get("from") || "/";
+
+
 
     const onSubmit = async (values: z.infer<typeof formLoginSchema>) => {
+        setError("");
         try {
-            console.log(values);
             const response = await login(values);
+
+            console.log(response);
+            if (response.status == 200) {
+                if (!response.data.access_token || !response.data.token_type) {
+                    setError("Falha no login, tente novamente.");
+                }
+                else {
+                    setAuth({
+                        username: response.data.username,
+                        name: response.data.name,
+                    })
+                    document.cookie = `access-token=${response.data.access_token}; path=/; max-age=86400;`;
+                    document.cookie = `refresh-token=${response.data.refresh_token}; path=/; max-age=86400;`;
+                    router.push(from);
+                }
+            }
+            else if (response.status == 401) {
+                setError("Credenciais inválidas.");
+            }
+
         } catch (error) {
-            console.error("Erro:", error);
+            if (error instanceof AxiosError) {
+                setError(error.response?.data.detail);
+            }
+            else setError("Falha no login, tente novamente.");
         }
     }
     
     const formLoginSchema = z.object({
-      username: z.email(),
+      email: z.email(),
       password: z.string(),
-      grant_type: z.string()
     });
 
     const formLogin = useForm<z.infer<typeof formLoginSchema>>({
       resolver: zodResolver(formLoginSchema),
-      defaultValues: { username: "", password: "", grant_type: "password"}
+      defaultValues: { email: "", password: ""}
     });
 
     useEffect(() => {
-        formLogin.register("username");
+        formLogin.register("email");
         formLogin.register("password");
     }, []);
 
@@ -48,8 +81,8 @@ function OrgLogin({className, increment, decrement}:OrgLoginProps){
         <StyledContainer className={className}>
             <LogoHeader className=''>TEA-HUB</LogoHeader>
             <Form onSubmit={formLogin.handleSubmit(onSubmit)}>
-                <StyledInput setValue={formLogin.setValue} register={formLogin.register} label='Email' value="username"></StyledInput>
-                {formLogin.formState.errors && <StyledErrorLabel>{formLogin.formState.errors.username?.message}</StyledErrorLabel>}
+                <StyledInput setValue={formLogin.setValue} register={formLogin.register} label='Email' value="email"></StyledInput>
+                {formLogin.formState.errors && <StyledErrorLabel>{formLogin.formState.errors.email?.message}</StyledErrorLabel>}
                 <StyledInput setValue={formLogin.setValue} register={formLogin.register} label='Senha' value="password"></StyledInput>
                 <EntrarButton onClick={(e : any) => {
                     formLogin.handleSubmit(onSubmit)(e)
@@ -65,6 +98,7 @@ function OrgLogin({className, increment, decrement}:OrgLoginProps){
                     onClick={decrement}
                 ></LineButton>
             </FooterBar>
+            {error && <StyledErrorLabel>{error}</StyledErrorLabel>}
         </StyledContainer>
     );
 }
@@ -111,11 +145,6 @@ const FooterBar = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-`;
-
-const StyledErrorLabel = styled(Label)`
-    color: var(--primary-foreground);
-    font-family: var(--font-montserrat)
 `;
 
 export default OrgLogin

@@ -1,29 +1,64 @@
-import { LoginRequest, LoginResponse } from "@/interfaces/AuthSchemas"
-import axios, { AxiosRequestConfig } from "axios"
+import { LoginRequest, LoginResponse, RefreshResponse, RegisterRequest, RegisterResponse } from "@/interfaces/AuthSchemas"
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from "axios"
 
 const api = axios.create({
-    baseURL: "http://127.0.0.1:8000", //dev
+    baseURL: "http://127.0.0.1:8000/auth", //dev
     //baseURL: "<prod>",              //prod
 })
 
-export async function login(data : LoginRequest) : Promise<LoginResponse> {
+const apiPrivate = axios.create({
+    baseURL: "http://127.0.0.1:8000/auth", //dev
+    //baseURL: "<prod>",              //prod
+})
+
+interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
+  sent?: boolean;
+}
+
+const responseIntercept = apiPrivate.interceptors.response.use(
+    response=>response,
+    async (error: AxiosError) => {
+        const prevRequest = error?.config as CustomAxiosRequestConfig;
+        if(error?.response?.status === 401 && !prevRequest?.sent) {
+            prevRequest.sent = true;
+            const newAccessToken = await refresh();
+            prevRequest.headers["Authorization"] = `Bearer ${newAccessToken}`
+            return apiPrivate(prevRequest);
+        }   
+        return Promise.reject(error);
+    }
+);
+
+
+export async function login(data : LoginRequest) : Promise<AxiosResponse<LoginResponse>> {
     console.log("login");
+    console.log(data);
+    
+    const config : AxiosRequestConfig = {
+        method: "POST",
+        url: "/login",
+        data: data,
+        headers: {
+            "Content-Type": "application/json",
+        },
+    }
+
+    return await api.request(config);
+}
+
+export async function register(data : RegisterRequest) : Promise<AxiosResponse<RegisterResponse>> {
     console.log(data);
 
     const config : AxiosRequestConfig = {
         method: "POST",
-        url: "/login",
-        data: data
+        url: "/register",
+        data: data,
+        headers: {
+            "Content-Type": "application/json",
+        },
     }
 
-    const responseData : LoginResponse = {
-        access_token: "",
-        token_type: ""
-    }
-
-    const response = await api.request<LoginResponse>(config);
-    if (response.status == 200) return response.data;
-    return responseData;
+    return await api.request<RegisterResponse>(config);
 }
 
 export async function getStuff(): Promise<void> {
@@ -46,4 +81,59 @@ export async function getStuff(): Promise<void> {
 
     const response = await api.request<void>(config)
     return response.data
+}
+
+export const refreshToken = async () : Promise<AxiosResponse<RefreshResponse>> => {
+    const refresh_token = getCookie("refresh-token");
+    
+    const config : AxiosRequestConfig = {
+        method: "GET",
+        url: "/refresh-token",
+        headers: {
+            "Authorization" : `Bearer ${refresh_token ? refresh_token : ""}`
+        }
+    }
+
+    return await api.request<RefreshResponse>(config);
+}
+
+export const refresh = async () => {
+    const response = await refreshToken();
+    console.log(response);
+    if (response.status == 200) {
+        console.log(response.data.access_token)
+        document.cookie = `access-token=${response.data.access_token}; path=/; max-age=86400;`;
+        return response.data.access_token;
+    }
+    return "";
+}
+
+export const refreshPrivateToken = async () : Promise<AxiosResponse<RefreshResponse>> => {
+    const accessToken = getCookie("access-token");
+    
+    const config : AxiosRequestConfig = {
+        method: "GET",
+        url: "/refresh-token",
+        headers: {
+            "Authorization" : `Bearer ${accessToken ? accessToken : ""}`
+        }
+    }
+
+    return await apiPrivate.request<RefreshResponse>(config);
+}
+
+export const private_refresh = async () => {
+    const response = await refreshPrivateToken();
+    console.log(response);
+    if (response.status == 200) {
+        console.log(response.data.access_token)
+        document.cookie = `access-token=${response.data.access_token}; path=/; max-age=86400;`;
+        return response.data.access_token;
+    }
+    return "";
+}
+
+export function getCookie(key:string) {
+  var b = document.cookie.match("(^|;)\\s*" + key + "\\s*=\\s*([^;]+)");
+  return b ? b.pop() : "";
 }
