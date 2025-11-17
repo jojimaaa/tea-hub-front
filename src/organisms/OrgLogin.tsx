@@ -56,7 +56,7 @@ function OrgLogin({className, increment, decrement}:OrgLoginProps){
 
         } catch (error) {
             if (error instanceof AxiosError) {
-                setError(error.response?.data.detail);
+                setError(error.response?.data.detail ? error.response?.data.detail : "Falha no login, tente novamente.");
             }
             else setError("Falha no login, tente novamente.");
         }
