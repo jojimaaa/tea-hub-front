@@ -19,12 +19,14 @@ function LineButton({Nome, classNameBt, classNameTxt, onClick}:BotaoProps) {
 
 export default LineButton;
 
-const Button = styled.text`
+const Button = styled.button`
     height: 50%;
     cursor: pointer;
     font-family: var(--font-login-text);
-    font-size: 15px;
+    font-size: 16px;
     height: 100%;
+    justify-content: center;
+    align-items: center;
     &:hover {
         text-decoration: underline;
     }

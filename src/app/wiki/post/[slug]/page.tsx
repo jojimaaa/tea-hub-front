@@ -2,7 +2,7 @@
 import MolNomesWiki from '@/molecules/MolNomesWiki';
 import * as Rct from 'react';
 import {getPost} from '@/services/wikiServices';
-import { WikiPost } from '@/interfaces/WikiSchemas';
+import { WikiPostSchema} from '@/interfaces/WikiSchemas';
 
 interface WikiParams {
     params : Promise<{
@@ -13,7 +13,7 @@ interface WikiParams {
 
 export default function WikiPostPage({params} : WikiParams) {
     const {slug} = Rct.use(params);
-    const [data,setData] = Rct.useState<WikiPost | undefined>();
+    const [data,setData] = Rct.useState<WikiPostSchema | undefined>();
     Rct.useEffect(() => {
         const fetchData = async () => {
             const response = await getPost(slug);
@@ -30,6 +30,7 @@ export default function WikiPostPage({params} : WikiParams) {
                 author={data.author_name}
                 topic_id={data.topic_id}
             />
+            <h1>{JSON.stringify(data.body)}</h1>
         </div>
     );
 }

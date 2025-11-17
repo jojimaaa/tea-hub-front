@@ -1,4 +1,4 @@
-import { WikiPostSchema, WikiTopicSchema } from "@/interfaces/WikiSchemas"
+import { WikiPostSchema, WikiTopicSchema, WikiTopic } from "@/interfaces/WikiSchemas"
 import axios, { AxiosRequestConfig } from "axios"
 
 const api = axios.create({
@@ -38,10 +38,6 @@ export async function getTopicList() : Promise<WikiTopicSchema[]> {
         }
     ]);
 }
-
-<<<<<<< HEAD
-export async function getPost(id : string) : Promise<WikiPostSchema | undefined> {
-=======
 export async function getTopic(id:string) : Promise<WikiTopic|undefined> {
     await sleep(300);
     if(id == "topico1") return ({
@@ -50,8 +46,7 @@ export async function getTopic(id:string) : Promise<WikiTopic|undefined> {
     });
 }
 
-export async function getPost(id : string) : Promise<WikiPost | undefined> {
->>>>>>> 3ac5d51 (feat: fazendo pag de post)
+export async function getPost(id : string) : Promise<WikiPostSchema | undefined> {
     await sleep(300);
 
     if (id == "teste1") return ({
