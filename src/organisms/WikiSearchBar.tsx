@@ -77,7 +77,7 @@ const WikiSearchBar = ({placeholder, value, searchForm}:WikiSearchBarProps) => {
                                     key={row.id}
                                 >
                                     <h1>{row.title}</h1>
-                                    <h1>{row.topic_id}</h1>
+                                    <h1>{row.topic.name}</h1>
                                     <h1>{row.author_name}</h1>
                                     <h1>{new Date(row.created_date).toLocaleString()}</h1>
                                 </StyledRowContainer>
@@ -113,7 +113,7 @@ const StyledRowContainer = styled.div`
 const StyledRelativeContainer = styled.div`
     position: relative;
     width: 100%;
-    border: 1px solid var(--primary-foreground);
+    /* border: 1px solid var(--primary-foreground); */
 `;
 
 const DropdownContainer = styled.div`

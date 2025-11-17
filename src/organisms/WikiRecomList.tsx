@@ -40,7 +40,7 @@ const WikiRecomList = () => {
                     />
                     <WikiRecomTxt
                         title={recom[current].title}
-                        topic={recom[current].topic_id}
+                        topic={recom[current].topic.name}
                         author={recom[current].author_name}
                         body={recom[current].body}
                         date={recom[current].created_date.toString()}
