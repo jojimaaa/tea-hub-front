@@ -4,7 +4,7 @@ export interface WikiPostSchema {
     body : string | JSON,
     author_name : string,
     created_date : Date | string,
-    topic_id : string,
+    topic : WikiTopic,
     imageUrl: string
 };
 
@@ -15,4 +15,9 @@ export interface WikiTopicSchema {
 
 export interface WikiSearchTitle {
     title: string,
+}
+
+export interface WikiTopic {
+    id:string,
+    name:string
 }

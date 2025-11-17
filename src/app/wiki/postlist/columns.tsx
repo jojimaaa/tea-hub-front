@@ -1,5 +1,5 @@
 import WikiTitleLineButton from "@/atoms/TitleLineButton";
-import { WikiPostSchema } from "@/interfaces/WikiSchemas";
+import { WikiPostSchema, WikiTopic } from "@/interfaces/WikiSchemas";
 import { getTopicList } from "@/services/wikiServices";
 import { ColumnDef } from "@tanstack/react-table";
 import styled from "styled-components";
@@ -29,12 +29,12 @@ export const columns: ColumnDef<WikiPostSchema>[] = [
         accessorKey: "topic_id",
         header: "Tópico",
         cell: ({row}) => {
-            const topic_id = row.getValue("topic_id");
-            if(topics && topics.filter((e) => e.id == topic_id)[0]){
+            const topic = row.original.topic;
+            if(topics && topics.filter((e) => e.id == topic?.id)[0]){
                 return (
                 <StyledCell>
                     <StyledText>
-                        {topics.filter((e) => e.id == topic_id)[0].name}
+                        {topics.filter((e) => e.id == topic?.id)[0].name}
                     </StyledText>
                 </StyledCell>)
             }
