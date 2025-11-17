@@ -28,7 +28,7 @@ export default function WikiPostPage({params} : WikiParams) {
             <MolNomesWiki 
                 title={data.title}
                 author={data.author_name}
-                topic_id={data.topic_id}
+                topic_id={data.topic.id}
             />
             <h1>{JSON.stringify(data.body)}</h1>
         </div>
