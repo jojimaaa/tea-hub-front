@@ -24,6 +24,8 @@ const Button = styled.button`
     font-family: var(--font-montserrat);
     font-size: 15px;
     height: 100%;
+    justify-content: center;
+    align-items: center;
     &:hover {
         text-decoration: underline;
         cursor: pointer;

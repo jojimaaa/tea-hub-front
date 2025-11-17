@@ -16,3 +16,8 @@ export interface WikiTopicSchema {
 export interface WikiSearchTitle {
     title: string,
 }
+
+export interface WikiTopic {
+    id:string,
+    name:string
+}

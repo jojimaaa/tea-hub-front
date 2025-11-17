@@ -2,9 +2,10 @@ import styled from 'styled-components';
 import '../app/globals.css'
 import { UseFormRegister, UseFormSetValue } from "react-hook-form";
 
-interface FormTextInputProps{
+
+interface FormTextInputProps extends React.InputHTMLAttributes<HTMLInputElement>{
     placeHolder: string;
-    register: UseFormRegister<any>;
+    register?: UseFormRegister<any>;
     className?: string;
     value: string;
     setValue: UseFormSetValue<any>
@@ -12,12 +13,13 @@ interface FormTextInputProps{
 
 
 
-function FormTextInput({ placeHolder, register, className, value, setValue }: FormTextInputProps ){
+function FormTextInput({ placeHolder, register, className, value, setValue, ...props }: FormTextInputProps ){
     return (
-        <StyledInput className={className} 
-                {...register(value)}    
-                onChange={(e) => {setValue(value, e.target.value)}} 
+        <StyledInput className={className}
+                value = {value}  
+                onChange={(e) => {setValue('filter', e.target.value)}} 
                 placeholder={placeHolder}
+                {...props}
         ></StyledInput>
     );
 }
