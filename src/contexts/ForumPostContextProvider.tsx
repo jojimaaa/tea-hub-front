@@ -1,19 +1,17 @@
 "use client"
-
-
-import { useAsync, useAsyncFn } from "@/hooks/useAsync";
-import { CommentSchema, ForumPostSchema } from "@/interfaces/ForumSchemas";
+import { useAsync } from "@/hooks/useAsync";
+import { ForumCommentDTO, ForumDTO } from "@/interfaces/ForumSchemas";
 import { getForumPostById } from "@/services/forumServices";
-import { error } from "console";
-import { createContext, Dispatch, SetStateAction, useEffect, useMemo, useState } from "react"
+import { createContext, useEffect, useMemo, useState } from "react"
 
 export interface ForumPostContextType {
     loading: boolean,
     error: Error | undefined,
-    post: ForumPostSchema | undefined,
-    getReplies: (parentId: string) => CommentSchema[],
-    rootComments: CommentSchema[],
-    createLocalComment: (comment : CommentSchema) => void;
+    post: ForumDTO | undefined,
+    getReplies: (parentId: string) => ForumCommentDTO[],
+    rootComments: ForumCommentDTO[],
+    createLocalComment: (comment : ForumCommentDTO) => void;
+    deleteLocalComment: (comment_id : string) => void;
 }
 
 export const ForumPostContext = createContext<ForumPostContextType | undefined>(undefined);
@@ -22,11 +20,11 @@ export const ForumPostContextProvider = ({ children, slug }: { children: React.R
 
     const {loading, error, value : post } = useAsync(() => getForumPostById(slug), [slug]);
 
-    const [comments, setComments] = useState<CommentSchema[]>([]);
+    const [comments, setComments] = useState<ForumCommentDTO[]>([]);
 
     const commentsByParentId = useMemo(() => {
         if(!comments) return [];
-        const group : Record<string, CommentSchema[]> = {};
+        const group : Record<string, ForumCommentDTO[]> = {};
         comments.forEach(comment => {
             const parentKey = comment.parent_id ?? "root";
             group[parentKey] ||= [];
@@ -41,9 +39,15 @@ export const ForumPostContextProvider = ({ children, slug }: { children: React.R
         }
     }, [post?.comments])
 
-    const createLocalComment = (comment : CommentSchema) => {
+    const createLocalComment = (comment : ForumCommentDTO) => {
         setComments((prevComments) => {
             return [comment, ...prevComments];
+        });
+    }
+
+    const deleteLocalComment = (comment_id : string) => {
+        setComments((prevComments) => {
+            return prevComments.filter((e:ForumCommentDTO) => e.id != comment_id);
         });
     }
 
@@ -52,5 +56,5 @@ export const ForumPostContextProvider = ({ children, slug }: { children: React.R
         return commentsByParentId[parentId];
     }
 
-    return <ForumPostContext.Provider value={{loading, error, post, getReplies, rootComments : getReplies("root"), createLocalComment}}>{children}</ForumPostContext.Provider>
+    return <ForumPostContext.Provider value={{loading, error, post, getReplies, rootComments : getReplies("root"), createLocalComment, deleteLocalComment}}>{children}</ForumPostContext.Provider>
 }

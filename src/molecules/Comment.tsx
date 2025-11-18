@@ -1,58 +1,91 @@
 "use client"
 
-import { StyledSmallButtonRow, StyledIconButton } from "@/atoms/StyledAtoms";
+import { StyledSmallButtonRow, StyledIconButton, StyledErrorLabel } from "@/atoms/StyledAtoms";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import useForumPost from "@/hooks/useForumPost";
-import { CommentSchema, ForumNewCommentSchema } from "@/interfaces/ForumSchemas";
+import { ForumCommentDTO, CommentFormSchema } from "@/interfaces/ForumSchemas";
 import CommentList from "@/organisms/CommentList";
 import { formatMediumDate } from "@/utils/utils";
-import { Edit, Heart, Reply, Trash2 } from "lucide-react";
+import { Edit, Reply, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import CommentForm from "./CommentForm";
+import TextButtonForm from "./CommentForm";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import useAuth from "@/hooks/useAuth";
 import { useAsyncFn } from "@/hooks/useAsync";
-import { createComment } from "@/services/forumServices";
+import { createComment, deleteComment, editComment } from "@/services/forumServices";
+import LikeButton from "@/atoms/LikeButton";
 
 interface CommentProps {
-    comment: CommentSchema,
+    comment: ForumCommentDTO,
     className? : string
 }
 
-const replyFormSchema = z.object({
-        new_comment_body: z.string().min(1, "Uma mensagem é necessaria para criar uma resposta."),
+const commentFormSchema = z.object({
+        comment_body: z.string().min(1, "Uma mensagem é necessaria para criar uma resposta."),
 });
 
 const Comment = ({comment, className} : CommentProps) => {
 
     const {auth} = useAuth();
-    const {getReplies, post, createLocalComment} = useForumPost();
+    const {getReplies, post, createLocalComment, deleteLocalComment} = useForumPost();
+    const [body, setBody] = useState(comment.body);
     const [isReplying, setReplying] = useState<boolean>(false);
+    const [isEditing, setEditing] = useState<boolean>(false);
     const children = getReplies(comment.id);
-    const {loading : replyLoading, error : replyError, execute : createCommentExecute} = useAsyncFn(createComment);
+    const {loading : replyLoading, error : replyError, execute : replyCommentExecute} = useAsyncFn(createComment);
+    const {loading : editLoading, error : editError, execute : editCommentExecute} = useAsyncFn(editComment);
+    const {loading : deleteLoading, error : deleteError, execute : deleteCommentExecute} = useAsyncFn(deleteComment);
 
     const [childrenHidden, setChildrenHidden] = useState(false);
 
-    const replyForm = useForm<z.infer<typeof replyFormSchema>>({
-            resolver: zodResolver(replyFormSchema),
-            defaultValues: {new_comment_body: ""}
+    const replyForm = useForm<z.infer<typeof commentFormSchema>>({
+            resolver: zodResolver(commentFormSchema),
+            defaultValues: {comment_body: ""}
         });
+
+    const editForm = useForm<z.infer<typeof commentFormSchema>>({
+            resolver: zodResolver(commentFormSchema),
+            defaultValues: {comment_body: comment.body}
+    });
         
-        useEffect(() => {
-                replyForm.register("new_comment_body");
-        }, []);
+    useEffect(() => {
+            replyForm.register("comment_body");
+            editForm.register("comment_body");
+    }, []);
         
-        const onSubmit = async (values : ForumNewCommentSchema) => {
-            console.log(values);
-            let response : (CommentSchema | undefined);
-            if (post) response = await createCommentExecute(values.new_comment_body, comment.id, post?.id, auth.username);
-            if (response) createLocalComment(response);
-            replyForm.setValue("new_comment_body", "");
+    const onReply = async (values : CommentFormSchema) => {
+        console.log(values);
+        let response : (ForumCommentDTO | undefined);
+        if (post) response = await replyCommentExecute(values.comment_body, comment.id, post?.id, auth.username);
+        if (response) {
+            setReplying(false);
+            createLocalComment(response);
         }
+        replyForm.setValue("comment_body", "");
+
+    }
+
+    const onEdit = async (values : CommentFormSchema) => {
+        console.log(values);
+        let response : (ForumCommentDTO | undefined);
+        if (post) response = await editCommentExecute(values.comment_body, comment.id, auth.username);
+        if (response) {
+            console.log("deu bomm");
+            editForm.setValue("comment_body", response.body);
+            setBody(response.body);
+            setEditing(false);
+        }
+        else editForm.setValue("comment_body", comment.body);
+    }
+
+    const onDelete = async (comment_id : string) => {
+        const response = await deleteCommentExecute(comment_id);
+        if (response) deleteLocalComment(comment_id);
+    }
 
     return (
         <div className={className}>
@@ -61,22 +94,55 @@ const Comment = ({comment, className} : CommentProps) => {
                     <StyledNameLabel>{comment.user.name}</StyledNameLabel>
                     <StyledDateLabel>{formatMediumDate(comment.created_at)}</StyledDateLabel>
                 </StyledRow>
-                {comment.body}
+                {isEditing ? 
+                    <StyledCommentForm
+                        placeHolder={"Editar comentário."}
+                        autoFocus
+                        buttonText="Editar"
+                        loading={editLoading}
+                        fieldErrors={editForm.formState.errors}
+                        error={editError}
+                        register={editForm.register}
+                        value={"comment_body"}
+                        setValue={editForm.setValue}
+                        handleSubmit={editForm.handleSubmit(onEdit)}
+                    /> : 
+                    <StyledCommentBody>{body}</StyledCommentBody>
+                }
                 <StyledSmallButtonRow>
-                    <StyledIconButton aria-label="Like" size={"icon"}><Heart/></StyledIconButton>
-                    <StyledIconButton onClick={() => setReplying(prev => !prev)} size={"icon"} aria-label="Reply"><StyledReply $isReplying={isReplying}/></StyledIconButton>
-                    <StyledIconButton size={"icon"} aria-label="Edit"><Edit/></StyledIconButton>
-                    <StyledIconButton color={"var(--error-primary)"} size={"icon"} aria-label="delete"><Trash2/></StyledIconButton>
+                    <LikeButton 
+                        likeCount={comment.likeCount}
+                        likedByMe={comment.likedByMe}
+                    />
+                    {auth && auth.username &&<StyledIconButton onClick={() => setReplying(prev => !prev)} size={"icon"} aria-label="Reply">
+                        <StyledReply $isReplying={isReplying}/>
+                    </StyledIconButton>}
+                    {auth && auth.username && (auth.username == comment.user.username) &&<StyledIconButton onClick={() => setEditing(prev => !prev)} size={"icon"} aria-label="Edit">
+                        <StyledEdit $isEditing={isEditing}/>
+                    </StyledIconButton>}
+                    {auth && auth.username && (auth.username == comment.user.username) && 
+                        <StyledIconButton 
+                            onClick={() => onDelete(comment.id)}
+                            color={"var(--error-primary)"} 
+                            size={"icon"} 
+                            aria-label="delete"
+                        >
+                        <Trash2/>
+                    </StyledIconButton>}
                 </StyledSmallButtonRow>
+                {deleteError && <StyledErrorLabel>{deleteError.message}</StyledErrorLabel>}
             </StyledContainer>
-            {isReplying && <StyledCommentForm
+            {isReplying && auth && auth.username && <StyledCommentForm
+                                placeHolder={"Responder comentário."}
+                                buttonText="Responder"
+                                autoFocus
                                 loading={replyLoading}
                                 fieldErrors={replyForm.formState.errors}
                                 error={replyError}
                                 register={replyForm.register}
-                                value={"new_comment_body"}
+                                value={"comment_body"}
                                 setValue={replyForm.setValue}
-                                handleSubmit={replyForm.handleSubmit(onSubmit)}
+                                handleSubmit={replyForm.handleSubmit(onReply)}
                             />
             }
             {(children?.length > 0 && childrenHidden) && (<StyledExpandButton onClick={() => setChildrenHidden(false)}>Exibir respostas</StyledExpandButton>)}
@@ -137,6 +203,9 @@ const StyledExpandButton = styled(Button)`
 const StyledReply = styled(Reply)<{$isReplying : boolean}>`
     color: ${props => !props.$isReplying ? "var(--primary-foreground)" : "var(--secondary)"};
 `;
+const StyledEdit = styled(Edit)<{$isEditing : boolean}>`
+    color: ${props => !props.$isEditing ? "var(--primary-foreground)" : "var(--secondary)"};
+`;
 
 
 const StyledNameLabel = styled(Label)`
@@ -172,7 +241,7 @@ const StyledChildrenContainer = styled.div<{$childrenHidden: boolean}>`
     width: auto;
 
     & > div {
-        display: ${props => props.$childrenHidden ? "none" : "block"};
+        display: ${props => props.$childrenHidden ? "none" : "flex"};
         width: full;
     }
 `;
@@ -190,7 +259,11 @@ const StyledRow = styled.div`
     margin-bottom: 10px;
 `;
 
-const StyledCommentForm = styled(CommentForm)`
+const StyledCommentForm = styled(TextButtonForm)`
     height: 100%;
     margin-bottom: 10px;
+`;
+
+const StyledCommentBody = styled.div`
+    padding-inline: 10px;
 `;

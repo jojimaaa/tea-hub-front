@@ -1,27 +1,31 @@
 import FormTextArea from "@/atoms/FormTextArea";
 import { StyledErrorLabel } from "@/atoms/StyledAtoms";
 import { Button } from "@/components/ui/button";
-import { ForumNewCommentSchema } from "@/interfaces/ForumSchemas";
+import { CommentFormSchema } from "@/interfaces/ForumSchemas";
 import { FieldErrors, UseFormRegister, UseFormSetValue } from "react-hook-form";
 import styled from "styled-components";
 
-interface CommentFormProps {
+interface TextButtonFormProps {
     className? : string,
-    fieldErrors: FieldErrors<ForumNewCommentSchema>
+    fieldErrors: FieldErrors<CommentFormSchema>
+    placeHolder?: string,
+    initialvalue?: string,
     error?: Error,
     autoFocus?: boolean,
     loading: boolean,
+    buttonText: string,
     register: UseFormRegister<any>;
     value: string;
     setValue: UseFormSetValue<any>;
     handleSubmit: (e: any) => Promise<void>
 }
 
-const CommentForm = ({className, fieldErrors, error, autoFocus = false, loading, register, value, setValue, handleSubmit} : CommentFormProps) => {
+const TextButtonForm = ({className, fieldErrors, placeHolder, error, buttonText, autoFocus = false, loading, register, value, setValue, handleSubmit} : TextButtonFormProps) => {
     return (
         <StyledContainer className={className}>
             <StyledRow>
                 <StyledInput 
+                    placeHolder={placeHolder}
                     register={register}
                     value={value}
                     setValue={setValue}
@@ -33,16 +37,16 @@ const CommentForm = ({className, fieldErrors, error, autoFocus = false, loading,
                     }}
                     $loading={loading}
                 >
-                    {loading ? "Carregando" : "Comentar"}
+                    {loading ? "Carregando" : buttonText}
                 </StyledButton>
             </StyledRow>
             {error && <StyledErrorLabel>{error.message}</StyledErrorLabel>}
-            {fieldErrors && <StyledErrorLabel>{fieldErrors.new_comment_body?.message}</StyledErrorLabel>}
+            {fieldErrors && <StyledErrorLabel>{fieldErrors.comment_body?.message}</StyledErrorLabel>}
         </StyledContainer>
     );
 }
 
-export default CommentForm;
+export default TextButtonForm;
 
 const StyledContainer = styled.div`
     display: flex;
@@ -54,7 +58,8 @@ const StyledRow = styled.div`
     display: flex;
     flex-direction: row;
     gap: 10px;
-    align-items: center;
+    /* align-items: center; */
+    align-items: stretch;
 `;
 
 const StyledButton = styled(Button)<{$loading : boolean}>`
@@ -62,7 +67,7 @@ const StyledButton = styled(Button)<{$loading : boolean}>`
     color: var(--primary);
     font-family: var(--font-montserrat);
     border-radius: 10px;
-    height: 100%;
+    height: auto;
     opacity: ${props => props.$loading ? "20%" : "100%"}
 `;
 

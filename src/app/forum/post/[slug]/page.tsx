@@ -1,21 +1,20 @@
 "use client"
-import { StyledIconButton, StyledMediumButtonRow } from '@/atoms/StyledAtoms';
+import { StyledIconButton, StyledMarkdownBody, StyledMediumButtonRow } from '@/atoms/StyledAtoms';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import { useAsyncFn } from '@/hooks/useAsync';
 import useAuth from '@/hooks/useAuth';
 import useForumPost from '@/hooks/useForumPost';
-import { CommentSchema, ForumNewCommentSchema } from '@/interfaces/ForumSchemas';
-import CommentForm from '@/molecules/CommentForm';
-import MarkdownRenderer from '@/molecules/MarkdownRenderer';
+import { ForumCommentDTO, CommentFormSchema } from '@/interfaces/ForumSchemas';
+import TextButtonForm from '@/molecules/CommentForm';
 import CommentList from '@/organisms/CommentList';
 import { createComment } from '@/services/forumServices';
 import { formatMediumDate } from '@/utils/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Edit, Heart, Reply, Trash2 } from 'lucide-react';
+import { Edit, Heart, Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import z from 'zod';
@@ -26,10 +25,10 @@ interface ForumPostParams {
     }>
 }
 const commentFormSchema = z.object({
-        new_comment_body: z.string().min(1, "Uma mensagem é necessaria para criar um comentário."),
+        comment_body: z.string().min(1, "Uma mensagem é necessaria para criar um comentário."),
 });
 
-export default function WikiPost({params} : ForumPostParams) {
+export default function Forum({params} : ForumPostParams) {
     const router = useRouter();
     const {auth} = useAuth();
     const {loading, error, post, getReplies, rootComments, createLocalComment} = useForumPost();
@@ -38,19 +37,19 @@ export default function WikiPost({params} : ForumPostParams) {
 
     const commentForm = useForm<z.infer<typeof commentFormSchema>>({
         resolver: zodResolver(commentFormSchema),
-        defaultValues: {new_comment_body: ""}
+        defaultValues: {comment_body: ""}
     });
     
     useEffect(() => {
-            commentForm.register("new_comment_body");
+            commentForm.register("comment_body");
     }, []);
     
-    const onSubmit = async (values : ForumNewCommentSchema) => {
+    const onComment = async (values : CommentFormSchema) => {
         console.log(values);
-        let response : (CommentSchema | undefined);
-        if (post) response = await createCommentExecute(values.new_comment_body, "root", post?.id, auth.username);
+        let response : (ForumCommentDTO | undefined);
+        if (post) response = await createCommentExecute(values.comment_body, "root", post?.id, auth.username);
         if (response) createLocalComment(response);
-        commentForm.setValue("new_comment_body", "");
+        commentForm.setValue("comment_body", "");
     }
 
     if(!params) return <>NOT FOUND!</>
@@ -69,6 +68,7 @@ export default function WikiPost({params} : ForumPostParams) {
     </StyledNotFoundContainer>)
 
     return (
+   
         <StyledContainer>
             <StyledLabel>{post?.title}</StyledLabel>
             <StyledGrid>
@@ -77,7 +77,7 @@ export default function WikiPost({params} : ForumPostParams) {
             </StyledGrid>
             <StyledTopicLabel>{post.topic.name}</StyledTopicLabel>
             {/* <StyledBody>{post.body}</StyledBody> */}
-            <MarkdownRenderer markdownContent={post.body}/>
+            <StyledMarkdownBody markdownContent={post.body}/>
             <StyledMediumButtonRow>
                 <StyledIconButton aria-label="Like" size={"icon"}><Heart/></StyledIconButton>
                 <StyledIconButton size={"icon"} aria-label="Edit"><Edit/></StyledIconButton>
@@ -85,13 +85,15 @@ export default function WikiPost({params} : ForumPostParams) {
             </StyledMediumButtonRow>
             <StyledCommentLabel>Comentários</StyledCommentLabel>
             {auth && auth.username && <StyledCommentForm
+                placeHolder={"Escreva seus pensamentos."}
                 loading={commentLoading}
+                buttonText='Comentar'
                 fieldErrors={commentForm.formState.errors}
                 error={commentError}
                 register={commentForm.register}
-                value={"new_comment_body"}
+                value={"comment_body"}
                 setValue={commentForm.setValue}
-                handleSubmit={commentForm.handleSubmit(onSubmit)}
+                handleSubmit={commentForm.handleSubmit(onComment)}
             />}
             {rootComments && rootComments.length > 1 && (<CommentList comments={rootComments}/>)}
         </StyledContainer>
@@ -195,6 +197,6 @@ const BackButton = styled(Button)`
     width: 30%;
 `;
 
-const StyledCommentForm = styled(CommentForm)`  
+const StyledCommentForm = styled(TextButtonForm)`  
     margin-bottom: 10px;
 `
