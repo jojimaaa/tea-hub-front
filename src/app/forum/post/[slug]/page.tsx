@@ -82,7 +82,6 @@ export default function Forum({params} : ForumPostParams) {
     }, [post])
     
     const onComment = async (values : ICommentForm) => {
-        console.log(values);
         let response : (ForumCommentDTO | undefined);
         if (post) response = await createCommentExecute(values.comment_body, "root", post?.id, auth.username);
         if (response) {
@@ -92,7 +91,6 @@ export default function Forum({params} : ForumPostParams) {
     }
     
     const onEditPost = async (values : IEditPostForm) => {
-        console.log(values);
         let response : (ForumPostDTO | undefined);
         if (post) response = await editForumPostExecute(values.body, post.id, auth.username);
         if (response) {
@@ -175,8 +173,9 @@ export default function Forum({params} : ForumPostParams) {
             <StyledMediumButtonRow>
                 <LikeButton
                     likeCount={localLikeCount}
+                    disabled={!(auth && !!auth.username)}
                     likedByMe={auth && !!auth.username && localLikedByMe}
-                    onClick={onLike}
+                    onClick={(auth && !!auth.username) ? onLike : () => undefined}
                 />
                 {auth && auth.username && (auth.username == post.user.username) &&
                     <StyledIconButton onClick={() => setEditing(prev => !prev)} size={"icon"} aria-label="Edit">

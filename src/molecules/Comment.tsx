@@ -38,8 +38,8 @@ const Comment = ({comment, className} : CommentProps) => {
     const children = getReplies(comment.id);
     const {loading : replyLoading, error : replyError, execute : replyCommentExecute} = useAsyncFn(createComment);
     const {loading : editLoading, error : editError, execute : editCommentExecute} = useAsyncFn(editComment);
-    const {loading : deleteLoading, error : deleteError, execute : deleteCommentExecute} = useAsyncFn(deleteComment);
-    const {loading : likeLoading, error : likeError, execute : toggleLikeCommentExecute} = useAsyncFn(toggleCommentLike);
+    const {error : deleteError, execute : deleteCommentExecute} = useAsyncFn(deleteComment);
+    const {execute : toggleLikeCommentExecute} = useAsyncFn(toggleCommentLike);
 
     const [childrenHidden, setChildrenHidden] = useState(false);
 
@@ -79,7 +79,6 @@ const Comment = ({comment, className} : CommentProps) => {
         let response : (ForumCommentDTO | undefined);
         if (post) response = await editCommentExecute(values.comment_body, comment.id, auth.username);
         if (response) {
-            console.log("deu bomm");
             editForm.setValue("comment_body", response.body);
             setBody(response.body);
             editLocalComment(response);
@@ -117,9 +116,10 @@ const Comment = ({comment, className} : CommentProps) => {
                 }
                 <StyledSmallButtonRow>
                     <LikeButton 
-                        onClick={onLike}
+                        onClick={(auth && !!auth.username) ? onLike : undefined}
+                        disabled={!(auth && !!auth.username)}
                         likeCount={comment.likeCount}
-                        likedByMe={comment.likedByMe}
+                        likedByMe={comment.likedByMe && auth && !!auth.username}
                     />
                     {auth && auth.username &&<StyledIconButton onClick={() => setReplying(prev => !prev)} size={"icon"} aria-label="Reply">
                         <StyledReply $isReplying={isReplying}/>
@@ -156,11 +156,7 @@ const Comment = ({comment, className} : CommentProps) => {
             {children?.length > 0 && (
                 <StyledNestedContainer>
                     <StyledChildrenContainer $childrenHidden={childrenHidden}>
-                        <ClickableBar onClick={() => {
-                            setChildrenHidden(true)
-                            console.log("ta trued");
-                            console.log(childrenHidden);
-                            }} />
+                        <ClickableBar onClick={() => setChildrenHidden(true)} />
                         <StyledCommentListContainer>
                             <CommentList comments={children} />
                         </StyledCommentListContainer>
@@ -266,6 +262,3 @@ const StyledCommentForm = styled(TextButtonForm)`
     margin-bottom: 10px;
 `;
 
-const StyledCommentBody = styled.div`
-    padding-inline: 10px;
-`;
