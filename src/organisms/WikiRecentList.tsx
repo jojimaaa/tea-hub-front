@@ -2,7 +2,7 @@
 
 import { WikiPostSchema } from "@/interfaces/WikiSchemas";
 import WikiPostCard from "@/molecules/WikiPostCard"
-import { getRecent, getRecommended } from "@/services/wikiServices";
+import { getRecent } from "@/services/wikiServices";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
@@ -15,7 +15,6 @@ const WikiRecentList = () => {
             const fetchRecent = async () => {
                 const response = await getRecent();
                 if (response) setRecent(response);
-                console.log(response);
             }   
             fetchRecent();
         },[]
@@ -29,7 +28,7 @@ const WikiRecentList = () => {
 
             <StyledListContainer>
                 {(recent.length != 0) && 
-                    recent.map((post) => <WikiPostCard post={post}/>)
+                    recent.map((post) => <WikiPostCard key={post.id} post={post}/>)
                 }
             </StyledListContainer>
         </StyledContainer>
@@ -53,7 +52,7 @@ const StyledListContainer = styled.div`
 `;
 
 const StyledLabel = styled.text`
-    font-family: var(--font-login-text);
+    font-family: var(--font-montserrat);
     font-size: 30px;
     width: 100%;
 `;

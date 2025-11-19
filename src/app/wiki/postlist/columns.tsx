@@ -75,10 +75,10 @@ const StyledCell = styled.div`
 
 const StyledText = styled.text`
     color: var(--primary-foreground);
-    font-family: var(--font-text);
+    font-family: var(--font-arial);
 `;
 
 const StyledLineButton = styled(WikiTitleLineButton)`
     color: var(--primary-foreground);
-    font-family: var(--font-text);
+    font-family: var(--font-arial);
 `;

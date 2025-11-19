@@ -1,0 +1,94 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model ForumTopic {
+    id String @id @default(uuid())
+    name String @db.VarChar(250)
+    
+    forum_posts ForumPost[]
+	@@map("tb_forum_topics")
+}
+
+model ForumPost {
+    id String @id @default(uuid())
+    title String @db.VarChar(255)
+    body String
+    topic_id String
+    user_id String
+    
+    comments Comment[]
+    topic ForumTopic @relation(fields: [topic_id], references: [id])
+    user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+	@@map("tb_forum_posts")
+    postLikes PostLike[]
+}
+
+model Comment {
+    id String @id @default(uuid())
+    body String
+    created_at DateTime @default(now())
+    user_id String
+    post_id String
+    parent_id String?
+    
+    post ForumPost @relation(fields: [post_id], references: [id], onDelete: Cascade)
+    children Comment[] @relation("ParentChild")
+    parent Comment? @relation("ParentChild", fields: [parent_id], references: [id], onDelete: Cascade)
+    user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+    likes CommentLike[]
+
+	@@map("tb_comments")
+}
+
+model User {
+    id String @id @default(uuid())
+    name String @db.VarChar(70)
+    username String @db.VarChar(50)
+    email String
+    fl_admin Boolean @default(false)
+    password_hash String
+
+    comments Comment[]
+    forum_posts ForumPost[]
+    likes CommentLike[]
+
+	@@map("tb_users")
+    postLikes PostLike[]
+}
+
+model CommentLike {
+    user_id String
+    comment_id String
+
+    user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+    comment Comment @relation(fields: [comment_id], references: [id], onDelete: Cascade)
+    
+    @@id([user_id, comment_id])
+	
+    @@map("tb_comment_likes")
+}
+
+model PostLike {
+    user_id String
+    post_id String
+
+    user User @relation(fields: [user_id], references: [id])
+    post ForumPost @relation(fields: [post_id], references: [id])
+
+    @@id([user_id, post_id])
+	
+    @@map("tb_post_likes")
+}

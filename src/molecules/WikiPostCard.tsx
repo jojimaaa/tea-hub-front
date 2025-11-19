@@ -37,7 +37,7 @@ const StyledCard = styled.div`
 `;
 
 const TitleLabel = styled.text`
-    font-family: var(--font-wiki-title);
+    font-family: var(--font-lexend-exa);
     font-weight: 200;
     font-size: 21px;
     border-width: 0px 0px 1px 0px;
@@ -55,7 +55,7 @@ const TitleLabel = styled.text`
 `;
 
 const StyledText = styled.text`
-    font-family: var(--font-text);
+    font-family: var(--font-arial);
     font-weight: 300;
     font-size: 15px;
 
@@ -66,7 +66,7 @@ const StyledText = styled.text`
 `;
 
 const StyledAuthorLabel = styled.text`
-    font-family: var(--font-text);
+    font-family: var(--font-arial);
     font-weight: 300;
     font-size: 15px;
     margin-bottom: 10px;

@@ -15,7 +15,6 @@ const WikiRecomList = () => {
             const fetchRecom = async () => {
                 const response = await getRecommended();
                 if (response) setRecom(response);
-                console.log(response);
             }   
             fetchRecom();
         },[]
@@ -29,7 +28,7 @@ const WikiRecomList = () => {
 
             <StyledListContainer>
                 {(recom.length != 0) && 
-                    recom.map((post) => <WikiPostCard post={post}/>)
+                    recom.map((post) => <WikiPostCard key={post.id} post={post}/>)
                 }
             </StyledListContainer>
         </StyledContainer>
@@ -54,7 +53,7 @@ const StyledListContainer = styled.div`
 `;
 
 const StyledLabel = styled.text`
-    font-family: var(--font-login-text);
+    font-family: var(--font-montserrat);
     font-size: 30px;
     width: 100%;
 `;

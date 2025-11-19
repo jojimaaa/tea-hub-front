@@ -7,6 +7,10 @@ import styled from "styled-components"
 import FormInput from '@/molecules/FormInput'
 import { useEffect } from 'react'
 import { Label } from '@/components/ui/label'
+import { register } from '@/services/authServices'
+import { toast } from 'sonner'
+import { AxiosError } from 'axios'
+import { AuthMissCredentials } from '@/interfaces/AuthSchemas'
 
 interface OrgRegistroProps{
     className?: string;
@@ -34,27 +38,26 @@ function OrgRegistro({className}:OrgRegistroProps){
         form.register("name");
     }, []);
 
+    const errorToast403 = (error : AxiosError<AuthMissCredentials>) => toast.error(`Erro ao criar conta: ${error.response?.data.detail}`);
+
     const onSubmit = async (values: z.infer<typeof formReg>) => {
-        console.log(values);
         try {
-          const response = await fetch("http://127.0.0.1:8000/register", {
-            method: "POST", 
-            headers: {
-              "Content-Type": "application/json", 
-            },
-            body: JSON.stringify(values), 
-          });
+            const response = await register(values);
 
-          if (!response.ok) {
-            throw new Error("Algo deu errado!");
-          }
-
-          const data = await response.json(); 
-            console.log("Sucesso:", data);
-          } catch (error) {
-            console.error("Erro:", error);
-          }
+            if (response.status == 403) {
+                throw new Error(`username ou email já registrados`);
+            }
+            if (response.status != 200) {
+                throw new Error(`${response.statusText}`);
+            }
+            toast.success("Conta criada com sucesso, faça login para entrar!");
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                errorToast403(error);
+            }
+            else toast.error(`Erro ao criar conta: ${error}`);
         }
+    }
     
 
     return(
@@ -65,7 +68,7 @@ function OrgRegistro({className}:OrgRegistroProps){
                     <StyledInput register={form.register} setValue={form.setValue} label='Email' value="email"/>
                     {form.formState.errors && <StyledErrorLabel>{form.formState.errors.email?.message}</StyledErrorLabel>}
 
-                    <StyledInput register={form.register} setValue={form.setValue} label='Nome'  value="nome"/>
+                    <StyledInput register={form.register} setValue={form.setValue} label='Nome'  value="name"/>
                     <StyledInput  register={form.register} setValue={form.setValue} label='Username'  value="username"/>
                     {form.formState.errors && <StyledErrorLabel>{form.formState.errors.username?.message}</StyledErrorLabel>}
                     <StyledInput  register={form.register} setValue={form.setValue} label='Senha' value="password"/>
@@ -120,7 +123,7 @@ const LogoHeader = styled.h1`
 
 const StyledErrorLabel = styled(Label)`
     color: var(--primary-foreground);
-    font-family: var(--font-login-text)
+    font-family: var(--font-montserrat)
 `;
 
 const EntrarButton = styled(AtminputBotao)`

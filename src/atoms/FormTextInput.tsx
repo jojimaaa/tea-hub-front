@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import '../app/globals.css'
 import { UseFormRegister, UseFormSetValue } from "react-hook-form";
 
-interface TextInputProps{
+interface FormTextInputProps{
     placeHolder: string;
     register: UseFormRegister<any>;
     className?: string;
@@ -12,7 +12,7 @@ interface TextInputProps{
 
 
 
-function TextInput({ placeHolder, register, className, value, setValue }: TextInputProps ){
+function FormTextInput({ placeHolder, register, className, value, setValue }: FormTextInputProps ){
     return (
         <StyledInput className={className} 
                 {...register(value)}    
@@ -22,7 +22,7 @@ function TextInput({ placeHolder, register, className, value, setValue }: TextIn
     );
 }
 
-export default TextInput
+export default FormTextInput
 
 const StyledInput = styled.input`
     border-style: var(--tw-border-style);

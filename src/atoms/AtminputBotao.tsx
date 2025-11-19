@@ -24,7 +24,7 @@ const StyledButton = styled(Button)`
     border-radius: 4px;
     background-color: var(--primary-foreground);
     color: white;
-    font-family: var(--font-login-text);
+    font-family: var(--font-montserrat);
     font-size: 18px;
     height: 10%;
     cursor: pointer;

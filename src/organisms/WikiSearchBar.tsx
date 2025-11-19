@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import z from "zod";
 import { WikiSearchTitle } from "@/interfaces/WikiSchemas";
 import { useForm } from "react-hook-form"
-import TextInput from "@/atoms/TextInput";
+import FormTextInput from "@/atoms/FormTextInput";
 
 
 
@@ -47,7 +47,7 @@ export default WikiSearchBar;
 
 const StyledContainer = styled.div``;
 
-const StyledFormInput = styled(TextInput)`
+const StyledFormInput = styled(FormTextInput)`
     width: 100%;
     margin-right: 20px;
 `;
@@ -59,13 +59,13 @@ const Form = styled.form`
 `;
 
 const Label = styled.h1`
-    font-family: var(--font-login-text);
+    font-family: var(--font-montserrat);
     font-size: 18px;
 `;
 
 const StyledButton = styled(Button)`
     background-color: var(--primary-foreground);
     color: var(--primary);
-    font-family: var(--font-login-text);
+    font-family: var(--font-montserrat);
     border-radius: 5px;
 `;

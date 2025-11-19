@@ -22,7 +22,7 @@ export default LineButton;
 const Button = styled.text`
     height: 50%;
     cursor: pointer;
-    font-family: var(--font-login-text);
+    font-family: var(--font-montserrat);
     font-size: 15px;
     height: 100%;
     &:hover {
@@ -37,7 +37,7 @@ const Button = styled.text`
 // `;
 
 // const Label = styled.h1`
-//     font-family: var(--font-login-text);
+//     font-family: var(--font-montserrat);
 //     font-size: 15px;
 //     height: 100%;
 //     &:hover {
