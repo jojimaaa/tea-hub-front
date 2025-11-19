@@ -41,7 +41,6 @@ function OrgRegistro({className}:OrgRegistroProps){
     const errorToast403 = (error : AxiosError<AuthMissCredentials>) => toast.error(`Erro ao criar conta: ${error.response?.data.detail}`);
 
     const onSubmit = async (values: z.infer<typeof formReg>) => {
-        console.log(values);
         try {
             const response = await register(values);
 
@@ -51,14 +50,12 @@ function OrgRegistro({className}:OrgRegistroProps){
             if (response.status != 200) {
                 throw new Error(`${response.statusText}`);
             }
-            console.log("Usuário criado");
             toast.success("Conta criada com sucesso, faça login para entrar!");
         } catch (error) {
             if (error instanceof AxiosError) {
                 errorToast403(error);
             }
             else toast.error(`Erro ao criar conta: ${error}`);
-            console.log(error)
         }
     }
     

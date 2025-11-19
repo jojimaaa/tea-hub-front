@@ -15,7 +15,6 @@ const WikiRecomList = () => {
             const fetchRecom = async () => {
                 const response = await getRecommended();
                 if (response) setRecom(response);
-                console.log(response);
             }   
             fetchRecom();
         },[]

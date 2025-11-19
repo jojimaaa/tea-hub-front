@@ -31,9 +31,6 @@ const responseIntercept = apiPrivate.interceptors.response.use(
 
 
 export async function login(data : LoginRequest) : Promise<AxiosResponse<LoginResponse>> {
-    console.log("login");
-    console.log(data);
-    
     const config : AxiosRequestConfig = {
         method: "POST",
         url: "/login",
@@ -47,8 +44,6 @@ export async function login(data : LoginRequest) : Promise<AxiosResponse<LoginRe
 }
 
 export async function register(data : RegisterRequest) : Promise<AxiosResponse<RegisterResponse>> {
-    console.log(data);
-
     const config : AxiosRequestConfig = {
         method: "POST",
         url: "/register",
@@ -99,9 +94,7 @@ export const refreshToken = async () : Promise<AxiosResponse<RefreshResponse>> =
 
 export const refresh = async () => {
     const response = await refreshToken();
-    console.log(response);
     if (response.status == 200) {
-        console.log(response.data.access_token)
         document.cookie = `access-token=${response.data.access_token}; path=/; max-age=86400;`;
         return response.data.access_token;
     }
@@ -124,9 +117,7 @@ export const refreshPrivateToken = async () : Promise<AxiosResponse<RefreshRespo
 
 export const private_refresh = async () => {
     const response = await refreshPrivateToken();
-    console.log(response);
     if (response.status == 200) {
-        console.log(response.data.access_token)
         document.cookie = `access-token=${response.data.access_token}; path=/; max-age=86400;`;
         return response.data.access_token;
     }

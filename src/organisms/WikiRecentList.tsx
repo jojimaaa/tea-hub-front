@@ -15,7 +15,6 @@ const WikiRecentList = () => {
             const fetchRecent = async () => {
                 const response = await getRecent();
                 if (response) setRecent(response);
-                console.log(response);
             }   
             fetchRecent();
         },[]

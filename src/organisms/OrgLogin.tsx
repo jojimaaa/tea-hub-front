@@ -34,8 +34,6 @@ function OrgLogin({className, increment, decrement}:OrgLoginProps){
         setError("");
         try {
             const response = await login(values);
-
-            console.log(response);
             if (response.status == 200) {
                 if (!response.data.access_token || !response.data.token_type) {
                     setError("Falha no login, tente novamente.");
