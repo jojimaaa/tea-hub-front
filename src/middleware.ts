@@ -2,21 +2,17 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 export function middleware(request: NextRequest) {
-  // 1. Tenta pegar o token do cookie
-  const token = request.cookies.get('access-token')?.value;
-  const { pathname } = request.nextUrl;
 
-  // 2. Se não houver token E o usuário tentar acessar uma rota protegida
-  if (!token && pathname.startsWith('/wiki')) {
-    // 3. Redireciona para /login, guardando a URL que ele tentou acessar
-    const loginUrl = new URL('/login', request.url);
-    loginUrl.searchParams.set('from', pathname); // Passa a URL de origem
-    
-    return NextResponse.redirect(loginUrl);
-}
+    const token = request.cookies.get('access-token')?.value;
+    const { pathname } = request.nextUrl;
 
-// Se tiver token ou for uma rota pública, deixa continuar
-  return NextResponse.next();
+    if (!token && pathname.startsWith('/wiki')) {
+            const loginUrl = new URL('/login', request.url);
+            loginUrl.searchParams.set('from', pathname);
+            
+            return NextResponse.redirect(loginUrl);
+        }
+    return NextResponse.next();
 }
 
 // 4. Configuração do Matcher (IMPORTANTE)

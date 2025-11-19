@@ -1,7 +1,6 @@
 import MolTxtImg from "../molecules/MolTxtImg"
 import '../app/globals.css'
 import quebra2 from "../assets/quebra2.jpg"
-import voltar from "../assets/voltar.png"
 import styled from "styled-components";
 import { ArrowBackIcon } from "@/components/ui/icons/akar-icons-arrow-back";
 

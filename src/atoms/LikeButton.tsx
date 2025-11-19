@@ -1,7 +1,7 @@
 import { Heart } from "lucide-react";
 import styled from "styled-components";
 import { StyledIconButton } from "./StyledAtoms";
-import { MouseEventHandler } from "react";
+
 
 export interface LikeButtonProps {
     likedByMe: boolean,

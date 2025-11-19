@@ -7,7 +7,7 @@ import useForumPost from "@/hooks/useForumPost";
 import { ForumCommentDTO, ICommentForm } from "@/interfaces/ForumSchemas";
 import CommentList from "@/organisms/CommentList";
 import { formatMediumDate } from "@/utils/utils";
-import { Edit, Reply, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import TextButtonForm from "./CommentForm";
@@ -59,7 +59,6 @@ const Comment = ({comment, className} : CommentProps) => {
     }, []);
         
     const onReply = async (values : ICommentForm) => {
-        console.log(values);
         let response : (ForumCommentDTO | undefined);
         if (post) response = await replyCommentExecute(values.comment_body, comment.id, post?.id, auth.username);
         if (response) {
@@ -75,7 +74,6 @@ const Comment = ({comment, className} : CommentProps) => {
     }
 
     const onEdit = async (values : ICommentForm) => {
-        console.log(values);
         let response : (ForumCommentDTO | undefined);
         if (post) response = await editCommentExecute(values.comment_body, comment.id, auth.username);
         if (response) {

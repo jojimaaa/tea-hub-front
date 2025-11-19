@@ -1,20 +1,10 @@
 "use client"
-import useAuth from "@/hooks/useAuth";
 import { private_refresh } from "@/services/authServices";
-import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from "remark-gfm";
-import html from 'remark-html';
-// import { remark } from 'remark';
-import { useEffect } from "react";
 import styled from "styled-components";
-import Markdown from "react-markdown";
-import MarkdownRenderer from "@/molecules/MarkdownRenderer";
 import { StyledMarkdownBody } from "@/atoms/StyledAtoms";
 
 export default function Home() {
-    const {auth} = useAuth();
     const router = useRouter();
     const pathname = usePathname();
 
@@ -38,9 +28,6 @@ export default function Home() {
             <button onClick={reloginTest}>refresh private</button>
         </Container>
     );
-}
-function remark() {
-    throw new Error("Function not implemented.");
 }
 
 const Container = styled.div`

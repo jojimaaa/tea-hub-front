@@ -2,7 +2,6 @@
 
 import { ForumPostContextProvider } from "@/contexts/ForumPostContextProvider";
 import { use } from "react";
-import styled from "styled-components";
 
 interface ForumPostLayoutParams {
     params : Promise<{

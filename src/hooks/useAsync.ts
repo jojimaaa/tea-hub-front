@@ -1,21 +1,16 @@
 import { useState, useCallback, useEffect } from "react";
 import type { DependencyList } from "react";
 
-// --- Tipos de Retorno ---
-
-// Estado retornado por useAsync (sem a função execute)
 export interface AsyncState<T> {
   loading: boolean;
   error?: Error;
   value?: T;
 }
 
-// Estado retornado por useAsyncFn (com a função execute)
 export interface AsyncFnState<T, P extends any[]> extends AsyncState<T> {
   execute: (...params: P) => Promise<T>;
 }
 
-// --- Hook: useAsync ---
 /**
  * Executa uma função assíncrona (que não recebe argumentos)
  * imediatamente ao montar o componente.
@@ -31,15 +26,12 @@ export function useAsync<T>(
   const { execute, ...state } = useAsyncInternal(func, dependencies, true);
 
   useEffect(() => {
-    // A tipagem de 'func' como '() => ...' garante
-    // que a chamada 'execute()' (sem params) é segura.
     execute();
   }, [execute]);
 
   return state;
 }
 
-// --- Hook: useAsyncFn ---
 /**
  * Retorna uma função `execute` para disparar uma chamada assíncrona
  * manualmente. Não executa ao montar.
@@ -55,7 +47,6 @@ export function useAsyncFn<T, P extends any[]>(
   return useAsyncInternal(func, dependencies, false);
 }
 
-// --- Lógica Interna ---
 /**
  * O hook principal que gerencia o estado da promise.
  */
@@ -78,7 +69,6 @@ function useAsyncInternal<T, P extends any[]>(
           return data;
         })
         .catch((error: any) => {
-          // Garante que o erro seja um objeto Error
           const err = error instanceof Error ? error : new Error(String(error));
           setError(err);
           setValue(undefined);
@@ -89,7 +79,7 @@ function useAsyncInternal<T, P extends any[]>(
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    dependencies, // A lista de dependências é passada aqui
+    dependencies,
   );
 
   return { loading, error, value, execute };
