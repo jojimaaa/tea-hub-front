@@ -1,4 +1,4 @@
-import { ForumCommentDTO, ForumDTO, UserDTO } from "@/interfaces/ForumSchemas";
+import {ForumCommentDTO, ForumPostDTO, IEditPostForm, UserDTO } from "@/interfaces/ForumSchemas";
 import axios from "axios"
 import { generateMockData } from "./forumMock";
 import { SquareDashedTopSolid } from "lucide-react";
@@ -31,14 +31,14 @@ let {
 } = generateMockData();
 
 
-export const getForumPosts = async () : Promise<ForumDTO[]> => {
+export const getForumPosts = async () : Promise<ForumPostDTO[]> => {
     await sleep(300);
     return (posts);
 }
 
 
-export const getForumPostById = async (id : string) : Promise<ForumDTO | undefined> => {
-    return posts.find((e:ForumDTO) => e.id == id);
+export const getForumPostById = async (id : string) : Promise<ForumPostDTO | undefined> => {
+    return posts.find((e:ForumPostDTO) => e.id == id);
 }
 
 
@@ -119,4 +119,71 @@ export const deleteComment = async (comment_id: string) : Promise<boolean>=> {
         e.id != comment_id
     });
     return true;
+}
+
+export const editForumPost = async (body : string, post_id : string, username: string) : Promise<ForumPostDTO | undefined> => {
+    await sleep(30);
+
+    const post = posts.find((e) => e.id == post_id);
+
+
+    if(!post) return;
+
+    const response : ForumPostDTO = {
+        ...post,
+        body: body
+    };
+    return response;
+}
+
+export const deletePost = async (post_id: string) => {
+    await sleep(30);
+
+    posts = posts.filter(p => p.id != post_id);
+
+    return true;
+}
+
+//post
+export const toggleCommentLike = async(comment_id : string, username : string) => {
+    await sleep(30);
+
+    const comment = comments.find(comment => comment.id == comment_id);
+    if (!comment) return undefined
+
+    if (comment && comment.likedByMe) {
+        comment.likedByMe = !comment.likedByMe;
+        // comment.likeCount -= 1;
+        console.log("-1")
+        return false;
+    }
+    
+    if (comment && !comment.likedByMe) {
+        comment.likedByMe = !comment.likedByMe;
+        // comment.likeCount += 1;
+        console.log("+1")
+        return true;
+    }
+
+}
+
+export const togglePostLike = async(post_id : string, username: string) => {
+    await sleep(30);
+
+    const post = posts.find(post => post.id == post_id);
+    if (!post) return undefined
+
+    if (post && post.likedByMe) {
+        post.likedByMe = !post.likedByMe;
+        // comment.likeCount -= 1;
+        console.log("-1")
+        return false;
+    }
+    
+    if (post && !post.likedByMe) {
+        post.likedByMe = !post.likedByMe;
+        // comment.likeCount += 1;
+        console.log("+1")
+        return true;
+    }
 }

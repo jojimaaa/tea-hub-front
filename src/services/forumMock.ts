@@ -1,4 +1,4 @@
-import { UserDTO, ForumTopicDTO, ForumDTO, ForumCommentDTO } from '@/interfaces/ForumSchemas';
+import { UserDTO, ForumTopicDTO, ForumPostDTO, ForumCommentDTO } from '@/interfaces/ForumSchemas';
 import { v4 as uuidv4 } from 'uuid';
 
 // ===== FUNÇÃO GERADORA DE MOCK =====
@@ -19,7 +19,7 @@ export const generateMockData = () => {
       username: "carla_mendes",
     },
     {
-      name: "TESTE",
+      name: "Teste",
       username: "teste",
     },
   ];
@@ -33,7 +33,7 @@ export const generateMockData = () => {
 
   // ===== POSTS (Sem os comentários ainda) =====
   // (Usando os corpos de Markdown da nossa conversa anterior)
-  type PostData = Omit<ForumDTO, 'comments'>;
+  type PostData = Omit<ForumPostDTO, 'comments'>;
   
   const postsData: PostData[] = [
     {
@@ -41,7 +41,7 @@ export const generateMockData = () => {
         title: 'Entendendo Promises e Async/Await',
         body: "A adolescência é uma fase de grandes mudanças para qualquer pessoa — e, no TEA, ela vem acompanhada de **novos desafios sociais e emocionais**.\n\nQuestões que costumam aparecer:\n\n- Maior consciência das diferenças em relação aos colegas.\n- Interesse por amizades e relacionamentos, mas dificuldade em entender regras sociais.\n- Aumento da ansiedade e, às vezes, sintomas depressivos.\n\nComo apoiar o adolescente autista:\n\n- Manter canais de diálogo abertos, respeitando seu tempo.\n- Buscar profissionais que tenham experiência com TEA na adolescência.\n- Incentivar grupos e atividades em que ele possa se sentir pertencente.\n\n> Com apoio adequado, a adolescência também pode ser um período de **autoconhecimento e fortalecimento da identidade**.",
         topic: topics[0],
-        user: users[0],
+        user: users[3],
         created_at: new Date(Date.now() - 1000 * 60 * 5),
         likeCount: 5,
         likedByMe: false
@@ -152,7 +152,7 @@ export const generateMockData = () => {
 
   // ===== MONTAGEM FINAL (Aninhando comentários nos posts) =====
   
-  const posts: ForumDTO[] = postsData.map(post => {
+  const posts: ForumPostDTO[] = postsData.map(post => {
         // Filtra todos os comentários que pertencem a este post
         const postComments = commentsData.filter(comment => comment.post_id === post.id);
         

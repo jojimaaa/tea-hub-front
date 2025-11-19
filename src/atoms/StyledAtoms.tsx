@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import MarkdownRenderer from "@/molecules/MarkdownRenderer";
+import { Edit, Reply } from "lucide-react";
 import styled from "styled-components";
 
 export const StyledIconButton = styled(Button)`
@@ -18,6 +19,13 @@ export const StyledSmallButtonRow = styled.div`
     align-items: center;
     width: 100%;
     gap: 30px;
+`;
+
+export const StyledReply = styled(Reply)<{$isReplying : boolean}>`
+    color: ${props => !props.$isReplying ? "var(--primary-foreground)" : "var(--secondary)"};
+`;
+export const StyledEdit = styled(Edit)<{$isEditing : boolean}>`
+    color: ${props => !props.$isEditing ? "var(--primary-foreground)" : "var(--secondary)"};
 `;
 
 export const StyledMediumButtonRow = styled.div`

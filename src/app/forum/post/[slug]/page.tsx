@@ -1,21 +1,24 @@
 "use client"
-import { StyledIconButton, StyledMarkdownBody, StyledMediumButtonRow } from '@/atoms/StyledAtoms';
+import LikeButton from '@/atoms/LikeButton';
+import { StyledEdit, StyledIconButton, StyledMarkdownBody, StyledMediumButtonRow } from '@/atoms/StyledAtoms';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import { Toaster } from '@/components/ui/sonner';
 import { Spinner } from '@/components/ui/spinner';
 import { useAsyncFn } from '@/hooks/useAsync';
 import useAuth from '@/hooks/useAuth';
 import useForumPost from '@/hooks/useForumPost';
-import { ForumCommentDTO, CommentFormSchema } from '@/interfaces/ForumSchemas';
+import { ForumCommentDTO, ForumPostDTO, ICommentForm, IEditPostForm } from '@/interfaces/ForumSchemas';
 import TextButtonForm from '@/molecules/CommentForm';
 import CommentList from '@/organisms/CommentList';
-import { createComment } from '@/services/forumServices';
+import { createComment, deletePost, editForumPost, togglePostLike } from '@/services/forumServices';
 import { formatMediumDate } from '@/utils/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Edit, Heart, Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import styled from 'styled-components';
 import z from 'zod';
 
@@ -27,30 +30,107 @@ interface ForumPostParams {
 const commentFormSchema = z.object({
         comment_body: z.string().min(1, "Uma mensagem é necessaria para criar um comentário."),
 });
+const postFormSchema = z.object({
+        body: z.string().min(1, "Uma mensagem é necessaria para criar um comentário."),
+});
 
 export default function Forum({params} : ForumPostParams) {
     const router = useRouter();
     const {auth} = useAuth();
-    const {loading, error, post, getReplies, rootComments, createLocalComment} = useForumPost();
+    const {loading, 
+            error, 
+            post,
+            localBody,
+            localLikeCount,
+            localLikedByMe, 
+            getReplies, 
+            rootComments,
+            createLocalComment, 
+            deleteLocalComment,
+            editLocalComment,
+            toggleLocalCommentLike,
+            toggleLocalPostLike,
+            editLocalBody
+        } = useForumPost();
     const {loading : commentLoading, error : commentError, execute : createCommentExecute} = useAsyncFn(createComment);
+    const {loading : editLoading, error : editError, execute : editForumPostExecute} = useAsyncFn(editForumPost);
+    const {loading : deleteLoading, error : deleteError, execute : deleteForumPostExecute} = useAsyncFn(deletePost);
+    const {loading : togglePostLikeLoading, error : togglePostLikeError, execute : togglePostLikeExecute} = useAsyncFn(togglePostLike);
+
+    const [isEditing, setEditing] = useState<boolean>(false);
+    
 
 
     const commentForm = useForm<z.infer<typeof commentFormSchema>>({
         resolver: zodResolver(commentFormSchema),
         defaultValues: {comment_body: ""}
     });
+    const postForm = useForm<z.infer<typeof postFormSchema>>({
+        resolver: zodResolver(postFormSchema),
+        defaultValues: {body: ""}
+    });
     
     useEffect(() => {
             commentForm.register("comment_body");
+            postForm.register("body");
     }, []);
+
+    useEffect(()=> {
+        if(post) {
+            postForm.setValue("body", post.body);
+        }
+    }, [post])
     
-    const onComment = async (values : CommentFormSchema) => {
+    const onComment = async (values : ICommentForm) => {
         console.log(values);
         let response : (ForumCommentDTO | undefined);
         if (post) response = await createCommentExecute(values.comment_body, "root", post?.id, auth.username);
-        if (response) createLocalComment(response);
+        if (response) {
+            createLocalComment(response);
+        }
         commentForm.setValue("comment_body", "");
     }
+    
+    const onEditPost = async (values : IEditPostForm) => {
+        console.log(values);
+        let response : (ForumPostDTO | undefined);
+        if (post) response = await editForumPostExecute(values.body, post.id, auth.username);
+        if (response) {
+            postForm.setValue("body", response.body);
+            setEditing(false);
+            editLocalBody(response)
+        }
+        else {
+            toast.error("Erro ao editar post.");
+        }
+    }
+
+    const onDeletePost = async () => {
+        if(post) {
+            let response : (boolean) = await deleteForumPostExecute(post.id);
+            if (response) {
+                toast.success("Post deletado com sucesso!");
+                router.push("/");
+            }
+            else {
+
+            }
+        }
+        else {
+            toast.error("Erro ao deletar post.");
+        }
+    }
+
+    const onLike = async () => {
+        if (post) {
+            const response = await togglePostLikeExecute(post.id, auth.username);
+            if (response != undefined) {
+                toggleLocalPostLike(response);
+            }
+        }
+    }
+
+
 
     if(!params) return <>NOT FOUND!</>
 
@@ -64,7 +144,7 @@ export default function Forum({params} : ForumPostParams) {
     if(!post) return (
     <StyledNotFoundContainer>
         <StyledLabel>Post não encontrado</StyledLabel>
-        <BackButton onClick={() => router.push("/")}>Voltar para Home</BackButton>
+        <BackButton onClick={() => router.replace("/")}>Voltar para Home</BackButton>
     </StyledNotFoundContainer>)
 
     return (
@@ -77,11 +157,42 @@ export default function Forum({params} : ForumPostParams) {
             </StyledGrid>
             <StyledTopicLabel>{post.topic.name}</StyledTopicLabel>
             {/* <StyledBody>{post.body}</StyledBody> */}
-            <StyledMarkdownBody markdownContent={post.body}/>
+            {isEditing ? 
+            <EditPostForm
+                fieldErrors={postForm.formState.errors}
+                placeHolder={"Edite o post."}
+                error={editError}
+                buttonText={"Editar"}
+                autoFocus
+                loading={editLoading}
+                register={postForm.register}
+                value={"body"}
+                setValue={postForm.setValue}
+                handleSubmit={postForm.handleSubmit(onEditPost)}
+            /> : 
+            <StyledMarkdownBody markdownContent={localBody}/>
+            }
             <StyledMediumButtonRow>
-                <StyledIconButton aria-label="Like" size={"icon"}><Heart/></StyledIconButton>
-                <StyledIconButton size={"icon"} aria-label="Edit"><Edit/></StyledIconButton>
-                <StyledIconButton color={"var(--error-primary)"} size={"icon"} aria-label="delete"><Trash2/></StyledIconButton>
+                <LikeButton
+                    likeCount={localLikeCount}
+                    likedByMe={auth && !!auth.username && localLikedByMe}
+                    onClick={onLike}
+                />
+                {auth && auth.username && (auth.username == post.user.username) &&
+                    <StyledIconButton onClick={() => setEditing(prev => !prev)} size={"icon"} aria-label="Edit">
+                        <StyledEdit $isEditing={isEditing}/>
+                    </StyledIconButton>
+                }
+                {auth && !!auth.username && (auth.username == post.user.username) && 
+                    <StyledIconButton 
+                        onClick={() => onDeletePost()}
+                        color={"var(--error-primary)"} 
+                        size={"icon"} 
+                        aria-label="delete"
+                    >
+                        <Trash2/>
+                    </StyledIconButton>
+                }
             </StyledMediumButtonRow>
             <StyledCommentLabel>Comentários</StyledCommentLabel>
             {auth && auth.username && <StyledCommentForm
@@ -96,6 +207,7 @@ export default function Forum({params} : ForumPostParams) {
                 handleSubmit={commentForm.handleSubmit(onComment)}
             />}
             {rootComments && rootComments.length > 1 && (<CommentList comments={rootComments}/>)}
+            <Toaster/>
         </StyledContainer>
     );
 }
@@ -103,6 +215,10 @@ export default function Forum({params} : ForumPostParams) {
 const StyledSpinner = styled(Spinner)`
     width: 30px;
     height: 30px;
+`;
+
+const EditPostForm = styled(TextButtonForm)`
+    flex-grow: 1;
 `;
 
 const StyledGrid = styled.div`

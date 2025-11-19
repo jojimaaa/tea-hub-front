@@ -7,17 +7,18 @@ export interface LikeButtonProps {
     likedByMe: boolean,
     likeCount: number,
     disabled?: boolean,
-    onClick?: MouseEventHandler<HTMLButtonElement>,
+    onClick?: Function,
     className?: string
 }
 
 const LikeButton = ({likedByMe, likeCount, disabled=false, onClick} : LikeButtonProps) => {
-    return <StyledContainer>
-        {likedByMe ? <StyledIconButton color={"var(--liked)"} disabled={disabled} onClick={onClick} aria-label="Like" size={"icon"}><Heart/></StyledIconButton> : 
+    return <StyledContainer onClick={() => onClick ? onClick() : undefined}>
+        {likedByMe ? <StyledIconButton color={"var(--liked)"} disabled={disabled} aria-label="Like" size={"icon"}><Heart/></StyledIconButton> : 
                                                 <StyledIconButton aria-label="Like" size={"icon"}><Heart/></StyledIconButton>}
         {likeCount}
     </StyledContainer>
 }
+    
 
 export default LikeButton;
 

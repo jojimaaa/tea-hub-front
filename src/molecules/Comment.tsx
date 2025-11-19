@@ -1,10 +1,10 @@
 "use client"
 
-import { StyledSmallButtonRow, StyledIconButton, StyledErrorLabel } from "@/atoms/StyledAtoms";
+import { StyledSmallButtonRow, StyledIconButton, StyledErrorLabel, StyledEdit, StyledReply, StyledMarkdownBody } from "@/atoms/StyledAtoms";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import useForumPost from "@/hooks/useForumPost";
-import { ForumCommentDTO, CommentFormSchema } from "@/interfaces/ForumSchemas";
+import { ForumCommentDTO, ICommentForm } from "@/interfaces/ForumSchemas";
 import CommentList from "@/organisms/CommentList";
 import { formatMediumDate } from "@/utils/utils";
 import { Edit, Reply, Trash2 } from "lucide-react";
@@ -16,7 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import useAuth from "@/hooks/useAuth";
 import { useAsyncFn } from "@/hooks/useAsync";
-import { createComment, deleteComment, editComment } from "@/services/forumServices";
+import { createComment, deleteComment, editComment, toggleCommentLike } from "@/services/forumServices";
 import LikeButton from "@/atoms/LikeButton";
 
 interface CommentProps {
@@ -31,7 +31,7 @@ const commentFormSchema = z.object({
 const Comment = ({comment, className} : CommentProps) => {
 
     const {auth} = useAuth();
-    const {getReplies, post, createLocalComment, deleteLocalComment} = useForumPost();
+    const {getReplies, post, createLocalComment, deleteLocalComment, toggleLocalCommentLike, editLocalComment} = useForumPost();
     const [body, setBody] = useState(comment.body);
     const [isReplying, setReplying] = useState<boolean>(false);
     const [isEditing, setEditing] = useState<boolean>(false);
@@ -39,6 +39,7 @@ const Comment = ({comment, className} : CommentProps) => {
     const {loading : replyLoading, error : replyError, execute : replyCommentExecute} = useAsyncFn(createComment);
     const {loading : editLoading, error : editError, execute : editCommentExecute} = useAsyncFn(editComment);
     const {loading : deleteLoading, error : deleteError, execute : deleteCommentExecute} = useAsyncFn(deleteComment);
+    const {loading : likeLoading, error : likeError, execute : toggleLikeCommentExecute} = useAsyncFn(toggleCommentLike);
 
     const [childrenHidden, setChildrenHidden] = useState(false);
 
@@ -57,7 +58,7 @@ const Comment = ({comment, className} : CommentProps) => {
             editForm.register("comment_body");
     }, []);
         
-    const onReply = async (values : CommentFormSchema) => {
+    const onReply = async (values : ICommentForm) => {
         console.log(values);
         let response : (ForumCommentDTO | undefined);
         if (post) response = await replyCommentExecute(values.comment_body, comment.id, post?.id, auth.username);
@@ -66,10 +67,14 @@ const Comment = ({comment, className} : CommentProps) => {
             createLocalComment(response);
         }
         replyForm.setValue("comment_body", "");
-
     }
 
-    const onEdit = async (values : CommentFormSchema) => {
+    const onLike = async () => {
+        const response = await toggleLikeCommentExecute(comment.id, auth.username);
+        if (response != undefined) toggleLocalCommentLike(comment.id, response);
+    }
+
+    const onEdit = async (values : ICommentForm) => {
         console.log(values);
         let response : (ForumCommentDTO | undefined);
         if (post) response = await editCommentExecute(values.comment_body, comment.id, auth.username);
@@ -77,6 +82,7 @@ const Comment = ({comment, className} : CommentProps) => {
             console.log("deu bomm");
             editForm.setValue("comment_body", response.body);
             setBody(response.body);
+            editLocalComment(response);
             setEditing(false);
         }
         else editForm.setValue("comment_body", comment.body);
@@ -107,10 +113,11 @@ const Comment = ({comment, className} : CommentProps) => {
                         setValue={editForm.setValue}
                         handleSubmit={editForm.handleSubmit(onEdit)}
                     /> : 
-                    <StyledCommentBody>{body}</StyledCommentBody>
+                    <StyledMarkdownBody markdownContent={body}/>
                 }
                 <StyledSmallButtonRow>
                     <LikeButton 
+                        onClick={onLike}
                         likeCount={comment.likeCount}
                         likedByMe={comment.likedByMe}
                     />
@@ -200,12 +207,7 @@ const StyledExpandButton = styled(Button)`
     font-family: var(--font-arial);
 `;
 
-const StyledReply = styled(Reply)<{$isReplying : boolean}>`
-    color: ${props => !props.$isReplying ? "var(--primary-foreground)" : "var(--secondary)"};
-`;
-const StyledEdit = styled(Edit)<{$isEditing : boolean}>`
-    color: ${props => !props.$isEditing ? "var(--primary-foreground)" : "var(--secondary)"};
-`;
+
 
 
 const StyledNameLabel = styled(Label)`

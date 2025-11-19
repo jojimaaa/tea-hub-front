@@ -9,18 +9,36 @@ export interface ForumPost {
 
 }
 
-export interface ForumDTO extends ForumPost{
+export interface ForumPostDTO extends ForumPost{
     likeCount: number
     likedByMe: boolean
 }
 
-export interface CommentFormSchema {
-    comment_body: string;
+export interface ForumPostSchema {
+    title: string,
+    body: string,
+    topic_id: string,
+    username: string,
+}
+
+export interface ICommentForm {
+    comment_body: string,
+}
+
+export interface IEditPostForm {
+    body: string,
 }
 
 export interface UserDTO {
     username: string,
     name: string,
+}
+
+export interface NewCommentSchema {
+    body: string,
+    post_id: string,
+    username: string,
+    parent_id: string,
 }
 
 export interface IComment {
@@ -40,13 +58,20 @@ export interface ForumCommentDTO extends IComment {
 export interface UpdateCommentSchema {
     comment_id: string,
     comment_body: string,
-}
-
-export interface UpdateCommentSchemaTeste extends UpdateCommentSchema{
-    username: string,
+    username: string
 }
 
 export interface ForumTopicDTO {
     id: string,
     name: string
+}
+
+export interface ToggleCommentLikeSchema {
+    comment_id: string,
+    username: string
+}
+
+export interface TogglePostLikeSchema {
+    post_id: string,
+    username: string,
 }

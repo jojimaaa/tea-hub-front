@@ -1,13 +1,13 @@
 import FormTextArea from "@/atoms/FormTextArea";
 import { StyledErrorLabel } from "@/atoms/StyledAtoms";
 import { Button } from "@/components/ui/button";
-import { CommentFormSchema } from "@/interfaces/ForumSchemas";
+import { ICommentForm } from "@/interfaces/ForumSchemas";
 import { FieldErrors, UseFormRegister, UseFormSetValue } from "react-hook-form";
 import styled from "styled-components";
 
 interface TextButtonFormProps {
     className? : string,
-    fieldErrors: FieldErrors<CommentFormSchema>
+    fieldErrors: FieldErrors<ICommentForm>
     placeHolder?: string,
     initialvalue?: string,
     error?: Error,
@@ -75,8 +75,6 @@ const StyledInput = styled(FormTextArea)`
     border-radius: 10px;
     padding: 10px;
     flex-grow: 1;
-    resize: none;
-    height: 70px;
     line-height: 1.4;
     border-color: var(--secondary);
     border-width: 1.5px;
