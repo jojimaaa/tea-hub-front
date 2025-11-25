@@ -1,19 +1,24 @@
 "use client"
-import { StyledPageContainer } from "@/atoms/StyledAtoms";
-import TitleLabel from "@/atoms/TitleLabel";
+import styled from "styled-components";
 import WikiHomeButtonsBar from "@/organisms/WikiHomeButtonsBar";
 import WikiRecentList from "@/organisms/WikiRecentList";
 import WikiRecomList from "@/organisms/WikiRecomList";
 
 export default function HomeWiki() {
 
-    return (<StyledPageContainer> 
-        <TitleLabel
-            title={"Wiki TEA-HUB"}
-        />
+    return (
+    <StyledContainer> 
         <WikiRecomList/>
         <WikiRecentList/>
         <WikiHomeButtonsBar/>
-    </StyledPageContainer>);
+    </StyledContainer>);
 }
+
+
+const StyledContainer = styled.div`
+    background-color: var(--primary);
+    width: 100%;
+    overflow-x: hidden;
+`;
+
 

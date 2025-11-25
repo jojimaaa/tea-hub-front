@@ -104,7 +104,7 @@ export async function getRecommended() : Promise<WikiPostSchema[]> {
         author_name: "Autor 1",
         created_date: "2025-11-04",
         topic_id: "topico1",
-        imageUrl: "url1"
+        imageUrl: "https://res.cloudinary.com/dattmfduh/image/upload/v1763148780/uo87pw0hkjj4tidql9d9.jpg"
     },
     {
         id: "teste2",
@@ -113,7 +113,7 @@ export async function getRecommended() : Promise<WikiPostSchema[]> {
         author_name: "Autor 2",
         created_date: "2025-11-05",
         topic_id: "topico2",
-        imageUrl: "url2"
+        imageUrl: "https://res.cloudinary.com/dattmfduh/image/upload/v1763384126/lhzajbm8khercfplk4ho.jpg"
     },
     {
         id: "teste3",
@@ -122,7 +122,7 @@ export async function getRecommended() : Promise<WikiPostSchema[]> {
         author_name: "Autor 3",
         created_date: "2025-11-06",
         topic_id: "topico3",
-        imageUrl: "url3"
+        imageUrl: "https://res.cloudinary.com/dattmfduh/image/upload/v1763148780/uo87pw0hkjj4tidql9d9.jpg"
     },
     {
         id: "teste4",
@@ -131,7 +131,7 @@ export async function getRecommended() : Promise<WikiPostSchema[]> {
         author_name: "Autor 4",
         created_date: "2025-11-07",
         topic_id: "topico4",
-        imageUrl: "url4"
+        imageUrl: "https://res.cloudinary.com/dattmfduh/image/upload/v1763384126/lhzajbm8khercfplk4ho.jpg"
     }]); 
 }
 

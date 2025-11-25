@@ -1,5 +1,6 @@
 "use client"
 
+import Parabolic from "@/atoms/Parabolic";
 import { WikiPostSchema } from "@/interfaces/WikiSchemas";
 import WikiPostCard from "@/molecules/WikiPostCard"
 import { getRecent } from "@/services/wikiServices";
@@ -22,15 +23,17 @@ const WikiRecentList = () => {
 
     return (
         <StyledContainer>
-            <StyledLabelContainer>
-                <StyledLabel>Recentes</StyledLabel>
-            </StyledLabelContainer>
-
+            <Vbox>
+                <StyledLabelContainer>
+                    <StyledLabel>Recentes</StyledLabel>
+                </StyledLabelContainer>
             <StyledListContainer>
                 {(recent.length != 0) && 
                     recent.map((post) => <WikiPostCard key={post.id} post={post}/>)
                 }
             </StyledListContainer>
+            </Vbox>
+            <Parabolic corcima={`var(--background-blue)`} corbaixo={"#024E8D"}/>
         </StyledContainer>
     )
 }
@@ -38,8 +41,20 @@ const WikiRecentList = () => {
 export default WikiRecentList;
 
 const StyledContainer = styled.div`
-    height: 100%;
-    margin-top: 20px;
+    background-color: var(--background-blue);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+`;
+
+const Vbox = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    height: 500px;
 `;
 
 const StyledListContainer = styled.div`
@@ -55,11 +70,12 @@ const StyledLabel = styled.text`
     font-family: var(--font-montserrat);
     font-size: 30px;
     width: 100%;
+    color:#40386B;
 `;
 
 const StyledLabelContainer = styled.div`
+    height: 50px;
     width: 100%;
-    border-width: 0px 0px 1px 0px;
-    border-color: var(--primary-foreground);
+    margin-top: 40px;
     margin-bottom: 10px;
 `;

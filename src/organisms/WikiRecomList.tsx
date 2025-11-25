@@ -1,7 +1,10 @@
 "use client"
 
+import { motion } from "framer-motion";
 import { WikiPostSchema } from "@/interfaces/WikiSchemas";
-import WikiPostCard from "@/molecules/WikiPostCard"
+import WikiPontosRecomList from "@/molecules/WikiPontosRecomList";
+import WikiRecomImg from "@/molecules/WikiRecomImg";
+import WikiRecomTxt from "@/molecules/WikiRecomTxt";
 import { getRecommended } from "@/services/wikiServices";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
@@ -9,6 +12,7 @@ import styled from "styled-components";
 const WikiRecomList = () => {
 
     const [recom, setRecom] = useState<WikiPostSchema[]>([]);
+    const [current, setCurrent] = useState(0);
 
     useEffect(
         () => {
@@ -19,32 +23,74 @@ const WikiRecomList = () => {
             fetchRecom();
         },[]
     );
+    
 
     return (
-        <StyledContainer>
-            <StyledLabelContainer>
-                <StyledLabel>Recomendados</StyledLabel>
-            </StyledLabelContainer>
-
-            <StyledListContainer>
-                {(recom.length != 0) && 
-                    recom.map((post) => <WikiPostCard key={post.id} post={post}/>)
-                }
-            </StyledListContainer>
-        </StyledContainer>
+        <Vbox>
+            {recom[current] && (
+                <Hbox>
+                    <StyledContainerTransition
+                        key={current} 
+                        initial={{ x: "-100%"}}  
+                        animate={{ x: "100%" }}            
+                        transition={{
+                          duration: 3,
+                          ease: "easeInOut",
+                        }}
+                    />
+                    <WikiRecomTxt
+                        title={recom[current].title}
+                        topic={recom[current].topic_id}
+                        author={recom[current].author_name}
+                        body={recom[current].body}
+                        date={recom[current].created_date.toString()}
+                        current={current}
+                    />
+                    <WikiRecomImg current={current} url={recom[current].imageUrl}/>
+                    <StyledSvg viewBox="0 0 100 100" preserveAspectRatio="none">
+                        <clipPath id="curveClip" clipPathUnits="objectBoundingBox">
+                          <path 
+                            d="M0,0 C0,1.05 1,1.05 1,0 V1 H0 Z"
+                           />
+                        </clipPath>
+                        <rect width="100%" height="100%" fill="none" />
+                        <rect width="100%" height="100%" fill="#F0EDF6" clip-path="url(#curveClip)" />
+                    </StyledSvg>
+                    <WikiPontosRecomList current={current} setCurrent={setCurrent}/>
+                </Hbox>
+            )}
+        </Vbox>
     )
 }
 
 export default WikiRecomList;
 
-const StyledContainer = styled.div`
-    height: 100%;
+
+const StyledContainerTransition = styled(motion.div)`
+    position: absolute;
+    position: "fixed";
+    border-radius: 100px;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 95%;
+    background-color: #F0EDF6;
+    z-index: 9999;
 `;
 
-const StyledListContainer = styled.div`
+const StyledSvg = styled.svg`
     width: 100%;
+    height: 25%;
+    position: absolute;
+    bottom: 0;
+`;
+
+const Hbox = styled.div`
     display: flex;
     flex-direction: row;
+    height: 100%;
+    position: relative;
+    width: 100%;
     align-items: center;
     justify-content: space-between;
     align-content:center;
@@ -56,9 +102,11 @@ const StyledLabel = styled.text`
     width: 100%;
 `;
 
-const StyledLabelContainer = styled.div`
+
+const Vbox = styled.div`
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    border-width: 0px 0px 1px 0px;
-    border-color: var(--primary-foreground);
-    margin-bottom: 10px;
+    height: 50vh;
 `;
+

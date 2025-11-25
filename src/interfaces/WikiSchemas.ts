@@ -1,7 +1,7 @@
 export interface WikiPostSchema {
     id : string,
     title : string,
-    body : string | JSON,
+    body : string,
     author_name : string,
     created_date : Date | string,
     topic_id : string,
