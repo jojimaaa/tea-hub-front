@@ -1,4 +1,4 @@
-import WikiTitleLineButton from "@/atoms/TitleLineButton";
+import WikiTitleLineButton from "@/atoms/WikiTitleLineButton";
 import { WikiPostSchema } from "@/interfaces/WikiSchemas";
 import { WikiTopicSchema } from "@/interfaces/WikiSchemas"; // Importe a interface do tópico (ajuste o nome se necessário)
 import { ColumnDef } from "@tanstack/react-table";

@@ -1,5 +1,5 @@
 import FormTextArea from "@/atoms/FormTextArea";
-import { StyledErrorLabel } from "@/atoms/StyledAtoms";
+import { PrimaryBaseButton, StyledErrorLabel } from "@/atoms/StyledAtoms";
 import { Button } from "@/components/ui/button";
 import { ICommentForm } from "@/interfaces/ForumSchemas";
 import { FieldErrors, UseFormRegister, UseFormSetValue } from "react-hook-form";
@@ -62,10 +62,8 @@ const StyledRow = styled.div`
     align-items: stretch;
 `;
 
-const StyledButton = styled(Button)<{$loading : boolean}>`
+const StyledButton = styled(PrimaryBaseButton)<{$loading : boolean}>`
     background-color: var(--secondary);
-    color: var(--primary);
-    font-family: var(--font-montserrat);
     border-radius: 10px;
     height: auto;
     opacity: ${props => props.$loading ? "20%" : "100%"}

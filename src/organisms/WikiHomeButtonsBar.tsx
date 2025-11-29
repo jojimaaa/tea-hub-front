@@ -1,5 +1,6 @@
+
 "use client"
-import { Button } from "@/components/ui/button";
+import { PrimaryBaseButton } from "@/atoms/StyledAtoms";
 import { useRouter } from "next/navigation";
 import styled from "styled-components";
 
@@ -18,9 +19,6 @@ const WikiHomeButtonsBar = () => {
             <StyledButton
                 onClick={() => router.push("wiki/postlist")}
             >Lista de Posts</StyledButton>
-            <StyledButton
-                onClick={() => router.push("/wiki")}
-            >Lista de Tópicos</StyledButton>
         </StyledRow>
     </StyledContainer>
     );
@@ -58,7 +56,7 @@ const StyledRow = styled.div`
     /* padding-inline: 20%; */
 `;
 
-const StyledButton = styled(Button)`
+const StyledButton = styled(PrimaryBaseButton)`
     background-color: var(--primary-foreground);
     color: var(--primary);
     font-size: 30px;

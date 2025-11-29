@@ -7,11 +7,11 @@ export function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
 
     if (!token && pathname.startsWith('/wiki')) {
-            const loginUrl = new URL('/login', request.url);
-            loginUrl.searchParams.set('from', pathname);
-            
-            return NextResponse.redirect(loginUrl);
-        }
+        const loginUrl = new URL('/login', request.url);
+        loginUrl.searchParams.set('from', pathname);
+        
+        return NextResponse.redirect(loginUrl);
+    }
     return NextResponse.next();
 }
 

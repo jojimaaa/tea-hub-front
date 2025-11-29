@@ -16,18 +16,18 @@ const Header = () => {
             >
                 TEA-HUB
             </LogoButton>
-            <StyledButton
+            <LineButton
                 Nome="Wiki"
                 onClick={() => router.push("/wiki")}
             />
-            {auth.username ? <StyledButton
+            {auth.username ? <LineButton
                         Nome="Logout"
                         onClick={() => {
                             logout();
                             router.refresh();
                         }}
                     /> : 
-                    <StyledButton
+                    <LineButton
                         Nome="Login"
                         onClick={() => router.push(`/login?from=${pathname}`)}
                     />
@@ -53,16 +53,10 @@ const HeaderRow = styled.div`
     border-color: var(--primary-foreground)
 `;
 
-const LogoButton = styled.text`
+const LogoButton = styled.button`
     font-size: 19px;
     &:hover{ 
         cursor: pointer;
     }
     font-family: var(--font-tea-hub);
-`;
-
-const StyledButton = styled(LineButton)`
-    &:hover{
-        cursor: pointer;
-    }
 `;

@@ -12,6 +12,13 @@ export const StyledIconButton = styled(Button)`
     color: ${props => (props.color) || "var(--primary-foreground)"}
 `;
 
+export const PrimaryBaseButton = styled(Button)`
+    background-color: var(--primary-foreground);
+    color: var(--primary);
+    font-family: var(--font-montserrat);
+    border-radius: 5px;
+`;
+
 export const StyledSmallButtonRow = styled.div`
     display: flex;
     flex-direction: row;

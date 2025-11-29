@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=BBH+Sans+Hegarty&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lexend+Exa:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
 
 @import "tailwindcss";
@@ -86,6 +87,7 @@
   --font-montserrat: "Montserrat";
   --font-arial: "Arial";
   --font-lexend-exa: "Lexend Exa";
+  --font-roboto: "Roboto";
 }
 
 .dark {

@@ -1,7 +1,7 @@
 "use client"
 
 import { TokenPayload } from "@/interfaces/AuthSchemas"
-import { getCookie } from "@/services/authServices"
+import { getCookie } from "@/utils/utils"
 import { jwtDecode } from "jwt-decode"
 import { createContext, Dispatch, ReactNode, SetStateAction, useEffect, useState } from "react"
 
