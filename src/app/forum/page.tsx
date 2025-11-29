@@ -1,5 +1,5 @@
 "use client"
-import { PrimaryBaseButton } from "@/atoms/StyledAtoms";
+import { PrimaryBaseButton, StyledPageContainer } from "@/atoms/StyledAtoms";
 import { useAsyncFn } from "@/hooks/useAsync";
 import { ForumFilterSchema, ForumPostBase } from "@/interfaces/ForumSchemas";
 import ForumHomeTitle from "@/organisms/ForumHomeTitle";
@@ -8,13 +8,13 @@ import ForumSearchFilter from "@/organisms/ForumSearchFilter";
 import { getForumPosts } from "@/services/forumServices";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
-import { Form, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import z from "zod";
 
 const forumPostFormSchema = z.object({
     title: z.string().optional(),
-    topic_id: z.string().optional(),
+    topic_id: z.int().optional(),
 });
 
 const ForumHomePage = () => {
@@ -26,7 +26,7 @@ const ForumHomePage = () => {
         resolver: zodResolver(forumPostFormSchema),
         defaultValues: {
             title: "",
-            topic_id: ""
+            topic_id: undefined
         }
     });
 
@@ -35,6 +35,7 @@ const ForumHomePage = () => {
             try {
                 const posts = await getForumPostsAsync(forumPostForm.getValues())
                 if (posts) setPosts(posts);
+                console.log(posts);
             } catch (error) {
                 
             }
@@ -54,7 +55,7 @@ const ForumHomePage = () => {
     }
 
     return (
-        <StyledContainer>
+        <StyledPageContainer>
             <ForumHomeTitle/>
             <RowBox>
                 <StyledFilterBar
@@ -62,8 +63,8 @@ const ForumHomePage = () => {
                 />
                 <PrimaryBaseButton onClick={(e) => forumPostForm.handleSubmit(onSubmit)(e)}>Buscar</PrimaryBaseButton>
             </RowBox>
-            {error ? <>"ERRO" {error} </> : loading ? "Loading" : <StyledList posts={posts}/>}
-        </StyledContainer>
+            {error ? <>"ERRO" {error.message} </> : loading ? "Loading" : <StyledList posts={posts}/>}
+        </StyledPageContainer>
     );
 }
 
@@ -77,16 +78,6 @@ const RowBox = styled.div`
     justify-content: center;
     width: 100%;
     gap: 20px;
-`;
-
-const StyledContainer = styled.div`
-    padding-inline: 20px;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    width: 100%;
 `;
 
 const StyledList = styled(ForumPostList)`

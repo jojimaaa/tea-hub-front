@@ -20,6 +20,10 @@ const Header = () => {
                 Nome="Wiki"
                 onClick={() => router.push("/wiki")}
             />
+            <LineButton
+                Nome="Forum"
+                onClick={() => router.push("/forum")}
+            />
             {auth.username ? <LineButton
                         Nome="Logout"
                         onClick={() => {

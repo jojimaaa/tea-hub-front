@@ -1,8 +1,7 @@
 "use client"
 
 import { PrimaryBaseButton } from "@/atoms/StyledAtoms";
-import { useAsync } from "@/hooks/useAsync";
-import { getForumTopics } from "@/services/forumServices";
+import useForumTopics from "@/hooks/useForumTopics";
 import { 
     DropdownMenu, 
     DropdownMenuTrigger, 
@@ -16,32 +15,36 @@ import { UseFormSetValue } from "react-hook-form";
 import styled from "styled-components";
 
 interface ForumTopicDropdownProps {
+    enableNoSelection? : boolean,
+    defaultTopicId? : string,
     className?: string,
     value: string,
     setValue: UseFormSetValue<any>
 }
 
 const ForumTopicDropdown = ({
+    enableNoSelection = true,
+    defaultTopicId = "",
     className,
     value,
     setValue
 } : ForumTopicDropdownProps) => {
-    const [position, setPosition] = useState("");
+    const [position, setPosition] = useState(defaultTopicId);
 
-    const {loading, error, value : topics} = useAsync(getForumTopics);
+    const {loading, error, topics, fetchTopics} = useForumTopics();
 
     return (
         <div className={className}>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <PrimaryBaseButton>{position != "" ? topics?.find(topic => topic.id == position)?.name : "Tópico"}<ChevronDown/></PrimaryBaseButton>
+                    <PrimaryBaseButton>{position != "" ? topics?.find(topic => topic.id.toString() == position)?.name : "Tópico"}<ChevronDown/></PrimaryBaseButton>
                 </DropdownMenuTrigger>
                 {!!!loading && <StyledMenuContent>
                     <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
-                        <StyledRadioItem value="" onSelect={()=> setValue(value, undefined)}>Todos</StyledRadioItem>
+                        {enableNoSelection && <StyledRadioItem value="" onSelect={()=> setValue(value, undefined)}>Todos</StyledRadioItem>}
                         {topics && topics.map(topic => {
                             return(<StyledRadioItem 
-                                        value={topic.id} 
+                                        value={topic.id.toString()} 
                                         onSelect={() => setValue(value, topic.id)}
                                     >
                                         {topic.name}
@@ -65,6 +68,7 @@ const StyledMenuContent = styled(DropdownMenuContent)`
     padding-block: 5px;
     padding-inline: 3px;
     z-index: 9999;
+    margin-block: 5px;
 `;
 
 const StyledRadioItem = styled(DropdownMenuRadioItem)`

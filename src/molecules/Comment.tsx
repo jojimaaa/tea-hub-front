@@ -46,7 +46,7 @@ const Comment = ({comment, className} : CommentProps) => {
     const replyForm = useForm<z.infer<typeof commentFormSchema>>({
             resolver: zodResolver(commentFormSchema),
             defaultValues: {comment_body: ""}
-        });
+    });
 
     const editForm = useForm<z.infer<typeof commentFormSchema>>({
             resolver: zodResolver(commentFormSchema),
@@ -60,7 +60,7 @@ const Comment = ({comment, className} : CommentProps) => {
         
     const onReply = async (values : ICommentForm) => {
         let response : (ForumCommentDTO | undefined);
-        if (post) response = await replyCommentExecute(values.comment_body, comment.id, post?.id, auth.username);
+        if (post) response = await replyCommentExecute(values.comment_body, post?.id, comment.id);
         if (response) {
             setReplying(false);
             createLocalComment(response);
@@ -69,13 +69,13 @@ const Comment = ({comment, className} : CommentProps) => {
     }
 
     const onLike = async () => {
-        const response = await toggleLikeCommentExecute(comment.id, auth.username);
+        const response = await toggleLikeCommentExecute(comment.id);
         if (response != undefined) toggleLocalCommentLike(comment.id, response);
     }
 
     const onEdit = async (values : ICommentForm) => {
         let response : (ForumCommentDTO | undefined);
-        if (post) response = await editCommentExecute(values.comment_body, comment.id, auth.username);
+        if (post) response = await editCommentExecute(values.comment_body, comment.id, post.id);
         if (response) {
             editForm.setValue("comment_body", response.body);
             setBody(response.body);
@@ -86,8 +86,9 @@ const Comment = ({comment, className} : CommentProps) => {
     }
 
     const onDelete = async (comment_id : string) => {
-        const response = await deleteCommentExecute(comment_id);
-        if (response) deleteLocalComment(comment_id);
+        let response : boolean | undefined
+        if(post) response = await deleteCommentExecute(comment_id, post?.id);
+        if (response != undefined) deleteLocalComment(comment_id);
     }
 
     return (
@@ -115,8 +116,8 @@ const Comment = ({comment, className} : CommentProps) => {
                     <LikeButton 
                         onClick={(auth && !!auth.username) ? onLike : undefined}
                         disabled={!(auth && !!auth.username)}
-                        likeCount={comment.likeCount}
-                        likedByMe={comment.likedByMe && auth && !!auth.username}
+                        likeCount={comment.like_count}
+                        likedByMe={comment.liked_by_me && auth && !!auth.username}
                     />
                     {auth && auth.username &&<StyledIconButton onClick={() => setReplying(prev => !prev)} size={"icon"} aria-label="Reply">
                         <StyledReply $isReplying={isReplying}/>

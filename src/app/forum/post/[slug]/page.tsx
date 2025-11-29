@@ -1,6 +1,6 @@
 "use client"
 import LikeButton from '@/atoms/LikeButton';
-import { StyledEdit, StyledIconButton, StyledMarkdownBody, StyledMediumButtonRow } from '@/atoms/StyledAtoms';
+import { StyledEdit, StyledIconButton, StyledMarkdownBody, StyledMediumButtonRow, StyledTitleEditor } from '@/atoms/StyledAtoms';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Toaster } from '@/components/ui/sonner';
@@ -11,6 +11,7 @@ import useForumPost from '@/hooks/useForumPost';
 import { ForumCommentDTO, ForumPostDTO, ICommentForm, IEditPostForm } from '@/interfaces/ForumSchemas';
 import TextButtonForm from '@/molecules/CommentForm';
 import CommentList from '@/organisms/CommentList';
+import ForumTopicDropdown from '@/organisms/ForumTopicDropdown';
 import { createComment, deletePost, editForumPost, togglePostLike } from '@/services/forumServices';
 import { formatMediumDate } from '@/utils/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -30,8 +31,10 @@ interface ForumPostParams {
 const commentFormSchema = z.object({
         comment_body: z.string().min(1, "Uma mensagem é necessaria para criar um comentário."),
 });
-const postFormSchema = z.object({
-        body: z.string().min(1, "Uma mensagem é necessaria para criar um comentário."),
+const editPostFormSchema = z.object({
+        body: z.string().min(1, "Uma mensagem é necessaria para um post."),
+        topic_id: z.int().min(10, "Tópico inválido"),
+        title: z.string().min(3, "É necessário um Título para o post."),
 });
 
 export default function Forum({params} : ForumPostParams) {
@@ -40,12 +43,14 @@ export default function Forum({params} : ForumPostParams) {
     const {loading, 
             post,
             localBody,
+            localTitle,
+            localTopicName,
             localLikeCount,
             localLikedByMe, 
             rootComments,
             createLocalComment, 
             toggleLocalPostLike,
-            editLocalBody
+            editLocalPost
         } = useForumPost();
     const {loading : commentLoading, error : commentError, execute : createCommentExecute} = useAsyncFn(createComment);
     const {loading : editLoading, error : editError, execute : editForumPostExecute} = useAsyncFn(editForumPost);
@@ -60,25 +65,30 @@ export default function Forum({params} : ForumPostParams) {
         resolver: zodResolver(commentFormSchema),
         defaultValues: {comment_body: ""}
     });
-    const postForm = useForm<z.infer<typeof postFormSchema>>({
-        resolver: zodResolver(postFormSchema),
+    const editPostForm = useForm<z.infer<typeof editPostFormSchema>>({
+        resolver: zodResolver(editPostFormSchema),
         defaultValues: {body: ""}
     });
     
     useEffect(() => {
             commentForm.register("comment_body");
-            postForm.register("body");
+            editPostForm.register("body");
+            editPostForm.register("topic_id");
+            editPostForm.register("title");
     }, []);
 
     useEffect(()=> {
         if(post) {
-            postForm.setValue("body", post.body);
+            editPostForm.setValue("body", post.body);
+            editPostForm.setValue("topic_id", post.topic.id);
+            editPostForm.setValue("title", post.title);
         }
+        console.log(post);
     }, [post])
     
     const onComment = async (values : ICommentForm) => {
         let response : (ForumCommentDTO | undefined);
-        if (post) response = await createCommentExecute(values.comment_body, "root", post?.id, auth.username);
+        if (post) response = await createCommentExecute(values.comment_body, post?.id);
         if (response) {
             createLocalComment(response);
         }
@@ -87,11 +97,11 @@ export default function Forum({params} : ForumPostParams) {
     
     const onEditPost = async (values : IEditPostForm) => {
         let response : (ForumPostDTO | undefined);
-        if (post) response = await editForumPostExecute(values.body, post.id, auth.username);
+        if (post) response = await editForumPostExecute(values.title, values.body, values.topic_id, post.id);
         if (response) {
-            postForm.setValue("body", response.body);
+            editPostForm.setValue("body", response.body);
             setEditing(false);
-            editLocalBody(response)
+            editLocalPost(response)
         }
         else {
             toast.error("Erro ao editar post.");
@@ -103,10 +113,10 @@ export default function Forum({params} : ForumPostParams) {
             const response : (boolean) = await deleteForumPostExecute(post.id);
             if (response) {
                 toast.success("Post deletado com sucesso!");
-                router.push("/");
+                router.push("/forum");
             }
             else {
-
+                toast.error("Erro ao deletar post.");
             }
         }
         else {
@@ -116,7 +126,7 @@ export default function Forum({params} : ForumPostParams) {
 
     const onLike = async () => {
         if (post) {
-            const response = await togglePostLikeExecute(post.id, auth.username);
+            const response = await togglePostLikeExecute(post.id);
             if (response != undefined) {
                 toggleLocalPostLike(response);
             }
@@ -137,32 +147,46 @@ export default function Forum({params} : ForumPostParams) {
     if(!post) return (
     <StyledNotFoundContainer>
         <StyledLabel>Post não encontrado</StyledLabel>
-        <BackButton onClick={() => router.replace("/")}>Voltar para Home</BackButton>
+        <BackButton onClick={() => router.replace("/forum")}>Voltar para Home Forum</BackButton>
     </StyledNotFoundContainer>)
 
     return (
    
         <StyledContainer>
-            <StyledLabel>{post?.title}</StyledLabel>
+            {isEditing ? 
+                <StyledTitleEditor
+                    register={editPostForm.register}
+                    value='title'
+                    setValue={editPostForm.setValue}
+                    placeHolder='Título'
+                    defaultValue={editPostForm.getValues().title}
+                /> :
+                <StyledLabel>{localTitle}</StyledLabel>}
             <StyledGrid>
                 <StyledPostInfo>{`Autor: ${post.user.name}`}</StyledPostInfo>
                 <StyledPostInfo>{`Criado em: ${formatMediumDate(post.created_at)}`}</StyledPostInfo>
             </StyledGrid>
-            <StyledTopicLabel>{post.topic.name}</StyledTopicLabel>
+            {isEditing ? 
+                <StyledTopicDropdown
+                    defaultTopicId={editPostForm.getValues().topic_id.toString()}
+                    value='topic_id'
+                    setValue={editPostForm.setValue}
+                /> : 
+                <StyledTopicLabel>{localTopicName}</StyledTopicLabel>}
             {/* <StyledBody>{post.body}</StyledBody> */}
             {isEditing ? 
-            <EditPostForm
-                fieldErrors={postForm.formState.errors}
-                placeHolder={"Edite o post."}
-                error={editError}
-                buttonText={"Editar"}
-                loading={editLoading}
-                register={postForm.register}
-                value={"body"}
-                setValue={postForm.setValue}
-                handleSubmit={postForm.handleSubmit(onEditPost)}
-            /> : 
-            <StyledMarkdownBody markdownContent={localBody}/>
+                <EditPostForm
+                    fieldErrors={editPostForm.formState.errors}
+                    placeHolder={"Edite o post."}
+                    error={editError}
+                    buttonText={"Editar"}
+                    loading={editLoading}
+                    register={editPostForm.register}
+                    value={"body"}
+                    setValue={editPostForm.setValue}
+                    handleSubmit={editPostForm.handleSubmit(onEditPost)}
+                /> : 
+                <StyledMarkdownBody markdownContent={localBody}/>
             }
             <StyledMediumButtonRow>
                 <LikeButton
@@ -211,7 +235,7 @@ const StyledSpinner = styled(Spinner)`
 `;
 
 const EditPostForm = styled(TextButtonForm)`
-    flex-grow: 1;
+    height: auto;
 `;
 
 const StyledGrid = styled.div`
@@ -228,12 +252,19 @@ const StyledTopicLabel = styled(Label)`
     font-weight: 300;
     background-color: var(--secondary);
     padding: 6px;
+    height: 18px;
+    white-space: nowrap;
     width: min-content;
     display: flex;
     align-content: center;  
-
     margin-bottom: 10px;
 `;
+
+const StyledTopicDropdown = styled(ForumTopicDropdown)`
+    margin-bottom: 10px;
+`;
+
+
 
 const Centralizer = styled.div`
     flex-direction: column;

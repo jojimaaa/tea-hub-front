@@ -7,8 +7,8 @@ const api = axios.create({
     //baseURL: "<prod>",              //prod
 })
 
-const apiPrivate = axios.create({
-    baseURL: "http://127.0.0.1:8000/auth", //dev
+export const apiPrivate = axios.create({
+    baseURL: "http://127.0.0.1:8000/", //dev
     //baseURL: "<prod>",              //prod
 })
 
@@ -112,7 +112,7 @@ export const refreshPrivateToken = async () : Promise<AxiosResponse<RefreshRespo
     
     const config : AxiosRequestConfig = {
         method: "POST",
-        url: "/refresh",
+        url: "/auth/refresh",
         headers: {
             "Authorization" : `Bearer ${accessToken ? accessToken : ""}`
         }

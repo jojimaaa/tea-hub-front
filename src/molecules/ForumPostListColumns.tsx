@@ -78,7 +78,8 @@ export const forumPostColumns: ColumnDef<ForumPostBase>[] = [
     },
     {
       accessorKey: "likeCount",
-      header: "Likes"  
+      header: "Likes",
+      cell: ({row}) => {return row.original.like_count.toString()}  
     },
     {
         accessorKey: "id",

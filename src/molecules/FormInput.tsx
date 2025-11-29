@@ -49,6 +49,7 @@ const StyledInput = styled.input`
     width: 100%;
     min-height: 36px;
     border-radius: 4px;
-    border-color: var(--primary-foreground);
+    border-color: var(--secondary);
     outline-style: none;
+    padding: 5px;
 `;

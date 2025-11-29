@@ -43,26 +43,18 @@ export const generateMockData = () => {
         topic: topics[0],
         user: users[3],
         created_at: new Date(Date.now() - 1000 * 60 * 5),
-        likeCount: 5,
-        likedByMe: false
+        like_count: 5,
+        liked_by_me: false
     },
     {
         id: 'p2',
         title: 'Como normalizar um banco de dados relacional',
-        body: `
-    ## Normalização de Banco de Dados
-    Normalizar um banco de dados é um processo para reduzir a redundância.
-    > "A normalização é a chave..."
-    ### As Formas Normais
-    - **1FN (Primeira Forma Normal):** Cada coluna deve conter valores atômicos.
-    - **2FN (Segunda Forma Normal):** Deve estar em 1FN e...
-    - **3FN (Terceira Forma Normal):** Deve estar em 2FN e...
-        `,
+        body: '## Normalização de Banco de Dados\nNormalizar um banco de dados é um processo para reduzir a redundância.\n >\"A normalização é a chave...\"\n### As Formas Normais\n- **1FN (Primeira Forma Normal):** Cada coluna deve conter valores atômicos.\n- **2FN (Segunda Forma Normal):** Deve estar em 1FN e...\n- **3FN (Terceira Forma Normal):** Deve estar em 2FN e...',
         topic: topics[1],
         user: users[1],
         created_at: new Date(Date.now() - 1000 * 60 * 60 * 2),
-        likeCount: 2,
-        likedByMe: false
+        like_count: 2,
+        liked_by_me: false
     },
     {
         id: 'p3',
@@ -76,8 +68,8 @@ export const generateMockData = () => {
         topic: topics[2],
         user: users[2],
         created_at: new Date(Date.now() - 1000 * 60 * 60 * 24),
-        likeCount: 1,
-        likedByMe: false
+        like_count: 1,
+        liked_by_me: false
     },
   ];
 
@@ -91,8 +83,8 @@ export const generateMockData = () => {
         post_id: postsData[0].id, // p1
         parent_id: undefined,
         created_at: new Date(Date.now() - 1000 * 60 * 4),
-        likeCount: 7,
-        likedByMe: true
+        like_count: 7,
+        liked_by_me: true
     },
     {
         id: "c2",
@@ -101,8 +93,8 @@ export const generateMockData = () => {
         post_id: postsData[0].id, // p1
         parent_id: undefined,
         created_at: new Date(Date.now() - 1000 * 60 * 3),
-        likeCount: 3,
-        likedByMe: false
+        like_count: 3,
+        liked_by_me: false
     },
     // Resposta para c2
     {
@@ -112,8 +104,8 @@ export const generateMockData = () => {
         post_id: postsData[0].id, // p1
         parent_id: "c2", // <-- RESPOSTA (Nested)
         created_at: new Date(Date.now() - 1000 * 60 * 2),
-        likeCount: 9,
-        likedByMe: true
+        like_count: 9,
+        liked_by_me: true
     },
     // Resposta para c3 (Nível 3)
     {
@@ -123,8 +115,8 @@ export const generateMockData = () => {
         post_id: postsData[0].id, // p1
         parent_id: "c3", // <-- RESPOSTA (Nested Nível 3)
         created_at: new Date(Date.now() - 1000 * 60 * 1),
-        likeCount: 1,
-        likedByMe: false
+        like_count: 1,
+        liked_by_me: false
     },
     // --- Comentários para o Post 2 (p2) ---
     {
@@ -134,8 +126,8 @@ export const generateMockData = () => {
         post_id: postsData[1].id, // p2
         parent_id: undefined,
         created_at: new Date(Date.now() - 1000 * 60 * 30),
-        likeCount: 5,
-        likedByMe: false
+        like_count: 5,
+        liked_by_me: false
     },
     // Resposta para c5
     {
@@ -145,8 +137,8 @@ export const generateMockData = () => {
         post_id: postsData[1].id, // p2
         parent_id: "c5", // <-- RESPOSTA (Nested)
         created_at: new Date(Date.now() - 1000 * 60 * 25),
-        likeCount: 0,
-        likedByMe: false
+        like_count: 0,
+        liked_by_me: false
     }
   ];
 
