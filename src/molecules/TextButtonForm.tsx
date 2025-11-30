@@ -1,6 +1,5 @@
 import FormTextArea from "@/atoms/FormTextArea";
 import { PrimaryBaseButton, StyledErrorLabel } from "@/atoms/StyledAtoms";
-import { Button } from "@/components/ui/button";
 import { ICommentForm } from "@/interfaces/ForumSchemas";
 import { FieldErrors, UseFormRegister, UseFormSetValue } from "react-hook-form";
 import styled from "styled-components";

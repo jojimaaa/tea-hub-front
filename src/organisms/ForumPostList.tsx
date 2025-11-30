@@ -1,4 +1,4 @@
-import { ForumPostBase, ForumPostDTO } from "@/interfaces/ForumSchemas";
+import { ForumPostBase } from "@/interfaces/ForumSchemas";
 import styled from "styled-components";
 import { DataGrid } from "./DataGrid";
 import { forumPostColumns } from "@/molecules/ForumPostListColumns";

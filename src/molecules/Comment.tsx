@@ -55,8 +55,10 @@ const Comment = ({comment, className} : CommentProps) => {
         
     useEffect(() => {
             replyForm.register("comment_body");
+    }, [replyForm]);
+    useEffect(() => {
             editForm.register("comment_body");
-    }, []);
+    }, [editForm]);
         
     const onReply = async (values : ICommentForm) => {
         let response : (ForumCommentDTO | undefined);

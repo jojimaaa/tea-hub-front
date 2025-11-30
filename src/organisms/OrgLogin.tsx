@@ -73,7 +73,7 @@ function OrgLogin({className, increment, decrement}:OrgLoginProps){
     useEffect(() => {
         formLogin.register("email");
         formLogin.register("password");
-    }, []);
+    }, [formLogin]);
 
     return(
         <StyledContainer className={className}>

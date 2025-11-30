@@ -12,7 +12,6 @@ import { ForumCommentDTO, ForumPostDTO, ICommentForm, IEditPostForm } from '@/in
 import TextButtonForm from '@/molecules/TextButtonForm';
 import CommentList from '@/organisms/CommentList';
 import ForumTopicDropdown from '@/organisms/ForumTopicDropdown';
-import MdEditorPreview from '@/molecules/MdEditorPreview';
 import { createComment, deletePost, editForumPost, togglePostLike } from '@/services/forumServices';
 import { formatMediumDate } from '@/utils/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -74,10 +73,12 @@ export default function Forum({params} : ForumPostParams) {
     
     useEffect(() => {
             commentForm.register("comment_body");
+        }, [commentForm]);
+    useEffect(() => {
             editPostForm.register("body");
             editPostForm.register("topic_id");
             editPostForm.register("title");
-        }, []);
+        }, [editPostForm]);
         
     useEffect(()=> {
         if(post) {
@@ -87,7 +88,7 @@ export default function Forum({params} : ForumPostParams) {
             setMd(post.body);
         }
         console.log(post);
-    }, [post])
+    }, [post, editPostForm])
     
     const onComment = async (values : ICommentForm) => {
         let response : (ForumCommentDTO | undefined);
@@ -172,6 +173,7 @@ export default function Forum({params} : ForumPostParams) {
             </StyledGrid>
             {isEditing ? 
                 <StyledTopicDropdown
+                    enableNoSelection={false}
                     defaultTopicId={editPostForm.getValues().topic_id.toString()}
                     value='topic_id'
                     setValue={editPostForm.setValue}

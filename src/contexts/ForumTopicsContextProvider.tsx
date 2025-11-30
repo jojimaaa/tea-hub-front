@@ -26,7 +26,7 @@ export const ForumTopicContextProvider = ({children} : ForumTopicContextProvider
             await getForumTopicsAsync();
         }
         fetch();
-    }, [])
+    }, [getForumTopicsAsync])
 
     return (
         <ForumTopicContext.Provider

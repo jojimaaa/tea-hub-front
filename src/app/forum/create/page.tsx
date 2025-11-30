@@ -1,7 +1,6 @@
 'use client'
-import { PrimaryBaseButton, StyledLabeledTitleInput, StyledPageContainer } from "@/atoms/StyledAtoms";
+import { StyledLabeledTitleInput, StyledPageContainer } from "@/atoms/StyledAtoms";
 import { ForumPostSchema } from "@/interfaces/ForumSchemas";
-import FormInput from "@/molecules/FormInput";
 import ForumTopicDropdown from "@/organisms/ForumTopicDropdown";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
@@ -28,7 +27,7 @@ const postFormSchema = z.object({
 const CreateForumPostPage = () => {
     const [md, setMd] = useState("");
     const router = useRouter();
-    const {loading, error, value, execute : createPostAsync} = useAsyncFn(createForumPost)
+    const {loading, error, execute : createPostAsync} = useAsyncFn(createForumPost)
 
     const postForm = useForm<z.infer<typeof postFormSchema>>({
         resolver: zodResolver(postFormSchema),
@@ -45,7 +44,7 @@ const CreateForumPostPage = () => {
         postForm.register("title");
         postForm.register("body");
         postForm.register("topic_id");
-    }, [])
+    }, [postForm])
 
     const onSubmit = async (values : ForumPostSchema) => {
         const response = await createPostAsync(values.title, values.body, values.topic_id);
@@ -111,7 +110,8 @@ const StyledRow = styled.div`
 
 const StyledDropdown = styled(ForumTopicDropdown)`
     height: 43px;
-    width: 100px;
+    width: min-content;
+    min-width: 120px;
     background-color: var(--secondary);
 `;
 

@@ -1,8 +1,8 @@
-import { DetailedHTMLProps, Dispatch, SetStateAction, TextareaHTMLAttributes } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { UseFormRegister, UseFormSetValue } from "react-hook-form";
 import styled from "styled-components";
 
-interface FormTextAreaProps extends DetailedHTMLProps<TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement> {
+interface FormTextAreaProps {
     setInstantValue? : Dispatch<SetStateAction<any>>
     defaultValue? : string;
     register: UseFormRegister<any>;
@@ -12,7 +12,7 @@ interface FormTextAreaProps extends DetailedHTMLProps<TextareaHTMLAttributes<HTM
     setValue: UseFormSetValue<any>,
 }
 
-const FormTextArea = ({className, defaultValue, placeHolder, value, register, setValue, setInstantValue, ...props} : FormTextAreaProps) => {
+const FormTextArea = ({className, defaultValue, placeHolder, value, register, setValue, setInstantValue} : FormTextAreaProps) => {
     return (<StyledTextarea 
         defaultValue={defaultValue}
         placeholder={placeHolder}

@@ -31,7 +31,7 @@ const ForumTopicDropdown = ({
 } : ForumTopicDropdownProps) => {
     const [position, setPosition] = useState(defaultTopicId);
 
-    const {loading, error, topics, fetchTopics} = useForumTopics();
+    const {loading, topics} = useForumTopics();
 
     return (
         <div>

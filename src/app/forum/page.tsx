@@ -35,20 +35,15 @@ const ForumHomePage = () => {
 
     useEffect(() => {
         const fetchPosts = async () => {
-            try {
-                const posts = await getForumPostsAsync(forumPostForm.getValues())
-                if (posts) setPosts(posts);
-                console.log(posts);
-            } catch (error) {
-                
-            }
+            const posts = await getForumPostsAsync(forumPostForm.getValues())
+            if (posts) setPosts(posts);
         }
         
         fetchPosts();
         
         forumPostForm.register("title");
         forumPostForm.register("topic_id");
-    }, [])
+    }, [forumPostForm, getForumPostsAsync])
     
     const onSubmit = async (values : ForumFilterSchema) => {
         console.log("aqui")

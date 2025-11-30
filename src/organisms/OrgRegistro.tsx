@@ -36,7 +36,7 @@ function OrgRegistro({className}:OrgRegistroProps){
         form.register("password");
         form.register("username");
         form.register("name");
-    }, []);
+    }, [form]);
 
     const errorToast403 = (error : AxiosError<AuthMissCredentials>) => toast.error(`Erro ao criar conta: ${error.response?.data.detail}`);
 
