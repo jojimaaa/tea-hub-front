@@ -11,7 +11,7 @@ interface TextButtonFormProps {
     placeHolder?: string,
     initialvalue?: string,
     error?: Error,
-    autoFocus?: boolean,
+
     loading: boolean,
     buttonText: string,
     register: UseFormRegister<any>;
@@ -20,7 +20,7 @@ interface TextButtonFormProps {
     handleSubmit: (e: any) => Promise<void>
 }
 
-const TextButtonForm = ({className, fieldErrors, placeHolder, error, buttonText, autoFocus = false, loading, register, value, setValue, handleSubmit} : TextButtonFormProps) => {
+const TextButtonForm = ({className, fieldErrors, placeHolder, error, buttonText, loading, register, value, setValue, handleSubmit} : TextButtonFormProps) => {
     return (
         <StyledContainer className={className}>
             <StyledRow>

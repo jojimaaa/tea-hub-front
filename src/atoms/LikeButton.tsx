@@ -7,7 +7,7 @@ export interface LikeButtonProps {
     likedByMe: boolean,
     likeCount: number,
     disabled?: boolean,
-    onClick?: Function,
+    onClick?: () => void,
     className?: string
 }
 

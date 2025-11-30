@@ -1,7 +1,6 @@
 import { UseFormRegister, UseFormSetValue } from "react-hook-form";
 import '../app/globals.css'
 import styled from "styled-components";
-import { Input } from "@/components/ui/input";
 
 interface FormInputProps{
     label: string;

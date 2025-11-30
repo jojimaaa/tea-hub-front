@@ -3,7 +3,7 @@ import '../app/globals.css'
 import { Button } from '@/components/ui/button';
 
 interface AtminputBotaoProps {
-    onClick: Function
+    onClick: (e : any) => void
     className?:string
     value:string
 }

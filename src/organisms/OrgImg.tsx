@@ -74,11 +74,6 @@ const BackButton = styled.button`
   };
 `;
 
-const BackImage = styled.img`
-  width: 100%;
-  height: 80%;
-`;
-
 const BackLabel = styled.h1`
   font-family: var(--font-montserrat);
   font-size: 15px;

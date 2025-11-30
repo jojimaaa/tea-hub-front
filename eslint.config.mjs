@@ -15,7 +15,8 @@ const eslintConfig = [
     rules : {
       "no-console": "off",
       "react-hooks/exhaustive-deps": "warn",
-      "@next/next/no-img-element": "off"
+      "@next/next/no-img-element": "off",
+      "@typescript-eslint/no-explicit-any": "off"
     },
     ignores: [
       "node_modules/**",

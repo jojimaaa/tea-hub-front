@@ -26,24 +26,27 @@ function LoginPage() {
        <LoginRegisterFlipbook 
        index={index}
        itemsE={[
-          <StyledRegistro increment={increment} decrement={decrement}></StyledRegistro>,
-          <StyledLogin increment={increment} decrement={decrement}></StyledLogin>,
-          <StyledEsqueci increment={increment} decrement={decrement}></StyledEsqueci>
+          <StyledRegistro key={"registro"} increment={increment} decrement={decrement}></StyledRegistro>,
+          <StyledLogin key={"login"} increment={increment} decrement={decrement}></StyledLogin>,
+          <StyledEsqueci key={"esqueci"} increment={increment} decrement={decrement}></StyledEsqueci>
        ]}
        itemsD={[
           <StyledImg
+            key={"panel1"}
             TextoGiga="Bem - Vindo"
             TextoMini="Estamos felizes em te ver por aqui"
             onClick={increment}
             index={index}>
           </StyledImg>,
           <StyledImg
+            key={"panel2"}
             TextoGiga="Bem - Vindo"
             TextoMini="Estamos felizes em te ver por aqui"
             onClick={increment}
             index={index}>
           </StyledImg>,
           <StyledImg
+            key={"panel3"}    
             TextoGiga="Bem - Vindo"
             TextoMini="Estamos felizes em te ver por aqui"
             onClick={decrement}

@@ -3,14 +3,13 @@ import '../app/globals.css'
 
 interface BotaoProps{
     Nome?:string;
-    classNameBt?:string;
-    classNameTxt?:string;
+    className?:string;
     onClick?: () => void;
 }
 
-function LineButton({Nome, classNameBt, classNameTxt, onClick}:BotaoProps) {
+function LineButton({Nome, className, onClick}:BotaoProps) {
     return (
-        <Button className={classNameBt} onClick={onClick}>{Nome}</Button>
+        <Button className={className} onClick={onClick}>{Nome}</Button>
         // <Button className={classNameBt} onClick={onClick}>
         //     <Label className={classNameTxt}>{Nome}</Label>
         // </Button>

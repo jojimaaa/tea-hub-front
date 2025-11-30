@@ -20,13 +20,16 @@ const sleep = (milliseconds : number) => {
 // }
 
 //mock forum services
-let {
+const {
     users,
     topics,
-    posts,
-    comments,
     // commentLikes,
     // postLikes,
+} = generateMockData();
+
+let {    
+    posts,
+    comments
 } = generateMockData();
 
 

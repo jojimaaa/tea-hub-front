@@ -121,7 +121,7 @@ export const ForumPostContextProvider = ({ children, slug }: { children: React.R
             }
             return prev-1;
         });
-        setLocalLikedByMe((prev) => {
+        setLocalLikedByMe(() => {
             if(isAddingLike) {
                 return true;
             }

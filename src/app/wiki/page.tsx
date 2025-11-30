@@ -29,7 +29,3 @@ const TitleLabel = styled(Label)`
     font-size: 30px;
 `;
 
-const StyledSearchBarContainer = styled.div`
-    margin-top: 20px;
-    margin-bottom: 20px;
-`;

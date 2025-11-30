@@ -14,7 +14,7 @@ import CommentList from '@/organisms/CommentList';
 import { createComment, deletePost, editForumPost, togglePostLike } from '@/services/forumServices';
 import { formatMediumDate } from '@/utils/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Edit, Heart, Trash2 } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -38,24 +38,19 @@ export default function Forum({params} : ForumPostParams) {
     const router = useRouter();
     const {auth} = useAuth();
     const {loading, 
-            error, 
             post,
             localBody,
             localLikeCount,
             localLikedByMe, 
-            getReplies, 
             rootComments,
             createLocalComment, 
-            deleteLocalComment,
-            editLocalComment,
-            toggleLocalCommentLike,
             toggleLocalPostLike,
             editLocalBody
         } = useForumPost();
     const {loading : commentLoading, error : commentError, execute : createCommentExecute} = useAsyncFn(createComment);
     const {loading : editLoading, error : editError, execute : editForumPostExecute} = useAsyncFn(editForumPost);
-    const {loading : deleteLoading, error : deleteError, execute : deleteForumPostExecute} = useAsyncFn(deletePost);
-    const {loading : togglePostLikeLoading, error : togglePostLikeError, execute : togglePostLikeExecute} = useAsyncFn(togglePostLike);
+    const {execute : deleteForumPostExecute} = useAsyncFn(deletePost);
+    const {execute : togglePostLikeExecute} = useAsyncFn(togglePostLike);
 
     const [isEditing, setEditing] = useState<boolean>(false);
     
@@ -105,7 +100,7 @@ export default function Forum({params} : ForumPostParams) {
 
     const onDeletePost = async () => {
         if(post) {
-            let response : (boolean) = await deleteForumPostExecute(post.id);
+            const response : (boolean) = await deleteForumPostExecute(post.id);
             if (response) {
                 toast.success("Post deletado com sucesso!");
                 router.push("/");

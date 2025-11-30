@@ -3,7 +3,7 @@
 import { TokenPayload } from "@/interfaces/AuthSchemas"
 import { getCookie } from "@/services/authServices"
 import { jwtDecode } from "jwt-decode"
-import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useEffect, useState } from "react"
+import { createContext, Dispatch, ReactNode, SetStateAction, useEffect, useState } from "react"
 
 interface AuthState {
     name: string,
