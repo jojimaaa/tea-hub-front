@@ -1,4 +1,3 @@
-"use client"
 import "./globals.css";
 import { AuthContextProvider } from "@/contexts/AuthContextProvider";
 import Header from "@/organisms/Header";

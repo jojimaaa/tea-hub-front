@@ -21,7 +21,7 @@ export function middleware(request: NextRequest) {
 //    Ele não vai mais rodar em /login, /, etc.
 export const config = {
   matcher: [
-    '/wiki',
+    // '/wiki',
     // Protege /wiki e tudo dentro dele (ex: /wiki/artigo/123)
     // Adicione outras rotas para proteger aqui:
     // '/dashboard/:path*',

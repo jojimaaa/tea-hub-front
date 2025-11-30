@@ -100,7 +100,6 @@ const Comment = ({comment, className} : CommentProps) => {
                 {isEditing ? 
                     <StyledCommentForm
                         placeHolder={"Editar comentário."}
-                        autoFocus
                         buttonText="Editar"
                         loading={editLoading}
                         fieldErrors={editForm.formState.errors}
@@ -140,7 +139,6 @@ const Comment = ({comment, className} : CommentProps) => {
             {isReplying && auth && auth.username && <StyledCommentForm
                                 placeHolder={"Responder comentário."}
                                 buttonText="Responder"
-                                autoFocus
                                 loading={replyLoading}
                                 fieldErrors={replyForm.formState.errors}
                                 error={replyError}

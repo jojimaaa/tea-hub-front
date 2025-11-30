@@ -156,7 +156,6 @@ export default function Forum({params} : ForumPostParams) {
                 placeHolder={"Edite o post."}
                 error={editError}
                 buttonText={"Editar"}
-                autoFocus
                 loading={editLoading}
                 register={postForm.register}
                 value={"body"}

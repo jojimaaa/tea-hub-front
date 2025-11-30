@@ -1,12 +1,14 @@
 import WikiTitleLineButton from "@/atoms/TitleLineButton";
 import { WikiPostSchema } from "@/interfaces/WikiSchemas";
-import { getTopicList } from "@/services/wikiServices";
+import { WikiTopicSchema } from "@/interfaces/WikiSchemas"; // Importe a interface do tópico (ajuste o nome se necessário)
 import { ColumnDef } from "@tanstack/react-table";
 import styled from "styled-components";
 
-const topics = await getTopicList();
+// REMOVA O AWAIT DAQUI!
+// const topics = await getTopicList(); 
 
-export const columns: ColumnDef<WikiPostSchema>[] = [
+// Agora exportamos uma FUNÇÃO que cria as colunas baseada nos tópicos recebidos
+export const getColumns = (topics: any[]): ColumnDef<WikiPostSchema>[] => [
     {
         accessorKey: "title",
         header: "Título",
@@ -30,11 +32,15 @@ export const columns: ColumnDef<WikiPostSchema>[] = [
         header: "Tópico",
         cell: ({row}) => {
             const topic_id = row.getValue("topic_id");
-            if(topics && topics.filter((e) => e.id == topic_id)[0]){
+            
+            // Usamos a lista 'topics' que foi passada como argumento para a função
+            const topic = topics.find((e) => e.id == topic_id);
+
+            if(topic){
                 return (
                 <StyledCell>
                     <StyledText>
-                        {topics.filter((e) => e.id == topic_id)[0].name}
+                        {topic.name}
                     </StyledText>
                 </StyledCell>)
             }
@@ -45,7 +51,10 @@ export const columns: ColumnDef<WikiPostSchema>[] = [
         accessorKey: "created_date",
         header: "Data de publicação",
         cell: ({row}) => {
-            const dateObj = new Date(row.getValue("created_date"));
+            const dateValue = row.getValue("created_date");
+            if (!dateValue) return <StyledCell>-</StyledCell>;
+
+            const dateObj = new Date(dateValue as string | Date);
             const formatter = new Intl.DateTimeFormat('pt-BR', {
                 weekday: 'long',
                 year: 'numeric',
@@ -61,19 +70,13 @@ export const columns: ColumnDef<WikiPostSchema>[] = [
             );
         },
     },
-    {
-        accessorKey: "id",
-        header: "",
-        cell: ({row}) => {return (<></>)}
-    },
+    // Removi a coluna vazia do final pois não parecia necessária, 
+    // mas pode recolocar se tiver uso.
+];
 
-]
+const StyledCell = styled.div``;
 
-const StyledCell = styled.div`
-
-`;
-
-const StyledText = styled.text`
+const StyledText = styled.span` // Mudei de .text para .span (text não é tag HTML válida)
     color: var(--primary-foreground);
     font-family: var(--font-arial);
 `;
