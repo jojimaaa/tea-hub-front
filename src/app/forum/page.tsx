@@ -2,7 +2,7 @@
 import { PrimaryBaseButton, StyledPageContainer } from "@/atoms/StyledAtoms";
 import { useAsyncFn } from "@/hooks/useAsync";
 import { ForumFilterSchema, ForumPostBase } from "@/interfaces/ForumSchemas";
-import ForumHomeTitle from "@/organisms/ForumHomeTitle";
+import TitleLabel from "@/atoms/TitleLabel";
 import ForumPostList from "@/organisms/ForumPostList";
 import ForumSearchFilter from "@/organisms/ForumSearchFilter";
 import { getForumPosts } from "@/services/forumServices";
@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import z from "zod";
+import { useRouter } from "next/navigation";
 
 const forumPostFormSchema = z.object({
     title: z.string().optional(),
@@ -21,6 +22,8 @@ const ForumHomePage = () => {
     const [posts, setPosts] = useState<ForumPostBase[]>([]);
 
     const {loading, error, execute : getForumPostsAsync} = useAsyncFn(getForumPosts);
+
+    const router = useRouter();
 
     const forumPostForm = useForm<z.infer<typeof forumPostFormSchema>>({
         resolver: zodResolver(forumPostFormSchema),
@@ -56,14 +59,17 @@ const ForumHomePage = () => {
 
     return (
         <StyledPageContainer>
-            <ForumHomeTitle/>
+            <TitleLabel
+                title={"Forum TEA-HUB"}
+            />
             <RowBox>
                 <StyledFilterBar
                     form={forumPostForm}
                 />
                 <PrimaryBaseButton onClick={(e) => forumPostForm.handleSubmit(onSubmit)(e)}>Buscar</PrimaryBaseButton>
+                <PrimaryBaseButton onClick={() => router.push("/forum/create")}>Criar post</PrimaryBaseButton>
             </RowBox>
-            {error ? <>"ERRO" {error.message} </> : loading ? "Loading" : <StyledList posts={posts}/>}
+            {error ? <div> {"Erro: " + error.message} </div> : loading ? "Loading" : <StyledList posts={posts}/>}
         </StyledPageContainer>
     );
 }

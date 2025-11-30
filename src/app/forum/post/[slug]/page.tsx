@@ -9,9 +9,10 @@ import { useAsyncFn } from '@/hooks/useAsync';
 import useAuth from '@/hooks/useAuth';
 import useForumPost from '@/hooks/useForumPost';
 import { ForumCommentDTO, ForumPostDTO, ICommentForm, IEditPostForm } from '@/interfaces/ForumSchemas';
-import TextButtonForm from '@/molecules/CommentForm';
+import TextButtonForm from '@/molecules/TextButtonForm';
 import CommentList from '@/organisms/CommentList';
 import ForumTopicDropdown from '@/organisms/ForumTopicDropdown';
+import MdEditorPreview from '@/molecules/MdEditorPreview';
 import { createComment, deletePost, editForumPost, togglePostLike } from '@/services/forumServices';
 import { formatMediumDate } from '@/utils/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -22,6 +23,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import styled from 'styled-components';
 import z from 'zod';
+import MdButtonForm from '@/organisms/MdButtonForm';
 
 interface ForumPostParams {
     params : Promise<{
@@ -56,11 +58,11 @@ export default function Forum({params} : ForumPostParams) {
     const {loading : editLoading, error : editError, execute : editForumPostExecute} = useAsyncFn(editForumPost);
     const {execute : deleteForumPostExecute} = useAsyncFn(deletePost);
     const {execute : togglePostLikeExecute} = useAsyncFn(togglePostLike);
-
-    const [isEditing, setEditing] = useState<boolean>(false);
     
-
-
+    const [isEditing, setEditing] = useState<boolean>(false);
+    const [md, setMd] = useState<string>("");
+    
+    
     const commentForm = useForm<z.infer<typeof commentFormSchema>>({
         resolver: zodResolver(commentFormSchema),
         defaultValues: {comment_body: ""}
@@ -75,13 +77,14 @@ export default function Forum({params} : ForumPostParams) {
             editPostForm.register("body");
             editPostForm.register("topic_id");
             editPostForm.register("title");
-    }, []);
-
+        }, []);
+        
     useEffect(()=> {
         if(post) {
             editPostForm.setValue("body", post.body);
             editPostForm.setValue("topic_id", post.topic.id);
             editPostForm.setValue("title", post.title);
+            setMd(post.body);
         }
         console.log(post);
     }, [post])
@@ -133,6 +136,7 @@ export default function Forum({params} : ForumPostParams) {
         }
     }
 
+    useEffect(() => {console.log(rootComments)},[rootComments]);
 
 
     if(!params) return <>NOT FOUND!</>
@@ -175,17 +179,26 @@ export default function Forum({params} : ForumPostParams) {
                 <StyledTopicLabel>{localTopicName}</StyledTopicLabel>}
             {/* <StyledBody>{post.body}</StyledBody> */}
             {isEditing ? 
-                <EditPostForm
-                    fieldErrors={editPostForm.formState.errors}
-                    placeHolder={"Edite o post."}
-                    error={editError}
-                    buttonText={"Editar"}
-                    loading={editLoading}
-                    register={editPostForm.register}
-                    value={"body"}
-                    setValue={editPostForm.setValue}
-                    handleSubmit={editPostForm.handleSubmit(onEditPost)}
-                /> : 
+                <EditFormContainer>
+                    <EditPostForm
+                        fieldErrors={editPostForm.formState.errors}
+                        placeHolder={"Edite o post."}
+                        error={editError}
+                        buttonText={"Editar"}
+                        loading={editLoading}
+                        // register={editPostForm.register}
+                        // value={"body"}
+                        // setValue={editPostForm.setValue}
+                        // handleSubmit={editPostForm.handleSubmit(onEditPost)}
+                        formRegister={editPostForm.register}
+                        formValue={"body"}
+                        setFormValue={editPostForm.setValue}
+                        setMdValue={setMd}
+                        mdValue={md}
+                        handleSubmit={editPostForm.handleSubmit(onEditPost)}
+                    /> 
+                </EditFormContainer>
+                : 
                 <StyledMarkdownBody markdownContent={localBody}/>
             }
             <StyledMediumButtonRow>
@@ -223,7 +236,7 @@ export default function Forum({params} : ForumPostParams) {
                 setValue={commentForm.setValue}
                 handleSubmit={commentForm.handleSubmit(onComment)}
             />}
-            {rootComments && rootComments.length > 1 && (<CommentList comments={rootComments}/>)}
+            {rootComments && rootComments.length > 0 && (<CommentList comments={rootComments}/>)}
             <Toaster/>
         </StyledContainer>
     );
@@ -234,8 +247,24 @@ const StyledSpinner = styled(Spinner)`
     height: 30px;
 `;
 
-const EditPostForm = styled(TextButtonForm)`
-    height: auto;
+// const EditPostForm = styled(TextButtonForm)`
+//     height: auto;
+// `;
+const EditFormContainer = styled.div`
+    min-height: 800px;
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+`;
+const EditPostForm = styled(MdButtonForm)`
+    align-items: center;
+    align-content: center;
+    min-height: 730px;
+    max-height: 730px;
+    min-width: 100%;
+    max-width: 100%;
 `;
 
 const StyledGrid = styled.div`

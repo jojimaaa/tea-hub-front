@@ -39,8 +39,6 @@ export default WikiRecomList;
 
 const StyledContainer = styled.div`
     height: 100%;
-    margin-top: 20px;
-
 `;
 
 const StyledListContainer = styled.div`

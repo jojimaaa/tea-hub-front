@@ -3,7 +3,6 @@ import FormInput from "@/molecules/FormInput";
 import { UseFormReturn } from "react-hook-form";
 import styled from "styled-components";
 import ForumTopicDropdown from "./ForumTopicDropdown";
-import { PrimaryBaseButton } from "@/atoms/StyledAtoms";
 
 interface ForumSearchFilterProps {
     className? : string,
@@ -39,6 +38,7 @@ const StyledContainer = styled.div`
 `;
 
 const TitleInput = styled(FormInput)`
+    width: 100%;
 `;
 
 const TopicDropdown = styled(ForumTopicDropdown)`

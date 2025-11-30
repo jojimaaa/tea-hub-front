@@ -1,5 +1,6 @@
 import { DetailedHTMLProps, Dispatch, SetStateAction, TextareaHTMLAttributes } from "react";
 import { UseFormRegister, UseFormSetValue } from "react-hook-form";
+import styled from "styled-components";
 
 interface FormTextAreaProps extends DetailedHTMLProps<TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement> {
     setInstantValue? : Dispatch<SetStateAction<any>>
@@ -12,7 +13,7 @@ interface FormTextAreaProps extends DetailedHTMLProps<TextareaHTMLAttributes<HTM
 }
 
 const FormTextArea = ({className, defaultValue, placeHolder, value, register, setValue, setInstantValue, ...props} : FormTextAreaProps) => {
-    return (<textarea 
+    return (<StyledTextarea 
         defaultValue={defaultValue}
         placeholder={placeHolder}
         {...register(value)}
@@ -25,7 +26,11 @@ const FormTextArea = ({className, defaultValue, placeHolder, value, register, se
         >
 
 
-    </textarea>)
+    </StyledTextarea>)
 }
 
 export default FormTextArea;
+
+const StyledTextarea = styled.textarea`
+    min-height: 60px;
+`;

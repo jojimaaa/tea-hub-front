@@ -1,27 +1,34 @@
 'use client'
-import FormTextArea from "@/atoms/FormTextArea";
-import { PrimaryBaseButton, StyledMarkdownBody, StyledPageContainer } from "@/atoms/StyledAtoms";
+import { PrimaryBaseButton, StyledLabeledTitleInput, StyledPageContainer } from "@/atoms/StyledAtoms";
 import { ForumPostSchema } from "@/interfaces/ForumSchemas";
 import FormInput from "@/molecules/FormInput";
 import ForumTopicDropdown from "@/organisms/ForumTopicDropdown";
-import MdEditorPreview from "@/organisms/MdEditorPreview";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import z from "zod";
+import MdButtonForm from "@/organisms/MdButtonForm";
+import { createForumPost } from "@/services/forumServices";
+import { useAsyncFn } from "@/hooks/useAsync";
+import TitleLabel from "@/atoms/TitleLabel";
+import { useRouter } from "next/navigation";
+import { Toaster } from "@/components/ui/sonner";
+import { toast } from "sonner";
 
 const postFormSchema = z.object({
-        // title: z.string().min(1, "Um título é necessaria para criar um post."),
-        // body: z.string().min(1, "Uma mensagem é necessaria para criar um post."),
-        // topic_id: z.int().min(10, "Selecione um tópico para criar o post.")
-        title: z.string(),
-        body: z.string(),
-        topic_id: z.int()
+        title: z.string().min(1, "Um título é necessaria para criar um post."),
+        body: z.string().min(1, "Uma mensagem é necessaria para criar um post."),
+        topic_id: z.int().min(10, "Selecione um tópico para criar o post.")
+        // title: z.string(),
+        // body: z.string(),
+        // topic_id: z.int()
 });
 
 const CreateForumPostPage = () => {
     const [md, setMd] = useState("");
+    const router = useRouter();
+    const {loading, error, value, execute : createPostAsync} = useAsyncFn(createForumPost)
 
     const postForm = useForm<z.infer<typeof postFormSchema>>({
         resolver: zodResolver(postFormSchema),
@@ -32,80 +39,81 @@ const CreateForumPostPage = () => {
         }
     });
 
+
+
     useEffect(() => {
         postForm.register("title");
         postForm.register("body");
         postForm.register("topic_id");
     }, [])
 
-    const onSubmit = (values : ForumPostSchema) => {
-        console.log(values)
+    const onSubmit = async (values : ForumPostSchema) => {
+        const response = await createPostAsync(values.title, values.body, values.topic_id);
+        if (response) router.push(`/forum/post/${response.id}`)
+        else toast.error(`Erro ao criar post, tente novamente ou contate os administradores.`);
     }
 
     return(
-        <StyledPageContainer>
-            <StyledTitleInput
-                label="Título"
-                placeHolder="Escreva aqui o título do seu post. (Aceita Markdown)"
-                value="title"
-                setValue={postForm.setValue}
-                register={postForm.register}
-            />
-            <MdEditorPreview
-                setMdValue={setMd}
-                mdValue={md}
-                placeHolder="Escreva aqui seu post."
-                formRegister={postForm.register}
-                formValue="body"
-                setFormValue={postForm.setValue}
+        <Container>
+            <Toaster/>
+            <TitleLabel
+                title="Crie seu post no Forum TEA-HUB"
             />
             <StyledRow>
-                <ForumTopicDropdown
+                <StyledLabeledTitleInput
+                    label="Título"
+                    placeHolder="Escreva aqui o título do seu post."
+                    value="title"
+                    setValue={postForm.setValue}
+                    register={postForm.register}
+                />
+                <StyledDropdown
                     enableNoSelection={false}
                     value="topic_id"
                     setValue={postForm.setValue}
                 />
-                <PrimaryBaseButton
-                    onClick={(e) => {
-                        e.preventDefault();
-                        postForm.handleSubmit(onSubmit)(e);
-                    }}
-                >
-                    Criar Post
-                </PrimaryBaseButton>
+
             </StyledRow>
-        </StyledPageContainer>
+            <MdButtonForm
+                fieldErrors={postForm.formState.errors}
+                error={error} 
+                buttonText={"Criar post"}
+                loading={loading}
+                setMdValue={setMd}
+                mdValue={md}
+                placeHolder="Escreva aqui seu post. (Aceita Markdown)"
+                formRegister={postForm.register}
+                formValue="body"
+                setFormValue={postForm.setValue}
+                handleSubmit={postForm.handleSubmit(onSubmit)}
+            />
+        </Container>
 
     );
 }
 
 export default CreateForumPostPage;   
 
+const Container = styled(StyledPageContainer)`
+    padding-inline: 15%;
+`;
+
 const StyledRow = styled.div`
     width: 100%;
     display: flex;
     flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 35%;
+    align-items: end;
+    justify-content: space-between;
     margin-bottom: 10px;
     margin-top: 10px;
+    gap: 15px;
+`;
+
+const StyledDropdown = styled(ForumTopicDropdown)`
+    height: 43px;
+    width: 100px;
+    background-color: var(--secondary);
 `;
 
 
-const StyledTitleInput = styled(FormInput)`
-    margin-top: 15px;
-    max-width: 48.5%;
-    margin-bottom: 10px;
-    font-family: var(--font-lexend-exa);
-    color: var(--primary-foreground);
-    font-size: 25px;
-    overflow-wrap: break-word;
-
-    @media (max-width: 1600px) {
-        max-width: 85%;
-        flex-direction: column;
-        align-items: center;
-    }
-`;
 

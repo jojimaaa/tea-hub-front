@@ -1,9 +1,11 @@
 import { Label } from "@/components/ui/label";
 import styled from "styled-components";
-const ForumHomeTitle = () => {
+
+
+const TitleLabel = ({title} : {title : string}) => {
     return(
         <StyledTitle>
-            Forum TEA-HUB
+            {title}
         </StyledTitle>
     );
 }
@@ -22,4 +24,4 @@ const StyledTitle = styled.div`
     font-size: 40px; 
 `;
 
-export default ForumHomeTitle
+export default TitleLabel

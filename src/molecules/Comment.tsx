@@ -10,7 +10,7 @@ import { formatMediumDate } from "@/utils/utils";
 import { Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import TextButtonForm from "./CommentForm";
+import TextButtonForm from "./TextButtonForm";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";

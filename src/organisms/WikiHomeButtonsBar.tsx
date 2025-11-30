@@ -32,6 +32,7 @@ const StyledContainer = styled.div`
     flex-direction: column;
     justify-items: center;
     height: 100%;
+    width: 100%;
     margin-bottom: 40px;
 `;
 

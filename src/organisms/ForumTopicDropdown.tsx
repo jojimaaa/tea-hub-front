@@ -34,16 +34,17 @@ const ForumTopicDropdown = ({
     const {loading, error, topics, fetchTopics} = useForumTopics();
 
     return (
-        <div className={className}>
+        <div>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <PrimaryBaseButton>{position != "" ? topics?.find(topic => topic.id.toString() == position)?.name : "Tópico"}<ChevronDown/></PrimaryBaseButton>
+                    <PrimaryBaseButton className={className}>{position != "" ? topics?.find(topic => topic.id.toString() == position)?.name : "Tópico"}<ChevronDown/></PrimaryBaseButton>
                 </DropdownMenuTrigger>
                 {!!!loading && <StyledMenuContent>
                     <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
                         {enableNoSelection && <StyledRadioItem value="" onSelect={()=> setValue(value, undefined)}>Todos</StyledRadioItem>}
                         {topics && topics.map(topic => {
                             return(<StyledRadioItem 
+                                        key={topic.id}
                                         value={topic.id.toString()} 
                                         onSelect={() => setValue(value, topic.id)}
                                     >

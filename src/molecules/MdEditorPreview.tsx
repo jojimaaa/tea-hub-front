@@ -27,38 +27,37 @@ const MdEditorPreview = ({
 
 } : MdEditorPreviewProps) => {
 
-    return <div className={className}>
-        <StyledEditorCol>
-            <StyledBodyInput
-                placeHolder={placeHolder}
-                defaultValue={defaultValue}
-                setInstantValue={setMdValue}
-                register={formRegister}
-                setValue={setFormValue}
-                value={formValue}
-            />
-            <StyledPreview 
-                placeHolder="Visualize aqui como seu post vai ficar."
-                markdownContent={mdValue}
-            />
-        </StyledEditorCol>
-    </div>
+    
+    return  <StyledEditorCol>
+                <StyledBodyInput
+                    className={className}
+                    placeHolder={placeHolder}
+                    defaultValue={defaultValue}
+                    setInstantValue={setMdValue}
+                    register={formRegister}
+                    setValue={setFormValue}
+                    value={formValue}
+                />
+                <StyledPreview 
+                    className={className}
+                    placeHolder="Visualize aqui como seu post vai ficar."
+                    markdownContent={mdValue}
+                />
+            </StyledEditorCol>
 }
 
 export default MdEditorPreview;
 
 const StyledEditorCol = styled.div`
-    gap: 1%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 100vh;
+    width: 100%;
     height: 100%;
-    overflow-x: auto;   /* garante scroll se faltar espaço */
-    
-    
-    `;
+    /* min-height: 650px; */
+    overflow-x: auto;
+`;
 
 const StyledBodyInput = styled(FormTextArea)`
     min-height: 300px;
@@ -85,12 +84,7 @@ const StyledBodyInput = styled(FormTextArea)`
         outline: none;
     }
     
-    @media (max-width: 800px) {
-        min-width: 50%;
-        max-width: 50%;
-    }
-    
-    `;
+`;
 
 const StyledPreview = styled(StyledMarkdownBody)`
     /* min-height: 600px; */
@@ -118,10 +112,5 @@ const StyledPreview = styled(StyledMarkdownBody)`
         border-color: var(--secondary);
         border-width: 2.5px;
         outline: none;
-    }
-
-    @media (max-width: 800px) {
-        min-width: 50%;
-        max-width: 50%;
     }
 `;

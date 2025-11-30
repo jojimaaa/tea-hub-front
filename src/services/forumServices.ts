@@ -16,7 +16,7 @@ export const getForumPosts = async (forum_filter? : ForumFilterSchema | undefine
             };
     console.log(params);
     
-    var config : AxiosRequestConfig = {
+    const config : AxiosRequestConfig = {
         method: "GET",
         url: "/forum/search",
         params: params,
@@ -50,7 +50,7 @@ export const getForumTopics = async () : Promise<ForumTopicDTO[]> => {
 export const getForumPostById = async (id : string) : Promise<ForumPostDTO | undefined> => {
     const accessToken = getCookie("access-token");
 
-    var config : AxiosRequestConfig = {
+    const config : AxiosRequestConfig = {
         method: "GET",
         url: `/forum/post/${id}`,
         headers: {
@@ -187,6 +187,25 @@ export const deleteComment = async (comment_id: string, post_id: string) : Promi
     // return true;
 }
 
+export const createForumPost = async (title : string, body : string, topic_id : number) : Promise<ForumPostDTO | undefined> => {
+    const accessToken = getCookie("access-token");
+    
+    const config : AxiosRequestConfig = {
+        method: "POST",
+        url: `/forum/submit`,
+        data: {
+            topic_id: topic_id,
+            title: title,
+            body: body,
+        },
+        headers: {
+            "Authorization" : `Bearer ${accessToken ? accessToken : ""}`
+        }
+    }
+    const response = await apiPrivate.request<ForumPostDTO>(config);
+    if (response && response.status == 200) return response.data;
+    return undefined;
+}
 export const editForumPost = async (title : string, body : string, topic_id : number, post_id : string) : Promise<ForumPostDTO | undefined> => {
     const accessToken = getCookie("access-token");
     
