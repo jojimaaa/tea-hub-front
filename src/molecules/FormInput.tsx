@@ -7,14 +7,16 @@ interface FormInputProps{
     register: UseFormRegister<any>;
     className?: string;
     value: string;
-    setValue: UseFormSetValue<any>
+    setValue: UseFormSetValue<any>;
+    placeHolder?: string
 }
 
 function FormInput({label: label, 
                     value: value, 
                     register: register, 
                     className, 
-                    setValue: setValue
+                    setValue: setValue,
+                    placeHolder
                 }:FormInputProps){
     return(
         <StyledContainer className={className}>
@@ -22,7 +24,7 @@ function FormInput({label: label,
             <StyledInput 
                 {...register(value)}    
                 onChange={(e) => {setValue(value, e.target.value)}} 
-                placeholder={label}
+                placeholder={placeHolder}
             ></StyledInput>
         </StyledContainer>
     );
@@ -32,7 +34,7 @@ export default FormInput
 
 const StyledContainer = styled.div`
     height: 100%;
-    width: 70%;
+    width: 100%;
 `;
 
 const Label = styled.h1`
@@ -41,13 +43,13 @@ const Label = styled.h1`
 `;
 
 const StyledInput = styled.input`
-    margin-bottom: 3%;
     border-style: var(--tw-border-style);
     border-width: 1px;
     height: 100%;
     width: 100%;
-    min-height: 37px;
+    min-height: 36px;
     border-radius: 4px;
-    border-color: var(--primary-foreground);
+    border-color: var(--secondary);
     outline-style: none;
+    padding: 5px;
 `;

@@ -9,6 +9,8 @@ export interface ForumPostContextType {
     error: Error | undefined,
     post: ForumPostDTO | undefined,
     localBody: string,
+    localTitle : string,
+    localTopicName:string,
     localLikeCount: number,
     localLikedByMe: boolean,
     getReplies: (parentId: string) => ForumCommentDTO[],
@@ -18,7 +20,7 @@ export interface ForumPostContextType {
     toggleLocalCommentLike: (comment_id: string, isAddingLike: boolean) => void;
     toggleLocalPostLike: (isAddingLike: boolean) => void;
     editLocalComment: (comment: ForumCommentDTO) => void;
-    editLocalBody: (newPost: ForumPostDTO) => void;
+    editLocalPost: (newPost: ForumPostDTO) => void;
 }
 
 export const ForumPostContext = createContext<ForumPostContextType | undefined>(undefined);
@@ -29,6 +31,8 @@ export const ForumPostContextProvider = ({ children, slug }: { children: React.R
 
     const [comments, setComments] = useState<ForumCommentDTO[]>([]);
     const [localBody, setLocalBody] = useState<string>("");
+    const [localTitle, setLocalTitle] = useState<string>("");
+    const [localTopicName, setLocalTopicName] = useState<string>("");
     const [localLikeCount, setLocalLikeCount] = useState<number>(0);
     const [localLikedByMe, setLocalLikedByMe] = useState<boolean>(false);
 
@@ -56,16 +60,28 @@ export const ForumPostContextProvider = ({ children, slug }: { children: React.R
     }, [post?.body])
 
     useEffect(() => {
-        if (post?.likeCount != null) {
-            setLocalLikeCount(post.likeCount);
+        if (post?.topic != null) {
+            setLocalTopicName(post.topic.name);
         }
-    }, [post?.likeCount])
+    }, [post?.topic])
 
     useEffect(() => {
-        if (post?.likedByMe != null) {
-            setLocalLikedByMe(post.likedByMe);
+        if (post?.title != null) {
+            setLocalTitle(post.title);
         }
-    }, [post?.likedByMe])
+    }, [post?.title])
+
+    useEffect(() => {
+        if (post?.like_count != null) {
+            setLocalLikeCount(post.like_count);
+        }
+    }, [post?.like_count])
+
+    useEffect(() => {
+        if (post?.liked_by_me != null) {
+            setLocalLikedByMe(post.liked_by_me);
+        }
+    }, [post?.liked_by_me])
 
     const createLocalComment = (comment : ForumCommentDTO) => {
         setComments((prevComments) => {
@@ -84,8 +100,10 @@ export const ForumPostContextProvider = ({ children, slug }: { children: React.R
         });
     }
 
-    const editLocalBody = (newPost : ForumPostDTO) => {
+    const editLocalPost = (newPost : ForumPostDTO) => {
         setLocalBody(newPost.body);
+        setLocalTitle(newPost.title);
+        setLocalTopicName(newPost.topic.name);
     }
 
     const deleteLocalComment = (comment_id : string) => {
@@ -100,12 +118,12 @@ export const ForumPostContextProvider = ({ children, slug }: { children: React.R
             prevComments.map((comm) => {
                 if (comm.id == comment_id) {
                     if(isAddingLike) {
-                        comm.likeCount++;
-                        comm.likedByMe = true;
+                        comm.like_count++;
+                        comm.liked_by_me = true;
                     }
                     else {
-                        comm.likeCount--;
-                        comm.likedByMe = false;
+                        comm.like_count--;
+                        comm.liked_by_me = false;
                     }
                 }
                 return comm;
@@ -139,6 +157,8 @@ export const ForumPostContextProvider = ({ children, slug }: { children: React.R
                                                 error, 
                                                 post,
                                                 localBody,
+                                                localTitle,
+                                                localTopicName,
                                                 localLikeCount,
                                                 localLikedByMe, 
                                                 getReplies, 
@@ -149,6 +169,6 @@ export const ForumPostContextProvider = ({ children, slug }: { children: React.R
                                                 editLocalComment,
                                                 toggleLocalCommentLike,
                                                 toggleLocalPostLike,
-                                                editLocalBody
+                                                editLocalPost: editLocalPost
                                             }}>{children}</ForumPostContext.Provider>
 }

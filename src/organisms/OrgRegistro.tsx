@@ -22,7 +22,7 @@ function OrgRegistro({className}:OrgRegistroProps){
     const formReg = z.object({
       email: z.email(),
       password: z.string().min(6),
-      name: z.string(),
+      name: z.string().min(6),
       username: z.string().min(4)
     });
     
@@ -36,7 +36,7 @@ function OrgRegistro({className}:OrgRegistroProps){
         form.register("password");
         form.register("username");
         form.register("name");
-    }, []);
+    }, [form]);
 
     const errorToast403 = (error : AxiosError<AuthMissCredentials>) => toast.error(`Erro ao criar conta: ${error.response?.data.detail}`);
 
@@ -67,8 +67,8 @@ function OrgRegistro({className}:OrgRegistroProps){
                 <FormCol>
                     <StyledInput register={form.register} setValue={form.setValue} label='Email' value="email"/>
                     {form.formState.errors && <StyledErrorLabel>{form.formState.errors.email?.message}</StyledErrorLabel>}
-
                     <StyledInput register={form.register} setValue={form.setValue} label='Nome'  value="name"/>
+                    {form.formState.errors && <StyledErrorLabel>{form.formState.errors.name?.message}</StyledErrorLabel>}
                     <StyledInput  register={form.register} setValue={form.setValue} label='Username'  value="username"/>
                     {form.formState.errors && <StyledErrorLabel>{form.formState.errors.username?.message}</StyledErrorLabel>}
                     <StyledInput  register={form.register} setValue={form.setValue} label='Senha' value="password"/>

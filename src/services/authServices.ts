@@ -1,14 +1,20 @@
 import { LoginRequest, LoginResponse, RefreshResponse, RegisterRequest, RegisterResponse } from "@/interfaces/AuthSchemas"
+import { getCookie } from "@/utils/utils"
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from "axios"
 
 const api = axios.create({
-    baseURL: "http://127.0.0.1:8000/auth", //dev
-    //baseURL: "<prod>",              //prod
+    // baseURL: "http://127.0.0.1:8000/auth", //dev
+    baseURL: "https://tea-hub-back-production.up.railway.app/auth",              //prod
 })
 
-const apiPrivate = axios.create({
-    baseURL: "http://127.0.0.1:8000/auth", //dev
-    //baseURL: "<prod>",              //prod
+export const apiPrivate = axios.create({
+    // baseURL: "http://127.0.0.1:8000/", //dev
+    baseURL: "https://tea-hub-back-production.up.railway.app",              //prod
+})
+
+const apiUser = axios.create({
+    // baseURL: "http://127.0.0.1:8000/user", //dev
+    baseURL: "https://tea-hub-back-production.up.railway.app/user",              //prod
 })
 
 interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
@@ -53,7 +59,7 @@ export async function register(data : RegisterRequest) : Promise<AxiosResponse<R
         },
     }
 
-    return await api.request<RegisterResponse>(config);
+    return await apiUser.request<RegisterResponse>(config);
 }
 
 export async function getStuff(): Promise<void> {
@@ -82,8 +88,8 @@ export const refreshToken = async () : Promise<AxiosResponse<RefreshResponse>> =
     const refresh_token = getCookie("refresh-token");
     
     const config : AxiosRequestConfig = {
-        method: "GET",
-        url: "/refresh-token",
+        method: "POST",
+        url: "/refresh",
         headers: {
             "Authorization" : `Bearer ${refresh_token ? refresh_token : ""}`
         }
@@ -105,8 +111,8 @@ export const refreshPrivateToken = async () : Promise<AxiosResponse<RefreshRespo
     const accessToken = getCookie("access-token");
     
     const config : AxiosRequestConfig = {
-        method: "GET",
-        url: "/refresh-token",
+        method: "POST",
+        url: "/auth/refresh",
         headers: {
             "Authorization" : `Bearer ${accessToken ? accessToken : ""}`
         }
@@ -122,9 +128,5 @@ export const private_refresh = async () => {
         return response.data.access_token;
     }
     return "";
-}
 
-export function getCookie(key:string) {
-  const b = document.cookie.match("(^|;)\\s*" + key + "\\s*=\\s*([^;]+)");
-  return b ? b.pop() : "";
 }

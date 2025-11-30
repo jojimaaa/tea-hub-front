@@ -3,6 +3,8 @@ import { Label } from "@/components/ui/label";
 import MarkdownRenderer from "@/molecules/MarkdownRenderer";
 import { Edit, Reply } from "lucide-react";
 import styled from "styled-components";
+import FormTextArea from "./FormTextArea";
+import FormInput from "@/molecules/FormInput";
 
 export const StyledIconButton = styled(Button)`
     width: min-content;
@@ -10,6 +12,70 @@ export const StyledIconButton = styled(Button)`
         cursor: pointer;
     }
     color: ${props => (props.color) || "var(--primary-foreground)"}
+`;
+
+export const PrimaryBaseButton = styled(Button)`
+    background-color: var(--primary-foreground);
+    color: var(--primary);
+    font-family: var(--font-montserrat);
+    border-radius: 5px;
+
+    &:focus {
+        border-width: 0px;
+        border-image: none;
+    }
+    &:active {
+        background-color: var(--secondary);
+        border-width: 0px;
+        outline: none;
+    }
+    &:hover {
+        border-width: 0px;
+        cursor: pointer;
+        outline: none;
+    }
+`;
+
+export const StyledTitleEditor = styled(FormTextArea)`
+    font-size: 25px;
+    border-radius: 10px;
+    padding: 10px;
+    resize: vertical; 
+    min-height: 60px;
+    max-height: 200px;
+    border-color: var(--secondary);
+    border-width: 1.5px;
+    font-family: var(--font-lexend-exa);
+    color: var(--primary-foreground);
+    margin-bottom: 10px;
+    overflow-wrap: break-word;
+    
+    &:focus {
+        border-color: var(--secondary);
+        border-width: 2.5px;
+        outline: none;
+    }
+`;
+
+export const StyledLabeledTitleInput = styled(FormInput)`
+    margin-top: 15px;
+    max-width: 100%;
+    width: 100%;
+    font-family: var(--font-lexend-exa);
+    color: var(--primary-foreground);
+    font-size: 25px;
+    overflow-wrap: break-word;
+`;
+
+export const StyledPageContainer = styled.div`
+    padding-inline: 20px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    margin-bottom: 20px;
 `;
 
 export const StyledSmallButtonRow = styled.div`

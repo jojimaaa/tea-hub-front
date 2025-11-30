@@ -6,12 +6,12 @@ export function middleware(request: NextRequest) {
     const token = request.cookies.get('access-token')?.value;
     const { pathname } = request.nextUrl;
 
-    if (!token && pathname.startsWith('/wiki')) {
-            const loginUrl = new URL('/login', request.url);
-            loginUrl.searchParams.set('from', pathname);
-            
-            return NextResponse.redirect(loginUrl);
-        }
+    if (!token && pathname.startsWith('/forum/create')) {
+        const loginUrl = new URL('/login', request.url);
+        loginUrl.searchParams.set('from', pathname);
+        
+        return NextResponse.redirect(loginUrl);
+    }
     return NextResponse.next();
 }
 
@@ -21,7 +21,7 @@ export function middleware(request: NextRequest) {
 //    Ele não vai mais rodar em /login, /, etc.
 export const config = {
   matcher: [
-    // '/wiki',
+    '/forum/create',
     // Protege /wiki e tudo dentro dele (ex: /wiki/artigo/123)
     // Adicione outras rotas para proteger aqui:
     // '/dashboard/:path*',

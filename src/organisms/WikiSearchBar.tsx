@@ -1,12 +1,12 @@
 "use client"
 
-import { Button } from "@/components/ui/button";
 import styled from "styled-components";
 import { zodResolver } from "@hookform/resolvers/zod"
 import z from "zod";
 import { WikiSearchTitle } from "@/interfaces/WikiSchemas";
 import { useForm } from "react-hook-form"
 import FormTextInput from "@/atoms/FormTextInput";
+import { PrimaryBaseButton } from "@/atoms/StyledAtoms";
 
 
 
@@ -35,9 +35,9 @@ const WikiSearchBar = () => {
                     value={"title"} 
                     setValue={searchForm.setValue}
                 />
-                <StyledButton onClick={(e) => {
+                <PrimaryBaseButton onClick={(e) => {
                     searchForm.handleSubmit(onSubmit)(e)
-                }}>Pesquisar</StyledButton>
+                }}>Pesquisar</PrimaryBaseButton>
             </Form>
         </StyledContainer>
     );
@@ -63,9 +63,3 @@ const Label = styled.h1`
     font-size: 18px;
 `;
 
-const StyledButton = styled(Button)`
-    background-color: var(--primary-foreground);
-    color: var(--primary);
-    font-family: var(--font-montserrat);
-    border-radius: 5px;
-`;

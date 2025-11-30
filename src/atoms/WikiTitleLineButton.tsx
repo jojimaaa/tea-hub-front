@@ -20,7 +20,6 @@ function WikiTitleLineButton({title: title, className, slug}:WikiTitleLineButton
         // </Button>
     );
 }
-
 export default WikiTitleLineButton;
 
 const Button = styled.text`
