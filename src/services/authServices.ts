@@ -3,18 +3,18 @@ import { getCookie } from "@/utils/utils"
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from "axios"
 
 const api = axios.create({
-    baseURL: "http://127.0.0.1:8000/auth", //dev
-    //baseURL: "<prod>",              //prod
+    // baseURL: "http://127.0.0.1:8000/auth", //dev
+    baseURL: "https://tea-hub-back-production.up.railway.app/auth",              //prod
 })
 
 export const apiPrivate = axios.create({
-    baseURL: "http://127.0.0.1:8000/", //dev
-    //baseURL: "<prod>",              //prod
+    // baseURL: "http://127.0.0.1:8000/", //dev
+    baseURL: "https://tea-hub-back-production.up.railway.app",              //prod
 })
 
 const apiUser = axios.create({
-    baseURL: "http://127.0.0.1:8000/user", //dev
-    //baseURL: "<prod>",              //prod
+    // baseURL: "http://127.0.0.1:8000/user", //dev
+    baseURL: "https://tea-hub-back-production.up.railway.app/user",              //prod
 })
 
 interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {

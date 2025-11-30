@@ -2,8 +2,8 @@ import { WikiPostSchema, WikiTopicSchema } from "@/interfaces/WikiSchemas"
 import axios, { AxiosRequestConfig } from "axios"
 
 const api = axios.create({
-    baseURL: "http://127.0.0.1:8000", //dev
-    //baseURL: "<prod>",              //prod
+    // baseURL: "http://127.0.0.1:8000", //dev
+    baseURL: "https://tea-hub-back-production.up.railway.app",              //prod
 })
 
 

@@ -4,8 +4,8 @@ import { getCookie } from "@/utils/utils";
 import { apiPrivate } from "./authServices";
 
 const api = axios.create({
-    baseURL: "http://127.0.0.1:8000/forum", //dev
-    //baseURL: "<prod>",              //prod
+    // baseURL: "http://127.0.0.1:8000/forum", //dev
+    baseURL: "https://tea-hub-back-production.up.railway.app/forum",              //prod
 });
 
 export const getForumPosts = async (forum_filter? : ForumFilterSchema | undefined) : Promise<ForumPostBase[]> => {
