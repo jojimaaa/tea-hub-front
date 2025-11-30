@@ -37,8 +37,6 @@ export const ForumPostContextProvider = ({ children, slug }: { children: React.R
     const [localLikedByMe, setLocalLikedByMe] = useState<boolean>(false);
 
     const commentsByParentId = useMemo(() => {
-        console.log(comments);
-        
         if(!comments) return [];
         const group : Record<string, ForumCommentDTO[]> = {};
         comments.forEach(comment => {
@@ -89,7 +87,6 @@ export const ForumPostContextProvider = ({ children, slug }: { children: React.R
         setComments((prevComments) => {
             return [comment, ...prevComments];
         });
-        console.log(comments);
     }
 
     const editLocalComment = (comment : ForumCommentDTO) => {
@@ -113,7 +110,6 @@ export const ForumPostContextProvider = ({ children, slug }: { children: React.R
         setComments((prevComments) => {
             return prevComments.filter((e:ForumCommentDTO) => e.id != comment_id);
         });
-        console.log(comments);
     }
 
     

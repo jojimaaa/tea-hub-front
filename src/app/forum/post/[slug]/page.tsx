@@ -87,7 +87,6 @@ export default function Forum({params} : ForumPostParams) {
             editPostForm.setValue("title", post.title);
             setMd(post.body);
         }
-        console.log(post);
     }, [post, editPostForm])
     
     const onComment = async (values : ICommentForm) => {
@@ -136,8 +135,6 @@ export default function Forum({params} : ForumPostParams) {
             }
         }
     }
-
-    useEffect(() => {console.log(rootComments)},[rootComments]);
 
 
     if(!params) return <>NOT FOUND!</>

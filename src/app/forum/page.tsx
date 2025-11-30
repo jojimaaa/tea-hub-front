@@ -46,7 +46,6 @@ const ForumHomePage = () => {
     }, [forumPostForm, getForumPostsAsync])
     
     const onSubmit = async (values : ForumFilterSchema) => {
-        console.log("aqui")
         const posts = await getForumPostsAsync(values)
         if (posts) setPosts(posts);
 
