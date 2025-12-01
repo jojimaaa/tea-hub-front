@@ -8,7 +8,7 @@ interface FormTextInputProps extends React.InputHTMLAttributes<HTMLInputElement>
     register?: UseFormRegister<any>;
     className?: string;
     value: string;
-    setValue: UseFormSetValue<any>
+    setValue:  React.Dispatch<React.SetStateAction<string>>;
 }
 
 
@@ -17,7 +17,7 @@ function FormTextInput({ placeHolder, register, className, value, setValue, ...p
     return (
         <StyledInput className={className}
                 value = {value}  
-                onChange={(e) => {setValue('filter', e.target.value)}} 
+                onChange={(e) => {setValue(e.target.value)}} 
                 placeholder={placeHolder}
                 {...props}
         ></StyledInput>

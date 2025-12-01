@@ -1,9 +1,11 @@
 import styled from "styled-components";
 import { AnimatePresence, motion } from "framer-motion";
+import { WikiTopic } from "@/interfaces/WikiSchemas";
+import { useEffect } from "react";
 
 interface WikiRecomTxtProps {
   title: string;
-  topic: string;
+  topic: WikiTopic;
   author: string;
   body: string;
   date: string;
@@ -14,7 +16,7 @@ export function WikiRecomTxt({title, topic, author, body, date, current}: WikiRe
     function cleanText(text: string) {
       return text.replace(/[\*\-]+/g, "").trim();
     }
-
+        
     return (
       <AnimatePresence mode="wait">
         <StyledContainer
@@ -28,7 +30,7 @@ export function WikiRecomTxt({title, topic, author, body, date, current}: WikiRe
         >
           <StyledContainerTextos>
               <StyledTitle>{title.replace(/_/g, " ")}</StyledTitle>
-              <StyledTopic>{topic.replace(/_/g, " ")}</StyledTopic>
+              <StyledTopic>{topic.name}</StyledTopic>
               <StyledBody>{cleanText(body)}</StyledBody>
               <StyledContainerDesc>
                 <StyledTxtAuthor>{author.replace(/_/g, " ")}</StyledTxtAuthor>
@@ -53,7 +55,7 @@ const StyledContainer = styled(motion.div)`
 const StyledContainerTextos = styled.div`
     margin-left: 40px;
     margin-right: 40px;
-    margin-top: 40px;
+    margin-top: 10px;
     height: 100%;
 `;
 

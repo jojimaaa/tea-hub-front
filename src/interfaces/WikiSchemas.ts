@@ -5,7 +5,7 @@ export interface WikiPostSchema {
     author_name : string,
     created_date : Date | string,
     topic : WikiTopic,
-    imageUrl: string
+    image_url: string
 };
 
 export interface WikiTopicSchema {

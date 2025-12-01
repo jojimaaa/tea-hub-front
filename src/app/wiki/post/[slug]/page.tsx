@@ -3,6 +3,8 @@ import MolNomesWiki from '@/molecules/MolNomesWiki';
 import * as Rct from 'react';
 import {getPost} from '@/services/wikiServices';
 import { WikiPostSchema} from '@/interfaces/WikiSchemas';
+import MarkdownRenderer from '@/molecules/MarkdownRenderer';
+import styled from 'styled-components';
 
 interface WikiParams {
     params : Promise<{
@@ -13,7 +15,7 @@ interface WikiParams {
 
 export default function WikiPostPage({params} : WikiParams) {
     const {slug} = Rct.use(params);
-    const [data,setData] = Rct.useState<WikiPostSchema | undefined>();
+    const [data,setData] = Rct.useState<WikiPostSchema | null>();
     Rct.useEffect(() => {
         const fetchData = async () => {
             const response = await getPost(slug);
@@ -22,7 +24,7 @@ export default function WikiPostPage({params} : WikiParams) {
         fetchData();
     }, [slug]);
 
-    if(data == undefined) return(<div><h1>T-T</h1></div>)
+    if(data == null) return(<div><h1>T-T</h1></div>)
     return (
         <div>
             <MolNomesWiki 
@@ -30,7 +32,18 @@ export default function WikiPostPage({params} : WikiParams) {
                 author={data.author_name}
                 topic_id={data.topic.id}
             />
-            <h1>{JSON.stringify(data.body)}</h1>
+            <StyledContainer>
+                <MarkdownRenderer
+                markdownContent={data.body}
+            />
+            </StyledContainer>
+            
         </div>
     );
 }
+
+const StyledContainer = styled.div`
+
+    border:1px solid black;
+
+`;

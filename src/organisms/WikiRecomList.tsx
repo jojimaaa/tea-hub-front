@@ -18,6 +18,7 @@ const WikiRecomList = () => {
         () => {
             const fetchRecom = async () => {
                 const response = await getRecommended();
+                console.log(response);
                 if (response) setRecom(response);
             }   
             fetchRecom();
@@ -40,13 +41,13 @@ const WikiRecomList = () => {
                     />
                     <WikiRecomTxt
                         title={recom[current].title}
-                        topic={recom[current].topic.name}
+                        topic={recom[current].topic}
                         author={recom[current].author_name}
                         body={recom[current].body}
-                        date={recom[current].created_date.toString()}
+                        date={recom[current].created_date.toString().split("T")[0]}
                         current={current}
                     />
-                    <WikiRecomImg current={current} url={recom[current].imageUrl}/>
+                    <WikiRecomImg current={current} url={recom[current].image_url}/>
                     <StyledSvg viewBox="0 0 100 100" preserveAspectRatio="none">
                         <clipPath id="curveClip" clipPathUnits="objectBoundingBox">
                           <path 

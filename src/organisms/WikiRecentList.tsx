@@ -33,7 +33,7 @@ const WikiRecentList = () => {
                 }
             </StyledListContainer>
             </Vbox>
-            <Parabolic corcima={`var(--background-blue)`} corbaixo={"#024E8D"}/>
+            <Parabolic corcima={`var(--background-blue)`} corbaixo={"#BDBBDD"}/>
         </StyledContainer>
     )
 }

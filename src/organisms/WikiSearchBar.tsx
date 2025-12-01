@@ -1,91 +1,40 @@
 "use client"
 
 import styled from "styled-components";
-import { zodResolver } from "@hookform/resolvers/zod"
 import z from "zod";
 import FormTextInput from "@/atoms/FormTextInput";
-import { getPostList } from "@/services/wikiServices"
-import { useForm, UseFormReturn } from "react-hook-form"
-import { useEffect, useState } from "react";
-import { WikiPostSchema } from "@/interfaces/WikiSchemas";
-import { useRouter } from "next/navigation";
+import { UseFormReturn } from "react-hook-form"
+import { useState } from "react";
+import { WikiTopicSchema } from "@/interfaces/WikiSchemas";
+
 import { PrimaryBaseButton } from "@/atoms/StyledAtoms";
+import { DropdownListTopic } from "@/molecules/DropdownListTopic";
 
 
 interface WikiSearchBarProps {
   placeholder: string;
-  value: string;
+  topicList: WikiTopicSchema[];
   listSearch?: any[];
   searchForm: UseFormReturn<z.infer<any>>;
 }
 
-const WikiSearchBar = ({placeholder, value, searchForm}:WikiSearchBarProps) => {
-    const [open, setOpen] = useState(false);
-    const [listSearch, setListSearch] = useState<WikiPostSchema[]>([])
-    const router = useRouter();
-    
-    const searchFilterFormSchema = z.object({
-        filter: z.string(),
-    });
-    
-    const searchFilterForm = useForm<z.infer<typeof searchFilterFormSchema>>({
-        resolver: zodResolver(searchFilterFormSchema),
-        defaultValues: { filter: ""}
-    });
-
-    const filterValue = searchFilterForm.watch("filter");
-
-    useEffect(() => {
-            const fetchData = async () => {
-                const response = await getPostList();
-                if (response) {
-                    setListSearch(response);
-                }
-            }
-            fetchData();
-        } ,[filterValue]);
+const WikiSearchBar = ({placeholder, searchForm, topicList}:WikiSearchBarProps) => {
+    const [search, setSearch] = useState("");
 
     const onSubmit = () => {
-        console.log(searchFilterForm.getValues().filter);
-        searchForm.setValue(value, filterValue);
-    }
-
-    const listExists = () => {
-        if (listSearch == undefined || listSearch.length == 0 || filterValue == "") {
-            return false;
-        }
-        return true;
+        searchForm.setValue("search", search);
     }
 
     return (
         <StyledContainer>
-
-            <Form onSubmit={(onSubmit)}>
-                <StyledRelativeContainer
-                    onFocus={() => setOpen(true)}
-                    onBlur={() => setOpen(false)}>
-                    <StyledFormInput
-                        placeHolder={placeholder} 
-                        value={filterValue} 
-                        setValue={searchFilterForm.setValue}
-                    />
-                    {open && listExists() && (
-                        <DropdownContainer>
-                            {listSearch.map(row => (
-                                <StyledRowContainer 
-                                    onMouseDown={() => router.push(`/wiki/post/${row.id}`)}
-                                    key={row.id}
-                                >
-                                    <h1>{row.title}</h1>
-                                    <h1>{row.topic.name}</h1>
-                                    <h1>{row.author_name}</h1>
-                                    <h1>{new Date(row.created_date).toLocaleString()}</h1>
-                                </StyledRowContainer>
-                            ))}
-                        </DropdownContainer>
-                    )}
-                </StyledRelativeContainer>
-                
+            <Form>
+                <DropdownListTopic Items={topicList} searchForm={searchForm}/>
+                <StyledFormInput
+                    placeHolder={placeholder} 
+                    value={searchForm.watch("filter")} 
+                    setValue={setSearch}
+                />
+             
                 <PrimaryBaseButton onClick={(e) => {
                     searchForm.handleSubmit(onSubmit)(e)
                 }}>Pesquisar</PrimaryBaseButton>
@@ -98,6 +47,9 @@ export default WikiSearchBar;
 
 const StyledContainer = styled.div`
     margin-bottom:20px;
+    margin-top: 30px;
+    width: 70%;
+    align-self: center;
 `;
 
 const StyledRowContainer = styled.div`
@@ -125,6 +77,7 @@ const DropdownContainer = styled.div`
 const StyledFormInput = styled(FormTextInput)`
     width: 100%;
     margin-right: 20px;
+    margin-left: 20px;
 `;
 
 const Form = styled.form`

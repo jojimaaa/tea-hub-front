@@ -14,7 +14,7 @@ const WikiPostCard = ({post} : WikiPostCardProps) => {
     return (
         <StyledCard onClick={()=>route.push(`/wiki/post/${post.id}`)}>
             <StyledImage
-                fill src='https://res.cloudinary.com/dattmfduh/image/upload/v1763384126/lhzajbm8khercfplk4ho.jpg' alt=''
+                fill src={post.image_url} alt=''
             >
             </StyledImage>
             <StyledContainerTextos>
@@ -47,7 +47,7 @@ const StyledCard = styled.div`
         background: linear-gradient(
             to bottom,
             rgba(0, 0, 0, 0.3),
-            rgba(0, 0, 0, 0.8)
+            rgba(0, 0, 0, 0.6)
         );
         z-index: 2;
         pointer-events: none;
@@ -67,8 +67,7 @@ const StyledCard = styled.div`
 const TitleLabel = styled.text`
     font-family: var(--font-lexend-exa);
     font-weight: 200;
-    font-size: 21px;
-    border-width: 0px 0px 1px 0px;
+    font-size: 18px;
     border-color: var(--secondary);
     text-align: start;
     width: 100%;
@@ -80,7 +79,6 @@ const TitleLabel = styled.text`
 
 const StyledText = styled.text`
     font-family: var(--font-arial);
-    font-weight: 300;
     font-size: 15px;
     overflow: hidden;                /* 1. Esconde o texto que transborda */
     display: -webkit-box;
@@ -90,9 +88,7 @@ const StyledText = styled.text`
 
 const StyledAuthorLabel = styled.text`
     font-family: var(--font-arial);
-    font-weight: 300;
-    font-size: 15px;
-    margin-bottom: 10px;
+    font-size: 10px;
     overflow: hidden;                /* 1. Esconde o texto que transborda */
     display: -webkit-box;
     -webkit-box-orient: vertical;

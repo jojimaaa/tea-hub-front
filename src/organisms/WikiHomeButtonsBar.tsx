@@ -29,17 +29,16 @@ const StyledContainer = styled.div`
     flex-direction: column;
     justify-items: center;
     height: 100%;
-
-    background-color: #024E8D;
-    height:250px;
+    background-color: #BDBBDD;
+    height:150px;
 `;
 
 const StyledLabel = styled.text`
     font-family: var(--font-montserrat);
-    font-size: 30px;
+    font-size: 40px;
     width: 100%;
     margin-left: 10px;
-    color: white;
+    color: #40386B;
 `;
 
 const StyledLabelContainer = styled.div`
@@ -54,7 +53,7 @@ const StyledRow = styled.div`
     flex-direction: row;
     justify-content: space-evenly;
     align-items: center;
-    margin-top: 50px;
+    margin-top: 10px;
     /* padding-inline: 20%; */
 `;
 
@@ -64,7 +63,6 @@ const StyledButton = styled(PrimaryBaseButton)`
     font-size: 30px;
     padding: 20px;
     height: 50px;
-    margin-top: 13px;
 
     border-radius: 10px;
     

@@ -1,47 +1,67 @@
 "use client"
-import { DataGrid } from "@/organisms/DataGrid";
 import { getPostList, getTopicList } from "@/services/wikiServices"
 import styled from "styled-components";
-import { getColumns } from "./columns";
 import { useEffect, useState } from "react";
-
-import { WikiPostSchema } from "@/interfaces/WikiSchemas";
+import { WikiPostSchema, WikiTopicSchema } from "@/interfaces/WikiSchemas";
 import WikiSearchBar from "@/organisms/WikiSearchBar";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
-import { Search } from "lucide-react";
+import WikiPostListCard from "@/molecules/WikiPostListCard";
 
 
 const PostListPage = () => {
 
-    const [data, setData] = useState<WikiPostSchema[]>([])
-    const [topicos, setTopicos] = useState<WikiTopicSchema[]>([])
-    useEffect(() => {
-        const fetchData = async () => {
-            const response = await getPostList();
-            if (response) setData(response);
-
-            const topics_resp = await getTopicList();
-            if (topics_resp) setTopicos(topics_resp)
-
-        }
-        fetchData();
-    } ,[]);
+    const [data, setData] = useState<WikiPostSchema[]>([]);
+    const [topicList, setTopicList] = useState<WikiTopicSchema[]>([]);
 
     const searchFormSchema = z.object({
         search: z.string(),
+        topic: z.string()
     });
 
     const searchForm = useForm<z.infer<typeof searchFormSchema>>({
         resolver: zodResolver(searchFormSchema),
-        defaultValues: { search: ""}
+        defaultValues: { search: "", topic:"Todos"}
     });
+
+    const search = searchForm.watch("search");
+    const topic = searchForm.watch("topic");
+
+    useEffect(() => {
+        const fetchListData = async () => {
+            const response = await getTopicList();
+            if (response) {
+                setTopicList(response);
+            }
+        }
+        fetchListData();
+    } ,[]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await getPostList(searchForm.getValues());
+            if (response) {
+                setData(response);
+            }
+        }
+        fetchData()
+    } ,[search, topic]);
 
     return (
         <StyledContainer>
-            <DataGrid columns={getColumns(topicos)} data={data}/>
 
+            <WikiSearchBar 
+                placeholder="Procurar por Tópico ou Titulo"
+                searchForm={searchForm}
+                topicList={topicList}
+            />
+            <StyledContainerList>
+                {(data.length != 0) && 
+                    data.map((post) => <WikiPostListCard key={post.id} post={post}/>)
+                }
+            </StyledContainerList>
+            
         </StyledContainer>
 
     );
@@ -50,5 +70,13 @@ const PostListPage = () => {
 export default PostListPage;
 
 const StyledContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+`;
 
+const StyledContainerList = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 `;
