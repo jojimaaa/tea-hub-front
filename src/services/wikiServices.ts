@@ -3,7 +3,7 @@ import axios, { AxiosRequestConfig } from "axios"
 
 const api = axios.create({
     // baseURL: "http://127.0.0.1:8000", //dev
-    baseURL: "https://tea-hub-back-production.up.railway.app",              //prod
+    baseURL: "https://tea-hub-back-production.up.railway.app/wiki",              //prod
 })
 
 
@@ -36,7 +36,7 @@ const topics = [
 
 export async function getTopicList() : Promise<WikiTopicSchema[] | null> {
     try {
-      const response = await fetch("http://127.0.0.1:8000/wiki/topics");
+      const response = await fetch("https://tea-hub-back-production.up.railway.app/wiki/topics");
       if (!response.ok) throw new Error("Erro ao buscar lista de topicos");
       const data = await response.json();
       return data;
@@ -55,7 +55,7 @@ export async function getTopic(id:string) : Promise<WikiTopic|undefined> {
 
 export async function getPost(id : string) : Promise<WikiPostSchema | null> {
   try {
-    const response = await fetch(`http://127.0.0.1:8000/wiki/${id}`);
+    const response = await fetch(`https://tea-hub-back-production.up.railway.app/wiki/${id}`);
     if (!response.ok) throw new Error("Erro ao buscar getPost");
     const data = await response.json();
     return data;
@@ -78,7 +78,7 @@ export async function getPostList(formData: { search: string; topic: string }) :
     if (formData.topic != "Todos") {
         params.append("topic_id", formData.topic);
     }
-    const response = await fetch(`http://127.0.0.1:8000/wiki/search?${params.toString()}`);
+    const response = await fetch(`https://tea-hub-back-production.up.railway.app/wiki/search?${params.toString()}`);
     if (!response.ok) throw new Error("Erro ao buscar postList");
     const data = await response.json();
     return data;
@@ -90,7 +90,7 @@ export async function getPostList(formData: { search: string; topic: string }) :
 
 export async function getRecommended() : Promise<WikiPostSchema[] | null> {
   try {
-    const response = await fetch("http://127.0.0.1:8000/wiki/recommended");
+    const response = await fetch("https://tea-hub-back-production.up.railway.app/wiki/recommended");
     if (!response.ok) throw new Error("Erro ao buscar recomendados");
     const data = await response.json();
     return data;
@@ -102,7 +102,7 @@ export async function getRecommended() : Promise<WikiPostSchema[] | null> {
 
 export async function getRecent() : Promise<WikiPostSchema[] | null> {
   try {
-    const response = await fetch("http://127.0.0.1:8000/wiki/recent");
+    const response = await fetch("https://tea-hub-back-production.up.railway.app/wiki/recent");
     if (!response.ok) throw new Error("Erro ao buscar recentes");
     const data = await response.json();
     return data;

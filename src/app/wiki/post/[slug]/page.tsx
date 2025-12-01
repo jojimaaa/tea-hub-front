@@ -3,8 +3,8 @@ import MolNomesWiki from '@/molecules/MolNomesWiki';
 import * as Rct from 'react';
 import {getPost} from '@/services/wikiServices';
 import { WikiPostSchema} from '@/interfaces/WikiSchemas';
-import MarkdownRenderer from '@/molecules/MarkdownRenderer';
 import styled from 'styled-components';
+import { StyledMarkdownBody } from '@/atoms/StyledAtoms';
 
 interface WikiParams {
     params : Promise<{
@@ -33,10 +33,10 @@ export default function WikiPostPage({params} : WikiParams) {
                 topic_id={data.topic.id}
             />
             <StyledContainer>
-                <MarkdownRenderer
+                <StyledMarkdownBody
                 markdownContent={data.body}
             />
-            </StyledContainer>
+            </StyledContainer>''
             
         </div>
     );

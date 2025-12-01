@@ -1,8 +1,6 @@
 import "./globals.css";
 import { AuthContextProvider } from "@/contexts/AuthContextProvider";
 import Header from "@/organisms/Header";
-import styled from "styled-components";
-
 
 export default function RootLayout({
   children,
@@ -12,7 +10,7 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body>
+      <body style={{overflowX: "hidden"}}>
         <AuthContextProvider>
             <Header/>
             {children}
@@ -22,6 +20,3 @@ export default function RootLayout({
     </html>
   );
 }
-const StyledBody = styled.body`
-  overflow-x: hidden;
-`;
