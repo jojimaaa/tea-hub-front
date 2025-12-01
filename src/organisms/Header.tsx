@@ -44,7 +44,6 @@ const Header = () => {
 export default Header;
 
 const HeaderRow = styled.div`
-    background-color: var(--primary);
     padding-top: 10px;
     padding-bottom: 5px;
 
@@ -62,5 +61,6 @@ const LogoButton = styled.button`
     &:hover{ 
         cursor: pointer;
     }
+    color: var(--primary-foreground);
     font-family: var(--font-tea-hub);
 `;

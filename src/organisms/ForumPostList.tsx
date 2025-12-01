@@ -27,3 +27,7 @@ export default ForumPostList;
 const StyledContainer = styled.div`
     
 `;
+
+const StyledDataGrid = styled(DataGrid)`
+    box-shadow: rgb(57, 55, 109, 0.24) 0px 3px 8px;
+`;

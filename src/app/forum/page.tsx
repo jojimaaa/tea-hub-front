@@ -78,11 +78,13 @@ const RowBox = styled.div`
     justify-content: center;
     width: 100%;
     gap: 20px;
+    padding-inline: 10%;
 `;
 
 const StyledList = styled(ForumPostList)`
     margin-top: 20px;
     width: 100%;
+    padding-inline: 15%;
 `;
 
 const StyledFilterBar = styled(ForumSearchFilter)`

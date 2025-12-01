@@ -40,6 +40,7 @@ const StyledContainer = styled.div`
 const Label = styled.h1`
     font-family: var(--font-montserrat);
     font-size: 18px;
+    color: var(--primary-foreground);
 `;
 
 const StyledInput = styled.input`
