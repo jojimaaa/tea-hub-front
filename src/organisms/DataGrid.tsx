@@ -15,15 +15,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import styled from "styled-components"
 
 interface DataGridProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+  columns: ColumnDef<TData, TValue>[],
+  data: TData[],
+  className? :string,
 }
 
 export function DataGrid<TData, TValue>({
   columns,
   data,
+  className,
 }: DataGridProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -32,7 +35,7 @@ export function DataGrid<TData, TValue>({
   })
 
   return (
-    <div className="overflow-hidden rounded-md border">
+    <StyledShadow className={`overflow-hidden rounded-md border ${className}`}>
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -75,6 +78,10 @@ export function DataGrid<TData, TValue>({
           )}
         </TableBody>
       </Table>
-    </div>
+    </StyledShadow>
   )
 }
+
+const StyledShadow = styled.div`
+    box-shadow: rgb(57, 55, 109, 0.24) 0px 3px 8px;
+`;

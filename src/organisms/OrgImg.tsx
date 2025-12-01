@@ -41,6 +41,7 @@ export default OrgImg;
 const Background = styled.div`
   background-size: cover;
   background-position: center;
+  background: linear-gradient(90deg, var(--purple-light1), var(--purple-light3));
   width: 100%;
   height: 100%;
   border-bottom-right-radius: var(--radius-2xl);

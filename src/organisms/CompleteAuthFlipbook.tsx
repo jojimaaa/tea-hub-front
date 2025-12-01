@@ -21,44 +21,45 @@ const CompleteAuthFlipbook =() => {
     setIndex(prev => (prev - 1)); 
     };
 
-    return (<>
+    return (<div>
         <StyledToaster/>
-       <LoginRegisterFlipbook 
-       index={index}
-       itemsE={[
-          <StyledRegistro key={"registro"} increment={increment} decrement={decrement}></StyledRegistro>,
-          <StyledLogin key={"login"} increment={increment} decrement={decrement}></StyledLogin>,
-          <StyledEsqueci key={"esqueci"} increment={increment} decrement={decrement}></StyledEsqueci>
-       ]}
-       itemsD={[
-          <StyledImg
-            key={"panel1"}
-            TextoGiga="Bem - Vindo"
-            TextoMini="Estamos felizes em te ver por aqui"
-            onClick={increment}
-            index={index}>
-          </StyledImg>,
-          <StyledImg
-            key={"panel2"}
-            TextoGiga="Bem - Vindo"
-            TextoMini="Estamos felizes em te ver por aqui"
-            onClick={increment}
-            index={index}>
-          </StyledImg>,
-          <StyledImg
-            key={"panel3"}    
-            TextoGiga="Bem - Vindo"
-            TextoMini="Estamos felizes em te ver por aqui"
-            onClick={decrement}
-            index={index}>
-          </StyledImg>,
+            <LoginRegisterFlipbook 
+            index={index}
+            itemsE={[
+                <StyledRegistro key={"registro"} increment={increment} decrement={decrement}></StyledRegistro>,
+                <StyledLogin key={"login"} increment={increment} decrement={decrement}></StyledLogin>,
+                <StyledEsqueci key={"esqueci"} increment={increment} decrement={decrement}></StyledEsqueci>
+            ]}
+            itemsD={[
+                <StyledImg
+                    key={"panel1"}
+                    TextoGiga="Bem - Vindo"
+                    TextoMini="Estamos felizes em te ver por aqui"
+                    onClick={increment}
+                    index={index}>
+                </StyledImg>,
+                <StyledImg
+                    key={"panel2"}
+                    TextoGiga="Bem - Vindo"
+                    TextoMini="Estamos felizes em te ver por aqui"
+                    onClick={increment}
+                    index={index}>
+                </StyledImg>,
+                <StyledImg
+                    key={"panel3"}    
+                    TextoGiga="Bem - Vindo"
+                    TextoMini="Estamos felizes em te ver por aqui"
+                    onClick={decrement}
+                    index={index}>
+                </StyledImg>,
 
-       ]}/>
-    </>
+            ]}/>
+    </div>
     );
 }
 
 export default CompleteAuthFlipbook;
+
 
 const StyledRegistro = styled(OrgRegistro)`
   width: 50%;
@@ -90,11 +91,11 @@ const StyledEsqueci = styled(OrgEsqueci)`
 `;
 
 const StyledImg = styled(OrgImg)`
-  width: 50%;
-  height: 100%;
-  border-bottom-left-radius: var(--radius-2xl);
-  border-top-left-radius: var(--radius-2xl);
-  position: relative;
-  margin-left: 50%;
+    width: 50%;
+    height: 100%;
+    border-bottom-left-radius: var(--radius-2xl);
+    border-top-left-radius: var(--radius-2xl);
+    position: relative;
+    margin-left: 50%;
 `;
 

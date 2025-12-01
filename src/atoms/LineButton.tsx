@@ -27,7 +27,8 @@ const Button = styled.button`
     &:hover {
         text-decoration: underline;
         cursor: pointer;
-    }
+    };
+    color: var(--primary-foreground);
 `;
 
 // const Button = styled.button`
