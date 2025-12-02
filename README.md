@@ -9,6 +9,11 @@ npm install
 
 <br/>
 
+Nos arquivos de ....services.tsx:
+Para rodar localmente, troque os `baseUrl` pelos de `dev`, indicados nos arquivos.
+
+<br/>
+
 Rode a tela
 ```bash
 npm run dev
@@ -20,8 +25,8 @@ pnpm dev
 bun dev
 ```
 
-Abra [http://localhost:3000/login](http://localhost:3000/login) no browser para ver a tela.
+Abra [http://localhost:3000/login](http://localhost:3000) no browser para ver a tela e para testes locais.
 ## Deploy on Vercel
 
 [Development](https://tea-hub-front-dev-git-develop-enzos-projects-b920b2f9.vercel.app/) - Para testes de desenvolvimento
-[Production]() - Indisponível por agora
+[Production](https://tea-hub-front-dev.vercel.app/) - Para produção
