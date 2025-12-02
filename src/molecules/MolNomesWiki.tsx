@@ -1,34 +1,52 @@
 import { getTopic } from "@/services/wikiServices";
 import { useEffect, useState } from "react";
 import { WikiTopic } from "@/interfaces/WikiSchemas";
+import styled from "styled-components";
 
 interface WikiNomes {
     title: string;
     author: string;
-    topic_id: string;
+    topic_name: string;
+    date:string;
 }
 
 function MolNomesWiki({
     title: title,
     author: author,
-    topic_id: topic_id
+    topic_name: topic_name,
+    date:date
 }: WikiNomes) {
-    const [data,setData] = useState<WikiTopic | undefined>();
-    useEffect(() => {
-        const fetchData = async () => {
-            const response = await getTopic(topic_id);
-            setData(response);
-        };
-        fetchData();
-    }, [topic_id]);
 
     return(
-        <div>
-            <h1>{title}</h1>
-            <h1>{author}</h1>
-            <h1>{data?.name}</h1>
-        </div>    
+        <StyledContainer>
+            <Styledtitle>{title}</Styledtitle>
+            <StyledContainerDesc>
+                <h1>{author} {date}</h1>    
+            </StyledContainerDesc>
+            <h1>{topic_name}</h1>
+        </StyledContainer>    
     );
 }
 
 export default MolNomesWiki
+
+const StyledContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+`;
+
+const Styledtitle = styled.h1`
+    font-size: 28px;
+    color: #282343;
+`;
+
+const Styleddate = styled.h1`
+    margin-left: auto;
+`;
+
+const StyledContainerDesc = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+`;

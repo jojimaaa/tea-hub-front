@@ -7,6 +7,7 @@ import WikiRecomImg from "@/molecules/WikiRecomImg";
 import WikiRecomTxt from "@/molecules/WikiRecomTxt";
 import { Dispatch, SetStateAction } from "react";
 import styled from "styled-components";
+import { useRouter } from "next/navigation";
 
 interface WikiRecomListProps {
     recom : WikiPostSchema[],
@@ -19,11 +20,12 @@ const WikiRecomList = ({
     current,
     setCurrent
 } : WikiRecomListProps) => {
+    const route = useRouter();
 
     return (
         <Vbox>
             {recom[current] && (
-                <Hbox>
+                <Hbox onClick={()=>route.push(`/wiki/post/${recom[current].id}`)}>
                     <StyledContainerTransition
                         key={current} 
                         initial={{ x: "-100%"}}  
@@ -89,6 +91,7 @@ const Hbox = styled.div`
     align-items: center;
     justify-content: space-between;
     align-content:center;
+    cursor: pointer;
 `;
 
 
