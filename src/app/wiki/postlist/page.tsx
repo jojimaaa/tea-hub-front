@@ -55,7 +55,7 @@ const PostListPage = () => {
     return (
         <StyledContainer>
             <WikiSearchBar 
-                placeholder="Procurar por Tópico ou Titulo"
+                placeholder="Procurar por Titulo"
                 searchForm={searchForm}
                 topicList={topicList}
             />
