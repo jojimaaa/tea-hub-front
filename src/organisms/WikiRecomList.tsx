@@ -20,12 +20,11 @@ const WikiRecomList = ({
     current,
     setCurrent
 } : WikiRecomListProps) => {
-    const route = useRouter();
 
     return (
         <Vbox>
             {recom[current] && (
-                <Hbox onClick={()=>route.push(`/wiki/post/${recom[current].id}`)}>
+                <Hbox>
                     <StyledContainerTransition
                         key={current} 
                         initial={{ x: "-100%"}}  
@@ -35,7 +34,7 @@ const WikiRecomList = ({
                           ease: "easeInOut",
                         }}
                     />
-                    <WikiRecomTxt
+                    <WikiRecomTxt 
                         title={recom[current].title}
                         topic={recom[current].topic}
                         author={recom[current].author_name}
@@ -43,7 +42,7 @@ const WikiRecomList = ({
                         date={recom[current].created_date.toString().split("T")[0]}
                         current={current}
                     />
-                    <WikiRecomImg current={current} url={recom[current].image_url}/>
+                    <WikiRecomImg post={recom[current].topic} current={current} url={recom[current].image_url} />
                     <StyledSvg viewBox="0 0 100 100" preserveAspectRatio="none">
                         <clipPath id="curveClip" clipPathUnits="objectBoundingBox">
                           <path 

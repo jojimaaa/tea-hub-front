@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { AnimatePresence, motion } from "framer-motion";
 import { WikiTopic } from "@/interfaces/WikiSchemas";
+import { useRouter } from "next/navigation";
 
 interface WikiRecomTxtProps {
   title: string;
@@ -15,10 +16,12 @@ export function WikiRecomTxt({title, topic, author, body, date, current}: WikiRe
     function cleanText(text: string) {
       return text.replace(/[\*\-]+/g, "").trim();
     }
+    const route = useRouter();
         
     return (
       <AnimatePresence mode="wait">
         <StyledContainer
+          onClick={()=>route.push(`/wiki/post/${topic.id}`)}
           key={current}
           initial={{opacity: 1}}
           animate={{opacity: 1}}
