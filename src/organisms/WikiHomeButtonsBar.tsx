@@ -10,11 +10,9 @@ const WikiHomeButtonsBar = () => {
 
     return (
     <StyledContainer>
-        <StyledLabelContainer>
-            <StyledLabel>
-                Mais Informações
-            </StyledLabel>
-        </StyledLabelContainer>
+        <StyledLabel>
+            Mais Informações
+        </StyledLabel>
         <StyledRow>
             <StyledButton
                 onClick={() => router.push("wiki/postlist")}
@@ -27,26 +25,20 @@ const WikiHomeButtonsBar = () => {
 export default WikiHomeButtonsBar;
 
 const StyledContainer = styled.div`
-    margin-top: 20px;
     display: flex;
     flex-direction: column;
     justify-items: center;
     height: 100%;
-    width: 100%;
-    margin-bottom: 40px;
+    background-color: #BDBBDD;
+    height:150px;
 `;
 
 const StyledLabel = styled.text`
     font-family: var(--font-montserrat);
-    font-size: 30px;
+    font-size: 40px;
     width: 100%;
-`;
-
-const StyledLabelContainer = styled.div`
-    width: 100%;
-    border-width: 0px 0px 1px 0px;
-    border-color: var(--primary-foreground);
-    margin-bottom: 10px;
+    margin-left: 10px;
+    color: #40386B;
 `;
 
 const StyledRow = styled.div`
@@ -54,6 +46,7 @@ const StyledRow = styled.div`
     flex-direction: row;
     justify-content: space-evenly;
     align-items: center;
+    margin-top: 10px;
     /* padding-inline: 20%; */
 `;
 
@@ -63,7 +56,6 @@ const StyledButton = styled(PrimaryBaseButton)`
     font-size: 30px;
     padding: 20px;
     height: 50px;
-    margin-top: 13px;
 
     border-radius: 10px;
     

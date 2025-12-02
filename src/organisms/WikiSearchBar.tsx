@@ -1,40 +1,40 @@
 "use client"
 
 import styled from "styled-components";
-import { zodResolver } from "@hookform/resolvers/zod"
 import z from "zod";
-import { WikiSearchTitle } from "@/interfaces/WikiSchemas";
-import { useForm } from "react-hook-form"
 import FormTextInput from "@/atoms/FormTextInput";
+import { UseFormReturn } from "react-hook-form"
+import { useState } from "react";
+import { WikiTopicSchema } from "@/interfaces/WikiSchemas";
+
 import { PrimaryBaseButton } from "@/atoms/StyledAtoms";
+import { DropdownListTopic } from "@/molecules/DropdownListTopic";
 
 
+interface WikiSearchBarProps {
+  placeholder: string;
+  topicList: WikiTopicSchema[];
+  listSearch?: any[];
+  searchForm: UseFormReturn<z.infer<any>>;
+}
 
-const WikiSearchBar = () => {
+const WikiSearchBar = ({placeholder, searchForm, topicList}:WikiSearchBarProps) => {
+    const [search, setSearch] = useState("");
 
-    const searchFormSchema = z.object({
-        title: z.string(),
-    });
-
-    const searchForm = useForm<z.infer<typeof searchFormSchema>>({
-        resolver: zodResolver(searchFormSchema),
-        defaultValues: { title: ""}
-    });
-
-    const onSubmit = (values : WikiSearchTitle) => {
-        console.log(values);
+    const onSubmit = () => {
+        searchForm.setValue("search", search);
     }
 
     return (
         <StyledContainer>
-            <Label>Pesquise por título</Label>
-            <Form onSubmit={searchForm.handleSubmit(onSubmit)}>
+            <Form>
+                <DropdownListTopic Items={topicList} searchForm={searchForm}/>
                 <StyledFormInput
-                    placeHolder="Pesquise por título" 
-                    register={searchForm.register} 
-                    value={"title"} 
-                    setValue={searchForm.setValue}
+                    placeHolder={placeholder} 
+                    value={searchForm.watch("filter")} 
+                    setValue={setSearch}
                 />
+             
                 <PrimaryBaseButton onClick={(e) => {
                     searchForm.handleSubmit(onSubmit)(e)
                 }}>Pesquisar</PrimaryBaseButton>
@@ -45,21 +45,22 @@ const WikiSearchBar = () => {
 
 export default WikiSearchBar;
 
-const StyledContainer = styled.div``;
+const StyledContainer = styled.div`
+    margin-bottom:20px;
+    margin-top: 30px;
+    width: 70%;
+    align-self: center;
+`;
 
 const StyledFormInput = styled(FormTextInput)`
     width: 100%;
     margin-right: 20px;
+    margin-left: 20px;
 `;
 
 const Form = styled.form`
     display: flex;
     flex-direction: row;
     align-items: center;
-`;
-
-const Label = styled.h1`
-    font-family: var(--font-montserrat);
-    font-size: 18px;
 `;
 

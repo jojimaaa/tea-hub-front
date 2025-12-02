@@ -20,8 +20,9 @@ function LoginRegisterFlipbook({itemsE, itemsD, index, className}:LoginzadaProps
           transformStyle: "preserve-3d",
           perspective: "3000px",
           minHeight: "610px",
-          width: "100vh",
+          width: "120%",
           minWidth: "670px",
+          overflowX: "auto",
         }}
         className={"relative z-0 h-[60%] w-[60%] rounded-xl text-black" + ` ${className}`}>
 

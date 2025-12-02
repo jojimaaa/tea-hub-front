@@ -54,6 +54,7 @@
   /* --background: oklch(98.89% 0.00593 240.388); */
   --foreground: #39376D;
   --background: #fbfaff;
+  --background-blue: #F0EDF6;
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);

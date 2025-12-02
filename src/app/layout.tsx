@@ -10,14 +10,13 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body>
+      <body style={{overflowX: "hidden"}}>
         <AuthContextProvider>
             <Header/>
             {children}
         </AuthContextProvider>
       </body>
+
     </html>
   );
 }
-
-

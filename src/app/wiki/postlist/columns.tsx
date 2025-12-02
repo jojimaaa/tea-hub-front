@@ -1,5 +1,7 @@
+
 import WikiTitleLineButton from "@/atoms/WikiTitleLineButton";
 import { WikiPostSchema } from "@/interfaces/WikiSchemas";
+
 import { ColumnDef } from "@tanstack/react-table";
 import styled from "styled-components";
 
@@ -30,16 +32,14 @@ export const getColumns = (topics: any[]): ColumnDef<WikiPostSchema>[] => [
         accessorKey: "topic_id",
         header: "Tópico",
         cell: ({row}) => {
-            const topic_id = row.getValue("topic_id");
-            
-            // Usamos a lista 'topics' que foi passada como argumento para a função
-            const topic = topics.find((e) => e.id == topic_id);
 
-            if(topic){
+            const topic = row.original.topic;
+            if(topics && topics.filter((e) => e.id == topic?.id)[0]){
                 return (
                 <StyledCell>
                     <StyledText>
-                        {topic.name}
+                        {topics.filter((e) => e.id == topic?.id)[0].name}
+
                     </StyledText>
                 </StyledCell>)
             }

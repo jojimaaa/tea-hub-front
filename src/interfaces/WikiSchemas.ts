@@ -1,11 +1,11 @@
 export interface WikiPostSchema {
     id : string,
     title : string,
-    body : string | JSON,
+    body : string,
     author_name : string,
     created_date : Date | string,
-    topic_id : string,
-    imageUrl: string
+    topic : WikiTopic,
+    image_url: string
 };
 
 export interface WikiTopicSchema {
@@ -15,4 +15,9 @@ export interface WikiTopicSchema {
 
 export interface WikiSearchTitle {
     title: string,
+}
+
+export interface WikiTopic {
+    id:string,
+    name:string
 }

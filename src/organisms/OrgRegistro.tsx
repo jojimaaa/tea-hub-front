@@ -116,9 +116,9 @@ const LogoHeader = styled.h1`
   display: flex; 
   justify-content: center; 
   align-items: center; 
-  font-size: 64px;
   color: var(--primary-foreground);
   font-family: var(--font-tea-hub);
+  font-size: 53px;
 `;
 
 const StyledErrorLabel = styled(Label)`
