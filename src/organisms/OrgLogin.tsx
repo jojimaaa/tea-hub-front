@@ -1,11 +1,19 @@
-import Molinput from "../molecules/Molinput"
+"use client"
+
+import FormInput from "../molecules/FormInput"
 import '../app/globals.css'
-import Botao from '../atms/Botao'
-import AtminputBotao from "../atms/AtminputBotao"
+import LineButton from '../atoms/LineButton'
+import AtminputBotao from "../atoms/AtminputBotao"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-
+import styled from "styled-components"
+import { login } from "@/services/authServices"
+import { useEffect, useState } from "react"
+import useAuth from "@/hooks/useAuth"
+import { StyledErrorLabel } from "@/atoms/StyledAtoms"
+import { useRouter, useSearchParams } from "next/navigation"
+import { AxiosError } from "axios"
 
 interface OrgLoginProps{
     className?: string;
@@ -14,71 +22,127 @@ interface OrgLoginProps{
 }
 
 function OrgLogin({className, increment, decrement}:OrgLoginProps){
-    async function onSubmit(values: z.infer<typeof formLogin>) {
-      try {
-        const response = await fetch("http://127.0.0.1:8000/login", {
-          method: "POST", 
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded", 
-          },
-          body: new URLSearchParams({
-              grant_type: values.grant_type,
-              username: values.username,
-              password: values.password,
-            }), 
-        });
+    const [error, setError] = useState("");
+    const router = useRouter();
+    const {setAuth} = useAuth();
+    const searchParams = useSearchParams();
+    const from = searchParams.get("from") || "/";
 
-        if (!response.ok) {
-          throw new Error("Algo deu errado!");
+
+
+    const onSubmit = async (values: z.infer<typeof formLoginSchema>) => {
+        setError("");
+        try {
+            const response = await login(values);
+            if (response.status == 200) {
+                if (!response.data.access_token || !response.data.token_type) {
+                    setError("Falha no login, tente novamente.");
+                }
+                else {
+                    setAuth({
+                        username: response.data.username,
+                        name: response.data.name,
+                    })
+                    document.cookie = `access-token=${response.data.access_token}; path=/; max-age=86400;`;
+                    document.cookie = `refresh-token=${response.data.refresh_token}; path=/; max-age=86400;`;
+                    router.push(from);
+                }
+            }
+            else if (response.status == 401) {
+                setError("Credenciais inválidas.");
+            }
+
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                setError(error.response?.data.detail ? error.response?.data.detail : "Falha no login, tente novamente.");
+            }
+            else setError("Falha no login, tente novamente.");
         }
-
-        const data = await response.json(); 
-        console.log("Sucesso:", data);
-      } catch (error) {
-        console.error("Erro:", error);
-      }
     }
     
-    const formLogin = z.object({
-      username: z.string(),
+    const formLoginSchema = z.object({
+      email: z.email(),
       password: z.string(),
-      grant_type: z.string()
     });
 
-    const form = useForm<z.infer<typeof formLogin>>({
-      resolver: zodResolver(formLogin),
-      defaultValues: { username: "", password: "", grant_type: "password"}
+    const formLogin = useForm<z.infer<typeof formLoginSchema>>({
+      resolver: zodResolver(formLoginSchema),
+      defaultValues: { email: "", password: ""}
     });
+
+    useEffect(() => {
+        formLogin.register("email");
+        formLogin.register("password");
+    }, [formLogin]);
 
     return(
-        <div className={className}>
-            <h1 className='font-[Virgil] text-[64px] flex items-center justify-center mt-[4%]'>Tea-Hub</h1>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col items-center justify-center mt-[5%] ">
-                <Molinput register={form.register} text='Email' className="flex flex-col w-[70%] h-[30%]" name="username"></Molinput>
-                <Molinput register={form.register} text='Senha' className="flex flex-col w-[70%] h-[30%] mt-[4%]" name="password"></Molinput>
-                
-                <AtminputBotao value='Entrar' 
-                    classNameBt="w-[70%] h-[32px] bg-black rounded-[4px] mt-[6%]"
-                    classNameInput="text-white font-[Virgil] text-[22px] w-[100%] h-[100%] cursor-pointer"
-                ></AtminputBotao>
-            </form>
-            <div className="mt-[10%] flex items-center justify-center">
-                <Botao classNameBt="w-[140px] h-[50%] mr-[10%] cursor-pointer" 
+        <StyledContainer className={className}>
+            <LogoHeader className=''>TEA-HUB</LogoHeader>
+            <Form onSubmit={formLogin.handleSubmit(onSubmit)}>
+                <StyledInput setValue={formLogin.setValue} register={formLogin.register} label='Email' value="email"></StyledInput>
+                {formLogin.formState.errors && <StyledErrorLabel>{formLogin.formState.errors.email?.message}</StyledErrorLabel>}
+                <StyledInput setValue={formLogin.setValue} register={formLogin.register} label='Senha' value="password"></StyledInput>
+                <EntrarButton onClick={(e : any) => {
+                    formLogin.handleSubmit(onSubmit)(e)
+                }} value='Entrar'/>
+            </Form>
+            <FooterBar>
+                {/* <LineButton 
                     Nome="Esqueceu a senha?"
-                    classNameTxt="font-[Virgil] text-[15px] h-[100%] hover:underline"
                     onClick={increment}
-                ></Botao>
-                <Botao classNameBt="w-[130px] h-[50%] cursor-pointer" 
+                ></LineButton> */}
+                <LineButton 
                     Nome="Não tenho conta"
-                    classNameTxt="font-[Virgil] text-[15px] hover:underline"
                     onClick={decrement}
-                ></Botao>
-            </div>
-
-        </div>
+                ></LineButton>
+            </FooterBar>
+            {error && <StyledErrorLabel>{error}</StyledErrorLabel>}
+        </StyledContainer>
     );
 }
 
+const StyledContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    padding-inline: 5%;
+    justify-content: center;
+`;
 
+const EntrarButton = styled(AtminputBotao)`
+    min-height: 40px;
+`;
+
+const LogoHeader = styled.h1`
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    font-size: 53px;
+    margin-top: 4%;
+    color: var(--primary-foreground);
+    font-family: var(--font-tea-hub);
+`;
+
+const Form = styled.form`
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const StyledInput = styled(FormInput)`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 30%;
+  min-height: 40px;
+  margin-bottom: 10px;
+`;
+
+const FooterBar = styled.div`
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
 
 export default OrgLogin

@@ -1,5 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=BBH+Sans+Hegarty&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Exa:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+
 @import "tailwindcss";
-/* @import "tw-animate-css"; */
 
 @custom-variant dark (&:is(.dark *));
 
@@ -45,16 +50,29 @@
 
 :root {
   --radius: 0.625rem;
-  --foreground: oklch(1 0 0);
-  --background: oklch(0.145 0 0);
+  /* --foreground: oklch(0.1562 0.0786 262.99); */
+  /* --background: oklch(98.89% 0.00593 240.388); */
+  --foreground: #39376D;
+  --background: #fbfaff;
+  --background-blue: #F0EDF6;
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
+  /* --primary: oklch(98.89% 0.00593 240.388); */
+  /* --primary-foreground: oklch(0.1562 0.0786 262.99); */
+  /* --secondary: oklch(0.4024 0.113 249.71); */
+  --primary: #fbfaff;
+  --primary-foreground: #39376D;
+  --secondary: #8A87C0;
+  --secondary-foreground: oklch(55.436% 0.07097 242.077);
+  --error-primary: #cc0000;
+  --liked: #e00070;
+  --purple-light3: #8985C1;
+  --purple-light2: #BDBBDD;
+  --purple-light1: #F0EDF6;
+  --purple-medium1: #b28dff;
+  --purple1: #5a108f;
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
   --accent: oklch(0.97 0 0);
@@ -76,10 +94,16 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --font-tea-hub: "BBH Sans Hegarty";
+  --font-montserrat: "Montserrat";
+  --font-arial: "Arial";
+  --font-lexend-exa: "Lexend Exa";
+  --font-roboto: "Roboto";
 }
 
 .dark {
   --background: oklch(0.145 0 0);
+  /* --background: oklch(0.9532 0.0218 239.43); */
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
@@ -126,4 +150,17 @@
   src: url('../fonts/Virgil.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUSjIg1_i6t8kCHKm459Wlhyw.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+.markdown-placeholder {
+    opacity: 0.54;
 }
