@@ -6,6 +6,7 @@ import { WikiPostSchema} from '@/interfaces/WikiSchemas';
 import styled from 'styled-components';
 import { StyledMarkdownBody } from '@/atoms/StyledAtoms';
 import Image from "next/image";
+import LoadingSpinner from '@/organisms/LoadingSpinner';
 
 interface WikiParams {
     params : Promise<{
@@ -25,7 +26,7 @@ export default function WikiPostPage({params} : WikiParams) {
         fetchData();
     }, [slug]);
 
-    if(data == null) return(<div><h1>T-T</h1></div>)
+    if(data == null) return(<div><LoadingSpinner label="Carregando" text="Por favor, aguarde."/></div>)
     return (
         <StyledContainer>
             <StyledTextos>
@@ -35,15 +36,15 @@ export default function WikiPostPage({params} : WikiParams) {
                 topic_name={data.topic.name}
                 date = {data.created_date.toString().split("T")[0]}
             />
-                <StyledContainerImg>
-                    <Image fill src={data.image_url} alt=""/>
-                </StyledContainerImg>
 
                 <StyledContainerMarkdown>
                 
                     <StyledMarkdownBody
                         markdownContent={data.body}
                     />
+                <StyledContainerImg>
+                    <Image fill src={data.image_url} alt=""/>
+                </StyledContainerImg>
                 </StyledContainerMarkdown>
 
             </StyledTextos>
@@ -59,7 +60,7 @@ const StyledContainer = styled.div`
     width: 100%;
     display:flex;
     flex-direction: column;
-    background-color: aliceblue;
+    /* background-color: aliceblue; */
 `;
 
 const StyledContainerImg = styled.div`
@@ -74,6 +75,11 @@ const StyledContainerImg = styled.div`
     border-radius: 10px;
     overflow: hidden;
     margin-bottom: 20px;
+    float: inline-end;
+`;
+
+const StyledImage = styled(Image)`
+    float: right;
 `;
 
 

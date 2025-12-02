@@ -18,7 +18,7 @@ export interface ForumPostContextType {
     createLocalComment: (comment : ForumCommentDTO) => void;
     deleteLocalComment: (comment_id : string) => void;
     toggleLocalCommentLike: (comment_id: string, isAddingLike: boolean) => void;
-    toggleLocalPostLike: (isAddingLike: boolean) => void;
+    toggleLocalPostLike: (isAddingPostLike: boolean) => void;
     editLocalComment: (comment: ForumCommentDTO) => void;
     editLocalPost: (newPost: ForumPostDTO) => void;
 }
@@ -46,6 +46,10 @@ export const ForumPostContextProvider = ({ children, slug }: { children: React.R
         })
         return group;
     }, [comments]);
+
+    useEffect(() => {
+        
+    })
 
     useEffect(() => {
         if (post?.comments != null) {
@@ -114,33 +118,36 @@ export const ForumPostContextProvider = ({ children, slug }: { children: React.R
 
     
     const toggleLocalCommentLike = (comment_id: string, isAddingLike: boolean) => {
-        setComments((prevComments) => {
-            prevComments.map((comm) => {
-                if (comm.id == comment_id) {
-                    if(isAddingLike) {
-                        comm.like_count++;
-                        comm.liked_by_me = true;
-                    }
-                    else {
-                        comm.like_count--;
-                        comm.liked_by_me = false;
-                    }
+        const prevComment = comments.find(c => c.id == comment_id);
+        if (prevComment) {
+            const newComment : ForumCommentDTO = {
+                ...prevComment,
+                like_count : isAddingLike ? prevComment.like_count + 1 : prevComment.like_count-1,
+                liked_by_me: isAddingLike ? true : false,
+            }
+            setComments((prev) => {
+                let newList = prev;
+                if (newComment) {
+                    newList = prev.map(c => {
+                        if (c.id == comment_id) return newComment;
+                        else return c;
+                    });
+                    return newList;
                 }
-                return comm;
+                return newList;
             })
-            return prevComments;
-        });
+        }
     }
 
-    const toggleLocalPostLike = (isAddingLike: boolean) => {
+    const toggleLocalPostLike = (isAddingPostLike: boolean) => {
         setLocalLikeCount((prev) => {
-            if(isAddingLike) {
+            if(isAddingPostLike) {
                 return prev+1;
             }
             return prev-1;
         });
         setLocalLikedByMe(() => {
-            if(isAddingLike) {
+            if(isAddingPostLike) {
                 return true;
             }
             return false;
