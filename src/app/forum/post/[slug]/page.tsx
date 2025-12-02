@@ -205,7 +205,7 @@ export default function Forum({params} : ForumPostParams) {
                     likeCount={localLikeCount}
                     disabled={!(auth && !!auth.username)}
                     likedByMe={auth && !!auth.username && localLikedByMe}
-                    onClick={(auth && !!auth.username) ? onLike : () => undefined}
+                    onClick={(auth && !!auth.username) ? () => {onLike()} : () => undefined}
                 />
                 {auth && auth.username && (auth.username == post.user.username) &&
                     <StyledIconButton onClick={() => setEditing(prev => !prev)} size={"icon"} aria-label="Edit">

@@ -3,9 +3,8 @@
   "features": [
     {
       "type": "Feature",
-      "id": "AC",
       "geometry": {
-        "type": "Polygon",
+        "type": "MultiPolygon",
         "coordinates": [
           [
             [

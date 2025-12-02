@@ -7,6 +7,7 @@ import DadosSectionDistIdade from "@/organisms/DadosSectionDistIdade";
 import DadosSectionEsc25anos from "@/organisms/DadosSectionEsc25anos";
 import DadosSectionEscFaixa from "@/organisms/DadosSectionEscFaixa";
 import { useEffect, useState } from "react";
+import { PrimaryBaseButton } from "@/atoms/StyledAtoms";
 
 // REMOVA O CALL DO TOP-LEVEL
 // registerLicense("..."); 
@@ -69,6 +70,13 @@ export default function HomeDados() {
             title="Conclusão"
             body="Em síntese, os dados do IBGE confirmam que o autismo é um fenômeno presente em todo o território brasileiro, com forte concentração de diagnósticos em crianças e jovens, desigualdades significativas na escolarização de autistas adultos, diferenças de gênero e desafios adicionais para populações indígenas. Esses achados fornecem base empírica sólida para a construção de uma aplicação que combine informação, visualização de dados, instrumentos de rastreio e ferramentas de apoio à inclusão social e educacional de pessoas autistas."
         />
+
+        <SyledButton>
+            <a href="https://drive.google.com/drive/folders/12xf4zA6sbaD6JZZE74nXH2HFRQ-UNxeK?usp=drive_link">Fonte dos Dados</a>
+        </SyledButton>
+        <SyledButton>
+            <a href="https://docs.google.com/spreadsheets/d/1IX8Ne_BDIIALWqzv8gFuPKNz28jSKlMkr808bMCjJT0/edit?gid=0#gid=0">Fonte das Análises</a>
+        </SyledButton>
     </StyledContainer>
     );
 }
@@ -80,4 +88,8 @@ const StyledContainer = styled.div`
     align-items: center;
     display: flex;
     flex-direction: column;
+`;
+
+const SyledButton = styled(PrimaryBaseButton)`
+    margin-top: 10px;
 `;
