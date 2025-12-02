@@ -43,7 +43,7 @@ export default function WikiPostPage({params} : WikiParams) {
                         markdownContent={data.body}
                     />
                 <StyledContainerImg>
-                    <Image fill src={data.image_url} alt=""/>
+                    <StyledImage fill src={data.image_url} alt=""/>
                 </StyledContainerImg>
                 </StyledContainerMarkdown>
 
@@ -55,13 +55,12 @@ export default function WikiPostPage({params} : WikiParams) {
 }
 
 const StyledContainer = styled.div`
-    justify-content: center;
     align-items: center;
     width: 100%;
     display:flex;
     flex-direction: column;
     /* background-color: aliceblue; */
-`;
+    `;
 
 const StyledContainerImg = styled.div`
     justify-content: center;
@@ -76,10 +75,11 @@ const StyledContainerImg = styled.div`
     overflow: hidden;
     margin-bottom: 20px;
     float: inline-end;
-`;
+    `;
 
 const StyledImage = styled(Image)`
-    float: right;
+    float: inline-end;
+    object-fit: cover;
 `;
 
 
@@ -89,12 +89,13 @@ const StyledTextos = styled.div`
     width: 80%;
     display:flex;
     flex-direction: column;
-
-`;
+    
+    `;
 
 const StyledContainerMarkdown = styled.div`
     display: flex;
     flex-direction: row;
     width: 100%;
-
+    gap: max;
+    justify-content: space-between;
 `;
