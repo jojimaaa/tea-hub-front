@@ -5,26 +5,20 @@ import { WikiPostSchema } from "@/interfaces/WikiSchemas";
 import WikiPontosRecomList from "@/molecules/WikiPontosRecomList";
 import WikiRecomImg from "@/molecules/WikiRecomImg";
 import WikiRecomTxt from "@/molecules/WikiRecomTxt";
-import { getRecommended } from "@/services/wikiServices";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import styled from "styled-components";
 
-const WikiRecomList = () => {
+interface WikiRecomListProps {
+    recom : WikiPostSchema[],
+    current : number,
+    setCurrent : Dispatch<SetStateAction<number>>
+}
 
-    const [recom, setRecom] = useState<WikiPostSchema[]>([]);
-    const [current, setCurrent] = useState(0);
-
-    useEffect(
-        () => {
-            const fetchRecom = async () => {
-                const response = await getRecommended();
-                console.log(response);
-                if (response) setRecom(response);
-            }   
-            fetchRecom();
-        },[]
-    );
-    
+const WikiRecomList = ({
+    recom,
+    current,
+    setCurrent
+} : WikiRecomListProps) => {
 
     return (
         <Vbox>
@@ -95,12 +89,6 @@ const Hbox = styled.div`
     align-items: center;
     justify-content: space-between;
     align-content:center;
-`;
-
-const StyledLabel = styled.text`
-    font-family: var(--font-montserrat);
-    font-size: 30px;
-    width: 100%;
 `;
 
 

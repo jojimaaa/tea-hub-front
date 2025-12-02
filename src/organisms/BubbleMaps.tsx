@@ -3,13 +3,10 @@
  */
 
 import * as React from "react";
-import * as ReactDOM from "react-dom";
-import { useEffect } from "react";
-import { MapsComponent, Inject, ILoadedEventArgs, MapsTheme, LayersDirective, LayerDirective, Bubble, IBubbleRenderingEventArgs, BubblesDirective, BubbleDirective, MapsTooltip, Zoom } from '@syncfusion/ej2-react-maps';
-import { Browser } from '@syncfusion/ej2-base';
+import { MapsComponent, Inject, LayersDirective, LayerDirective, Bubble, IBubbleRenderingEventArgs, BubblesDirective, BubbleDirective, MapsTooltip, Zoom } from '@syncfusion/ej2-react-maps';
 import * as data from '@/assets/bubble-datasource.json';
 import * as worldMap from '@/assets/brasilmap.json';
-let datasource: any = data as any;
+const datasource: any = data as any;
 interface Data {
     value?: number;
 }
@@ -18,13 +15,14 @@ const SAMPLE_CSS = `
 		padding: 0px !important;
     }`;
 const BubbleMaps = () => {
-    let template: string = '<div id="bubbletooltiptemplate" style="width: 165px;background: rgba(53, 63, 76, 0.90); opacity: 90%;background: rgba(53, 63, 76, 0.90);box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.40);padding: 10px;border: 1px #abb9c6;border-radius: 4px;">' + '<div style="font-size:13px;color:#ffffff;font-weight: 500;"><center>${name}</center></div>' + '<hr style="margin-top: 2px;margin-bottom:5px;border:0.5px solid #DDDDDD">' + '<div><span style="font-size:13px;color:#cccccc">Rank : </span><span style="font-size:13px;color:#ffffff;font-weight: 500;">${rank}</span></div>' + '<div><span style="font-size:13px;color:#cccccc">Population : </span><span style="font-size:13px;color:#ffffff;font-weight: 500;">${population}</span></div></div>';
+    const template: string = '<div id="bubbletooltiptemplate" style="width: 165px;background: rgba(53, 63, 76, 0.90); opacity: 90%;background: rgba(53, 63, 76, 0.90);box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.40);padding: 10px;border: 1px #abb9c6;border-radius: 4px;">' + '<div style="font-size:13px;color:#ffffff;font-weight: 500;"><center>${name}</center></div>' + '<hr style="margin-top: 2px;margin-bottom:5px;border:0.5px solid #DDDDDD">' + '<div><span style="font-size:13px;color:#cccccc">Rank : </span><span style="font-size:13px;color:#ffffff;font-weight: 500;">${rank}</span></div>' + '<div><span style="font-size:13px;color:#cccccc">Population : </span><span style="font-size:13px;color:#ffffff;font-weight: 500;">${population}</span></div></div>';
     const bubbleRendering = (args: IBubbleRenderingEventArgs): void => {
         args.radius = (args.data as Data).value;
     };
     const onMapsLoad = (): void => {
-        let maps: Element = document.getElementById('maps');
-        maps.setAttribute('title', '');
+        const maps: HTMLElement | null = document.getElementById('maps');
+
+        maps?.setAttribute('title', '');
     };
    const autismData = [
   { name: "Rondônia", value: 13 },
@@ -60,7 +58,7 @@ const BubbleMaps = () => {
   { name: "Distrito Federal", value: 12 }
 ];
 
-    const load = (args: ILoadedEventArgs): void => {
+    const load = (): void => {
       
     };
     return (

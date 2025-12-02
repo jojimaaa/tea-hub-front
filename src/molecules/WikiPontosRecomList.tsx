@@ -27,7 +27,7 @@ export function WikiPontosRecomList({current, setCurrent}:WikiPontosRecomListPro
 
     useEffect(() => {
         setCurrent(i => contar(i));
-    }, [cont]);
+    }, [cont, setCurrent]);
 
 
     function contar(i: number) {
@@ -44,7 +44,10 @@ export function WikiPontosRecomList({current, setCurrent}:WikiPontosRecomListPro
                 ) : (
                     <ContainerCircle
                         key={i}
-                        onClick={() => {setCurrent(i), setProgress(0)}}
+                        onClick={() => {
+                            setCurrent(i); 
+                            setProgress(0)
+                        }}
                     >
                         <Circle/>
                     </ContainerCircle>

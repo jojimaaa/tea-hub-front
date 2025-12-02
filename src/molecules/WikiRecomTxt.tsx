@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { AnimatePresence, motion } from "framer-motion";
 import { WikiTopic } from "@/interfaces/WikiSchemas";
-import { useEffect } from "react";
 
 interface WikiRecomTxtProps {
   title: string;

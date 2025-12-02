@@ -1,5 +1,4 @@
 
-import DashBoardDifReg from "@/molecules/DashBoardDifReg";
 import DashBoardDistIdade from "@/molecules/DashBoardDistIdade";
 import styled from "styled-components";
 

@@ -11,20 +11,20 @@ export function MainSectionAtividades() {
               <StyledTitle>Nossos Serviços</StyledTitle>
               <Hbox>
                 <MainCard
-                    redirecturl="/"
+                    redirecturl="/dados"
                     title="Dados e Estatísticas"
                     text="Acesse informações e estatísticas atualizadas sobre o TEA em diferentes regiões e faixas etárias."
                     url={imgdados}
                 />
                 <MainCard
-                    redirecturl="/atividades"
+                    redirecturl="/wiki"
                     title="Entenda o Autismo"
                     text="Uma coleção rica de publicações educativas sobre o espectro autista, suas características, desafios e potencialidades."
                     url={imgwiki}
                 />
                 <MainCard
-                    redirecturl="/atividades"
-                    title="Comunidade TEA-Hub"
+                    redirecturl="/forum"
+                    title="Forum TEA-Hub"
                     text="Participe de um espaço acolhedor para trocar experiências, tirar dúvidas e compartilhar vivências sobre o autismo com outras pessoas."
                     url={imgforum}
                 />

@@ -92,15 +92,6 @@ const StyledContainerImage = styled.div`
     position: relative;
 `;
 
-const StyledContainerImage2 = styled.div`
-    width: 47.5%;
-    height: 100%;
-    border: 0.5px solid black;
-    border-radius: 12px;
-    overflow: hidden;
-    position: relative;
-`;
-
 
 const StyledImage = styled(Image)`
 `;

@@ -52,28 +52,6 @@ const StyledContainer = styled.div`
     align-self: center;
 `;
 
-const StyledRowContainer = styled.div`
-    justify-content: space-evenly;
-    flex-direction: row;
-    display: flex;
-    width: 100%;
-    border: 1px solid var(--primary-foreground);
-    background-color: white;
-    cursor: pointer;
-`;
-
-const StyledRelativeContainer = styled.div`
-    position: relative;
-    width: 100%;
-    /* border: 1px solid var(--primary-foreground); */
-`;
-
-const DropdownContainer = styled.div`
-    position: absolute;
-    width: 100%;
-    z-index: 20;
-`;
-
 const StyledFormInput = styled(FormTextInput)`
     width: 100%;
     margin-right: 20px;
@@ -84,10 +62,5 @@ const Form = styled.form`
     display: flex;
     flex-direction: row;
     align-items: center;
-`;
-
-const Label = styled.h1`
-    font-family: var(--font-montserrat);
-    font-size: 18px;
 `;
 

@@ -87,10 +87,10 @@ function OrgLogin({className, increment, decrement}:OrgLoginProps){
                 }} value='Entrar'/>
             </Form>
             <FooterBar>
-                <LineButton 
+                {/* <LineButton 
                     Nome="Esqueceu a senha?"
                     onClick={increment}
-                ></LineButton>
+                ></LineButton> */}
                 <LineButton 
                     Nome="Não tenho conta"
                     onClick={decrement}
@@ -113,13 +113,13 @@ const EntrarButton = styled(AtminputBotao)`
 `;
 
 const LogoHeader = styled.h1`
-  display: flex; 
-  justify-content: center; 
-  align-items: center; 
-  font-size: 64px;
-  margin-top: 4%;
-  color: var(--primary-foreground);
-  font-family: var(--font-tea-hub);
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    font-size: 53px;
+    margin-top: 4%;
+    color: var(--primary-foreground);
+    font-family: var(--font-tea-hub);
 `;
 
 const Form = styled.form`

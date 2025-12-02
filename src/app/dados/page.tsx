@@ -1,19 +1,34 @@
 "use client"
-import { Label } from "@/components/ui/label";
-import BubblesMaps from "@/organisms/BubbleMaps";
 import styled from "styled-components";
 import { registerLicense } from "@syncfusion/ej2-base";
 import DadosTxt from "@/organisms/DadosTxt";
-import DashBoard from "@/molecules/DashBoard";
-import DadosTxtDashBoard from "@/organisms/DadosTxtDashBoard";
 import DadosSectionDifReg from "@/organisms/DadosSectionDifReg";
 import DadosSectionDistIdade from "@/organisms/DadosSectionDistIdade";
 import DadosSectionEsc25anos from "@/organisms/DadosSectionEsc25anos";
 import DadosSectionEscFaixa from "@/organisms/DadosSectionEscFaixa";
+import { useEffect, useState } from "react";
 
-registerLicense("Ngo9BigBOggjHTQxAR8/V1JFaF1cXGFCf1FpRmNGfV5ycUVHYVZTQHxbRk0DNHVRdkdmWH5dcHZWRGRYWEB3XEVWYEg=");
+// REMOVA O CALL DO TOP-LEVEL
+// registerLicense("..."); 
 
 export default function HomeDados() {
+    // Estado para controlar se estamos no cliente
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        // 1. Registra a licença apenas quando estiver no navegador
+        registerLicense("Ngo9BigBOggjHTQxAR8/V1JFaF1cXGFCf1FpRmNGfV5ycUVHYVZTQHxbRk0DNHVRdkdmWH5dcHZWRGRYWEB3XEVWYEg=");
+        
+        // 2. Marca como montado
+        setIsMounted(true);
+    }, []);
+
+    // 3. Se ainda não montou (está no servidor), não renderiza nada (ou renderiza um Loading)
+    // Isso evita que o Next.js tente renderizar os gráficos no servidor e quebre com "window not defined"
+    if (!isMounted) {
+        return null; // Ou <StyledContainer>Carregando...</StyledContainer>
+    }
+
     return (
     <StyledContainer>
 
@@ -57,15 +72,6 @@ export default function HomeDados() {
     </StyledContainer>
     );
 }
-
-const StyledTitle = styled.div`
-    font-size: 28px;
-`;
-
-const StyledContainerTxt = styled.div`
-    width: 70%;
-`;
-
 const StyledContainer = styled.div`
     background-color: var(--primary);
     width: 100%;
@@ -74,16 +80,4 @@ const StyledContainer = styled.div`
     align-items: center;
     display: flex;
     flex-direction: column;
-`;
-
-const TitleLabel = styled(Label)`
-    margin-top: 10px;
-    font-family: var(--font-tea-hub);
-    justify-self: center;
-    font-size: 30px;
-`;
-
-const StyledSearchBarContainer = styled.div`
-    margin-top: 20px;
-    margin-bottom: 20px;
 `;

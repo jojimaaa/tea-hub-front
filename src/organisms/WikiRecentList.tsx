@@ -3,25 +3,15 @@
 import Parabolic from "@/atoms/Parabolic";
 import { WikiPostSchema } from "@/interfaces/WikiSchemas";
 import WikiPostCard from "@/molecules/WikiPostCard"
-import { getRecent } from "@/services/wikiServices";
-import { useEffect, useState } from "react";
 import styled from "styled-components";
 
-const WikiRecentList = () => {
+interface WikiRecentListProps {
+    recent: WikiPostSchema[]
+}
 
-    const [recent, setRecent] = useState<WikiPostSchema[]>([]);
+const WikiRecentList = ({recent} : WikiRecentListProps) => {
 
-    useEffect(
-        () => {
-            const fetchRecent = async () => {
-                const response = await getRecent();
-                if (response) setRecent(response);
-            }   
-            fetchRecent();
-        },[]
-    );
-
-    return (
+        return (
         <StyledContainer>
             <Vbox>
                 <StyledLabelContainer>

@@ -3,7 +3,6 @@ import dadosDisIdade from "@/assets/dadosDistIdade.png";
 import dadosDisIdade2 from "@/assets/dadosDistIdade2.png";
 import dadosDisIdade3 from "@/assets/dadosDistIdade3.png";
 import Image from "next/image";
-import PorcentagemCard from "../atoms/PorcentagemCard";
 
 const DashBoardDistIdade = () => {
     return (

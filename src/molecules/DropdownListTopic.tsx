@@ -26,7 +26,7 @@ export function DropdownListTopic({Items, searchForm}: DropdownListTopicProps) {
   
   React.useEffect(() => {
     searchForm.setValue("topic", position);
-  } ,[position]);
+  } ,[position, searchForm]);
 
   return (
     <DropdownMenu>

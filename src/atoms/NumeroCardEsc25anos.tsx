@@ -1,7 +1,4 @@
 import styled from "styled-components";
-import BubblesMaps from "@/organisms/BubbleMaps";
-import dadosDifReg from "@/assets/dadosDifReg.png";
-import Image from "next/image";
 
 interface NumeroCardEsc25anosProps{
     numero:string;

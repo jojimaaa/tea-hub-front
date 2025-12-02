@@ -41,13 +41,6 @@ const StyledLabel = styled.text`
     color: #40386B;
 `;
 
-const StyledLabelContainer = styled.div`
-    width: 100%;
-    border-width: 0px 0px 1px 0px;
-    border-color: var(--primary-foreground);
-    margin-bottom: 10px;
-`;
-
 const StyledRow = styled.div`
     display: flex;
     flex-direction: row;

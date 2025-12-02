@@ -4,7 +4,7 @@ export function MainSectionTextos() {
     return (
       <StyledContainer>
         <StyledContainerTitle>
-            <StyledTitle>Tea-Hub</StyledTitle>
+            <StyledTitle>TEA-HUB</StyledTitle>
             <StyledTitle>Informação e Acolhimento</StyledTitle>
             <StyledTxt>Plataforma dedicada a reunir informações confiáveis sobre o Transtorno do Espectro Autista. Nosso objetivo é oferecer conhecimento acessível a famílias, profissionais e pessoas autistas, promovendo inclusão, respeito e autonomia através da informação e da comunidade.</StyledTxt>
         </StyledContainerTitle>

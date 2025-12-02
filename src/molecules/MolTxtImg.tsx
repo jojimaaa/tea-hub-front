@@ -33,4 +33,10 @@ const MiniLabel = styled.h1`
     font-weight: 300;
     font-size: 22px;
     margin-top: 2%;
+    @media (min-width: 1600px) {
+        font-size: 20px;
+    }
+    @media (min-width: 768px) {
+        font-size: 22px;
+    }
 `;

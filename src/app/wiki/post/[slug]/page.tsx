@@ -36,7 +36,7 @@ export default function WikiPostPage({params} : WikiParams) {
                 <StyledMarkdownBody
                 markdownContent={data.body}
             />
-            </StyledContainer>''
+            </StyledContainer>
             
         </div>
     );

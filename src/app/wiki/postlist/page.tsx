@@ -8,12 +8,14 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 import WikiPostListCard from "@/molecules/WikiPostListCard";
+import { useAsync } from "@/hooks/useAsync";
+import LoadingSpinner from "@/organisms/LoadingSpinner";
 
 
 const PostListPage = () => {
-
     const [data, setData] = useState<WikiPostSchema[]>([]);
     const [topicList, setTopicList] = useState<WikiTopicSchema[]>([]);
+    const [loading, setLoading] = useState(false);
 
     const searchFormSchema = z.object({
         search: z.string(),
@@ -40,27 +42,28 @@ const PostListPage = () => {
 
     useEffect(() => {
         const fetchData = async () => {
+            setLoading(true);
             const response = await getPostList(searchForm.getValues());
             if (response) {
                 setData(response);
             }
+            setLoading(false);
         }
-        fetchData()
+        fetchData();
     } ,[search, topic]);
 
     return (
         <StyledContainer>
-
             <WikiSearchBar 
                 placeholder="Procurar por Tópico ou Titulo"
                 searchForm={searchForm}
                 topicList={topicList}
             />
-            <StyledContainerList>
+            {loading ? <LoadingSpinner label={"Carregando"} text={"Por favor, aguarde"}/> : <StyledContainerList>
                 {(data.length != 0) && 
                     data.map((post) => <WikiPostListCard key={post.id} post={post}/>)
                 }
-            </StyledContainerList>
+            </StyledContainerList>}
             
         </StyledContainer>
 

@@ -6,32 +6,9 @@ const api = axios.create({
     baseURL: "https://tea-hub-back-production.up.railway.app/wiki",              //prod
 })
 
-
-export async function getStuff(): Promise<void> {
-
-
-    const config : AxiosRequestConfig = {
-    }
-
-    const response = await api.request<void>(config)
-    return response.data
-}
-
 const sleep = (milliseconds : number) => {
   return new Promise(resolve => setTimeout(resolve, milliseconds));
 };
-
-//MOCK DATA
-const topics = [
-        {
-            id: "topico1",
-            name: "Topico 1"
-        },
-        {
-            id: "topico2",
-            name: "Topico 2"
-        }
-    ]
 
 
 export async function getTopicList() : Promise<WikiTopicSchema[] | null> {

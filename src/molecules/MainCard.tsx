@@ -35,7 +35,7 @@ export default MainCard;
 const StyledTitle = styled.h1`
     font-family: var(--font-login-text);
     font-size: 20px;
-    color:#2713A4;
+    color: var(--primary-foreground);
     margin-bottom: 10px;
 `;
 

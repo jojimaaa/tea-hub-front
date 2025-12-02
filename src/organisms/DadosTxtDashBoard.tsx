@@ -1,4 +1,3 @@
-import DashBoard from "@/molecules/DashBoard";
 import styled from "styled-components";
 
 interface DadosTxtProps{
@@ -10,7 +9,6 @@ const DadosTxtDashBoard = ({title, body}: DadosTxtProps) => {
     return (
         <StyledContainer>
             <StyledTitle>{title}</StyledTitle>
-            <DashBoard/>
             <h2>{body}</h2>
             
         </StyledContainer>

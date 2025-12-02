@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import '../app/globals.css'
-import { UseFormRegister, UseFormSetValue } from "react-hook-form";
+import { UseFormRegister } from "react-hook-form";
 
 
 interface FormTextInputProps extends React.InputHTMLAttributes<HTMLInputElement>{
